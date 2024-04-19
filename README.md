@@ -1,2 +1,12 @@
-# TechChallenge1Grupo3
-Repositório com projeto de Tech Challenge 1 do curso de pós-gradução Arquitetura de sistemas .NET com Azure da FIAP
+# FIAP - Tech Challenge 1 - Grupo 3
+
+## Requisitos
+
+A aplicação deve realizar o cadastro de contatos regionais, podendo:
+  -  Permitir o cadastro de novos contatos, incluindo nome, telefone e e-mail. Associe cada contato a um DDD correspondente à região.
+  -  Consultar e visualizar os contatos cadastrados, os quais podem ser filtrados pelo DDD da região.
+  -  Possibilitar a atualização e exclusão de contatos previamente cadastrados.
+                      
+## Solução proposta
+
+![Tech Challenge - Fase 1](https://github.com/NaluFigueira/TechChallenge1Grupo3/assets/24214761/10ecfb21-98d2-4866-8d47-c8e9ab05b377)
