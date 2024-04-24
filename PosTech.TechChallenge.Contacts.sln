@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C65C2642-64C8-4BEE-9473-BCEFC4F68B8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.TechChallenge.Contacts.Domain", "src\PosTech.TechChallenge.Contacts.Domain\PosTech.TechChallenge.Contacts.Domain.csproj", "{B8F86D7B-079D-41EC-A312-1D3D4EA6B8B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F10928A8-7DF5-4723-9381-2734FEE6DC5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.TechChallenge.Contacts.Domain.UnitTest", "tests\PosTech.TechChallenge.Contacts.Domain.UnitTest\PosTech.TechChallenge.Contacts.Domain.UnitTest.csproj", "{FEFBDAC5-51F5-4166-AD09-55B1BEEE0D00}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8F86D7B-079D-41EC-A312-1D3D4EA6B8B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8F86D7B-079D-41EC-A312-1D3D4EA6B8B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8F86D7B-079D-41EC-A312-1D3D4EA6B8B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8F86D7B-079D-41EC-A312-1D3D4EA6B8B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEFBDAC5-51F5-4166-AD09-55B1BEEE0D00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEFBDAC5-51F5-4166-AD09-55B1BEEE0D00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEFBDAC5-51F5-4166-AD09-55B1BEEE0D00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEFBDAC5-51F5-4166-AD09-55B1BEEE0D00}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B8F86D7B-079D-41EC-A312-1D3D4EA6B8B1} = {C65C2642-64C8-4BEE-9473-BCEFC4F68B8F}
+		{FEFBDAC5-51F5-4166-AD09-55B1BEEE0D00} = {F10928A8-7DF5-4723-9381-2734FEE6DC5C}
+	EndGlobalSection
+EndGlobal
