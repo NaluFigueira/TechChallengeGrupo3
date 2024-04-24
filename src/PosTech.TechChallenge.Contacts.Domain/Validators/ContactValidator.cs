@@ -10,22 +10,29 @@ public class ContactValidator : AbstractValidator<Contact>
     {
         RuleFor(contact => contact.Name)
             .NotEmpty()
-            .WithMessage("O nome do contato é obrigatório.");
+            .WithMessage("Name is required.");
 
         RuleFor(contact => contact.DDD)
             .NotEmpty()
-            .WithMessage("O DDD é obrigatório.");
+            .WithMessage("DDD is required.");
 
         RuleFor(contact => contact.PhoneNumber)
             .NotEmpty()
-            .WithMessage("O número de telefone é obrigatório.")
+            .WithMessage("Phone number is required.")
             .Matches(@"^\d{8,9}$")
-            .WithMessage("O número de telefone deve conter de 8 a 9 dígitos.");
+            .WithMessage("Phone number must be 8 or 9 digits.")
+            .Must(BeAValidPhoneNumber)
+            .WithMessage("Phone number with 9 digits must start with '9'.");
 
         RuleFor(contact => contact.Email)
             .NotEmpty()
-            .WithMessage("O e-mail é obrigatório.")
+            .WithMessage("Email is required.")
             .EmailAddress()
-            .WithMessage("O e-mail fornecido não é válido.");
+            .WithMessage("A valid email is required.");
+    }
+
+    private bool BeAValidPhoneNumber(string phoneNumber)
+    {
+        return phoneNumber.Length != 9 || (phoneNumber.Length == 9 && phoneNumber.StartsWith('9'));
     }
 }
