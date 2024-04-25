@@ -16,7 +16,7 @@ public class ContactUnitTests
     }
 
     [Fact]
-    public void Should_Have_Id_When_New_Instance_Is_Created()
+    public void ContactEntity_ShouldHaveId_WhenNewInstanceIsCreated()
     {
         var contact = new Contact
         {
@@ -31,7 +31,7 @@ public class ContactUnitTests
     }
 
     [Fact]
-    public void Should_Have_Error_When_Name_Is_Empty()
+    public void ContactValidation_ShouldPointValidationError_WhenNameIsEmpty()
     {
         var contact = new Contact
         {
@@ -48,7 +48,7 @@ public class ContactUnitTests
     }
 
     [Fact]
-    public void Should_Have_Error_When_DDD_Is_Empty()
+    public void ContactValidation_ShouldPointValidationError_WhenDDDIsEmpty()
     {
         var contact = new Contact
         {
@@ -70,7 +70,7 @@ public class ContactUnitTests
     [InlineData("55912345678", "Phone number must be 8 or 9 digits.")]
     [InlineData("2345678", "Phone number must be 8 or 9 digits.")]
     [InlineData("888888888", "Phone number with 9 digits must start with '9'.")]
-    public void Should_Have_Error_For_Invalid_PhoneNumber_Formats(
+    public void ContactValidation_ShouldPointValidationError_WhenPhoneNumberIsInvalidFormat(
         string phoneNumber,
         string expectedMessage
     )
@@ -92,7 +92,7 @@ public class ContactUnitTests
     [Theory]
     [InlineData("", "Email is required.")]
     [InlineData("invalidEmail.com", "A valid email is required.")]
-    public void Should_Have_Error_For_Invalid_Email_Formats(
+    public void ContactValidation_ShouldPointValidationError_WhenEmailIsInvalidFormat(
         string email,
         string expectedMessage
     )
@@ -112,7 +112,7 @@ public class ContactUnitTests
     }
 
     [Fact]
-    public void Should_Have_2_Errors_When_Email_And_PhoneNumber_Is_Invalid()
+    public void ContactValidation_ShouldPointTwoValidationErrors_WhenThereIsTwoInvalidFiels()
     {
         var contact = new Contact
         {
@@ -139,7 +139,7 @@ public class ContactUnitTests
     [InlineData("Grace Field", DDDBrazil.DDD81, "919876543", "grace.field@fields.net")]
     [InlineData("Hector Sage", DDDBrazil.DDD91, "998765432", "hector.sage@sage.org")]
     [InlineData("Isla Frost", DDDBrazil.DDD19, "923456789", "isla.frost@frost.co.uk")]
-    public void Should_Not_Have_Error_When_All_Fields_Are_Valid(
+    public void ContactValidation_ShouldNotPointValidationError_WhenAllFieldsAreValid(
         string name,
         DDDBrazil ddd,
         string phoneNumber,
