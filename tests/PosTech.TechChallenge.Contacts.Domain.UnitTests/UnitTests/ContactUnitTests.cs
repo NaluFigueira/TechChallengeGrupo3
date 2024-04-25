@@ -21,7 +21,7 @@ public class ContactUnitTests
         var contact = new Contact
         {
             Name = "Exemple Exemple",
-            DDD = DDDBrazil.DDD55,
+            DDD = DDDBrazil.DDD_55,
             PhoneNumber = "123456789",
             Email = "example@example.com"
         };
@@ -36,7 +36,7 @@ public class ContactUnitTests
         var contact = new Contact
         {
             Name = "",
-            DDD = DDDBrazil.DDD55,
+            DDD = DDDBrazil.DDD_55,
             PhoneNumber = "123456789",
             Email = "example@example.com"
         };
@@ -78,7 +78,7 @@ public class ContactUnitTests
         var contact = new Contact
         {
             Name = "Example Example",
-            DDD = DDDBrazil.DDD55,
+            DDD = DDDBrazil.DDD_55,
             PhoneNumber = phoneNumber,
             Email = "example@example.com"
         };
@@ -100,7 +100,7 @@ public class ContactUnitTests
         var contact = new Contact
         {
             Name = "Example Example",
-            DDD = DDDBrazil.DDD55,
+            DDD = DDDBrazil.DDD_55,
             PhoneNumber = "123456789",
             Email = email
         };
@@ -117,7 +117,7 @@ public class ContactUnitTests
         var contact = new Contact
         {
             Name = "Example Example",
-            DDD = DDDBrazil.DDD55,
+            DDD = DDDBrazil.DDD_55,
             PhoneNumber = "+55 (55) 98765-4321",
             Email = ""
         };
@@ -129,16 +129,16 @@ public class ContactUnitTests
     }
 
     [Theory]
-    [InlineData("John Doe", DDDBrazil.DDD11, "987654321", "john.doe@example.com")]
-    [InlineData("Alice Johnson", DDDBrazil.DDD21, "976543219", "alice.johnson@example.net")]
-    [InlineData("Bob Brown", DDDBrazil.DDD31, "965432198", "bob.brown@example.org")]
-    [InlineData("Clara Sky", DDDBrazil.DDD41, "954321987", "clara.sky@example.co.uk")]
-    [InlineData("Daniel Moon", DDDBrazil.DDD51, "943219876", "d.moon@moonlight.io")]
-    [InlineData("Eva Storm", DDDBrazil.DDD61, "932198765", "eva.storm@cloud.com")]
-    [InlineData("Finn Gale", DDDBrazil.DDD71, "921987654", "finn.gale@example.com")]
-    [InlineData("Grace Field", DDDBrazil.DDD81, "919876543", "grace.field@fields.net")]
-    [InlineData("Hector Sage", DDDBrazil.DDD91, "998765432", "hector.sage@sage.org")]
-    [InlineData("Isla Frost", DDDBrazil.DDD19, "923456789", "isla.frost@frost.co.uk")]
+    [InlineData("John Doe", DDDBrazil.DDD_11, "987654321", "john.doe@example.com")]
+    [InlineData("Alice Johnson", DDDBrazil.DDD_21, "976543219", "alice.johnson@example.net")]
+    [InlineData("Bob Brown", DDDBrazil.DDD_31, "965432198", "bob.brown@example.org")]
+    [InlineData("Clara Sky", DDDBrazil.DDD_41, "954321987", "clara.sky@example.co.uk")]
+    [InlineData("Daniel Moon", DDDBrazil.DDD_51, "943219876", "d.moon@moonlight.io")]
+    [InlineData("Eva Storm", DDDBrazil.DDD_61, "932198765", "eva.storm@cloud.com")]
+    [InlineData("Finn Gale", DDDBrazil.DDD_71, "921987654", "finn.gale@example.com")]
+    [InlineData("Grace Field", DDDBrazil.DDD_81, "919876543", "grace.field@fields.net")]
+    [InlineData("Hector Sage", DDDBrazil.DDD_91, "998765432", "hector.sage@sage.org")]
+    [InlineData("Isla Frost", DDDBrazil.DDD_19, "923456789", "isla.frost@frost.co.uk")]
     public void ContactValidation_ShouldNotPointValidationError_WhenAllFieldsAreValid(
         string name,
         DDDBrazil ddd,
