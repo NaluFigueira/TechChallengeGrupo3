@@ -5,6 +5,8 @@ using PosTech.TechChallenge.Contacts.Application.UnitTests.Utilities;
 using PosTech.TechChallenge.Contacts.Application.UseCases.UpdateContactByIdUseCase;
 using PosTech.TechChallenge.Contacts.Domain.Entities;
 
+namespace PosTech.TechChallenge.Contacts.Application.UnitTests;
+
 public class UpdateContactByIdUseCaseTests
 {
     [Fact]
