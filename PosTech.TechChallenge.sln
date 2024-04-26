@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.TechChallenge.Conta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.TechChallenge.Contacts.Services", "PosTech.TechChallenge.Contacts.Services\PosTech.TechChallenge.Contacts.Services.csproj", "{DB7E4575-F260-41E8-99A9-A923465F6F05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.TechChallenge.Contacts.Domain", "PosTech.TechChallenges.Contacts.Domain\PosTech.TechChallenge.Contacts.Domain.csproj", "{D70EDAF3-8F9E-4928-B48C-AEB6BA298BAC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.TechChallenge.Contacts.Domain", "PosTech.TechChallenge.Contacts.Domain\PosTech.TechChallenge.Contacts.Domain.csproj", "{D70EDAF3-8F9E-4928-B48C-AEB6BA298BAC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.TechChallenge.Contacts.Infra", "PosTech.TechChallenge.Contacts.Infra\PosTech.TechChallenge.Contacts.Infra.csproj", "{E3310945-BD78-4D7A-A0EA-99AD5D55916A}"
 EndProject
