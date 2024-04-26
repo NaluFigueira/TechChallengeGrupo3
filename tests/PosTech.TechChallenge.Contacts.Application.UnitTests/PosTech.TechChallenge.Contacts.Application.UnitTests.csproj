@@ -24,6 +24,6 @@
     <Using Include="Xunit" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\PosTech.TechChallenge.Contacts.Application\PosTech.TechChallenge.Contacts.Application.csproj" />
+    <ProjectReference Include="..\..\PosTech.TechChallenge.Contacts\PosTech.TechChallenge.Contacts.Application\PosTech.TechChallenge.Contacts.Application.csproj" />
   </ItemGroup>
 </Project>
