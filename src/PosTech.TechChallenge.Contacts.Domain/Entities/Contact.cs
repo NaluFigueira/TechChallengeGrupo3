@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+﻿using FluentValidation.Results;
 
 using PosTech.TechChallenge.Contacts.Domain.Enums;
 using PosTech.TechChallenge.Contacts.Validation;
@@ -16,14 +16,10 @@ public class Contact
     /// <summary>
     /// Throws Validation error if entity is invalid
     /// </summary>
-    public void Validate()
+    public ValidationResult Validate()
     {
         var validator = new ContactValidator();
         var result = validator.Validate(this);
-        if (!result.IsValid)
-        {
-            // TODO fluentResults
-            throw new ValidationException(result.Errors);
-        }
+        return result;
     }
 }
