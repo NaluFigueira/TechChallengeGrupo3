@@ -1,6 +1,6 @@
 ﻿using Bogus;
-using PosTech.TechChallenge.Contacts.Domain;
 using PosTech.TechChallenge.Contacts.Services;
+using PosTech.TechChallenge.Contacts.Domain;
 
 namespace PosTech.TechChallenge.Contacts.Tests;
 
