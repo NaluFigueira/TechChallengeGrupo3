@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PosTech.TechChallenge.Contacts.Domain;
-using PosTech.TechChallenge.Contacts.Services;
+using PosTech.TechChallenge.Contacts.Application;
 
 namespace PosTech.TechChallenge.Contacts.Infra;
 

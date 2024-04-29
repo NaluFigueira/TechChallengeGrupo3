@@ -2,7 +2,7 @@
 using PosTech.TechChallenge.Contacts.Domain;
 using PosTech.TechChallenge.Contacts.Infra;
 
-namespace PosTech.TechChallenge.Contacts.Services;
+namespace PosTech.TechChallenge.Contacts.Application;
 
 public class CreateContactUseCase(IContactRepository contactRepository) : IUseCase<CreateContactDTO, Result<Contact>>
 {

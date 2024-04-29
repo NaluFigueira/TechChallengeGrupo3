@@ -1,4 +1,4 @@
-﻿using PosTech.TechChallenge.Contacts.Services;
+﻿using PosTech.TechChallenge.Contacts.Application;
 
 namespace PosTech.TechChallenge.Contacts.Tests;
 

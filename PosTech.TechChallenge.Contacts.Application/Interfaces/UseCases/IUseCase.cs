@@ -1,4 +1,4 @@
-﻿namespace PosTech.TechChallenge.Contacts.Services;
+﻿namespace PosTech.TechChallenge.Contacts.Application;
 
 
 public interface IUseCase<TRequest, TResponse>

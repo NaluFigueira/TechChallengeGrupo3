@@ -1,7 +1,7 @@
 ﻿using Moq;
 using PosTech.TechChallenge.Contacts.Domain;
 using PosTech.TechChallenge.Contacts.Infra;
-using PosTech.TechChallenge.Contacts.Services;
+using PosTech.TechChallenge.Contacts.Application;
 
 namespace PosTech.TechChallenge.Contacts.Tests;
 
