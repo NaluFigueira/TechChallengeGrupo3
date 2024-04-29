@@ -32,14 +32,14 @@ public class CreateContactUseCaseTests
         var result = await useCase.ExecuteAsync(request);
 
         // Assert
-        Assert.NotNull(result.Entity);
-        Assert.True(result.IsValid);
+        Assert.NotNull(result.Value);
+        Assert.True(result.IsSuccess);
 
-        Assert.Equal(expectedContact.Id, result.Entity.Id);
-        Assert.Equal(expectedContact.Name, result.Entity.Name);
-        Assert.Equal(expectedContact.DDD, result.Entity.DDD);
-        Assert.Equal(expectedContact.PhoneNumber, result.Entity.PhoneNumber);
-        Assert.Equal(expectedContact.Email, result.Entity.Email);
+        Assert.Equal(expectedContact.Id, result.Value.Id);
+        Assert.Equal(expectedContact.Name, result.Value.Name);
+        Assert.Equal(expectedContact.DDD, result.Value.DDD);
+        Assert.Equal(expectedContact.PhoneNumber, result.Value.PhoneNumber);
+        Assert.Equal(expectedContact.Email, result.Value.Email);
 
         mockRepository.Verify(repo => repo.CreateContactAsync(It.Is<Contact>(c =>
             c.Name == request.Name &&
@@ -75,8 +75,7 @@ public class CreateContactUseCaseTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.Null(result.Entity);
-        Assert.False(result.IsValid);
+        Assert.False(result.IsSuccess);
         Assert.NotEmpty(result.Errors);
 
         mockRepository.Verify(repo => repo.CreateContactAsync(It.IsAny<Contact>()), Times.Never());

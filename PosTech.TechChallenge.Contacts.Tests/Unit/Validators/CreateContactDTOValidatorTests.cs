@@ -36,7 +36,7 @@ public class CreateContactDTOValidatorTests
 
         // Assert
         Assert.NotEmpty(result.Errors);
-        Assert.Contains("DDD is required.", result.Errors.Select(err => err.ErrorMessage));
+        Assert.Contains("DDD is required", result.Errors.Select(err => err.ErrorMessage));
     }
 
     [Theory]

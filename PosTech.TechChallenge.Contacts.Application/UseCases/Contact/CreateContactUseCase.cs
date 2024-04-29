@@ -1,4 +1,7 @@
 ﻿using System.Diagnostics.Contracts;
+
+using FluentResults;
+
 using PosTech.TechChallenge.Contacts.Domain;
 using PosTech.TechChallenge.Contacts.Infra;
 
@@ -18,7 +21,7 @@ public class CreateContactUseCase(IContactRepository contactRepository) : IUseCa
             {
                 // usar um log aqui para gerar erros
                 var errors = validationResult.Errors.Select(e => e.ErrorMessage);
-                return Result<Contact>.WithErrors(errors);
+                return Result.Fail(errors);
             }
 
             //Talvez começar a usar um auto mapper pra isso seja interessante
@@ -32,12 +35,12 @@ public class CreateContactUseCase(IContactRepository contactRepository) : IUseCa
 
             var contact = await _contactRepository.CreateContactAsync(newContact);
 
-            return Result<Contact>.Successful(contact);
+            return Result.Ok(contact);
         }
         catch (Exception ex)
         {
             // usar um log aqui para gerar erros
-            return Result<Contact>.WithErrors([ex.Message]);
+            return Result.Fail([ex.Message]);
         }
     }
 }
