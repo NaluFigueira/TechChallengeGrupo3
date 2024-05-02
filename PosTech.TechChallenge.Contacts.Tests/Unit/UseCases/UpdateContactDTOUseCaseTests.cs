@@ -1,4 +1,4 @@
-﻿using Moq;
+using Moq;
 
 using PosTech.TechChallenge.Contacts.Application;
 using PosTech.TechChallenge.Contacts.Domain;
