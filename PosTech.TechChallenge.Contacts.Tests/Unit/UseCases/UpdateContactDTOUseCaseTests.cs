@@ -22,11 +22,11 @@ public class UpdateContactDTOUseCaseTests
 
         var request = new UpdateContactDTO
         (
-            id: contact.Id,
-            name: contact.Name,
-            dDD: contact.DDD,
-            phoneNumber: contact.PhoneNumber,
-            email: contact.Email
+            Id: contact.Id,
+            Name: contact.Name,
+            DDD: contact.DDD,
+            PhoneNumber: contact.PhoneNumber,
+            Email: contact.Email
         );
         var updatedContact = new ContactBuilder().WithId(contact.Id).Build();
 
@@ -65,11 +65,11 @@ public class UpdateContactDTOUseCaseTests
             .Build();
         var request = new UpdateContactDTO
         (
-            id: contact.Id,
-            name: contact.Name,
-            dDD: contact.DDD,
-            phoneNumber: contact.PhoneNumber, // Invalid phone number
-            email: contact.Email // Invalid Email
+            Id: contact.Id,
+            Name: contact.Name,
+            DDD: contact.DDD,
+            PhoneNumber: contact.PhoneNumber, // Invalid phone number
+            Email: contact.Email // Invalid Email
         );
 
         var useCase = new UpdateContactUseCase(mockRepository.Object);

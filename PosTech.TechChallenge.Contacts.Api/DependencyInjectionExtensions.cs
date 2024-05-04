@@ -11,7 +11,7 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IUpdateContactUseCase, UpdateContactUseCase>();
         services.AddScoped<IGetContactByDDDUseCase, GetContactByDDDUseCase>();
         services.AddScoped<IDeleteContactUseCase, DeleteContactUseCase>();
-        services.AddSingleton<IContactRepository, ContactRepository>();
+        services.AddScoped<IContactRepository, ContactRepository>();
 
         return services;
     }

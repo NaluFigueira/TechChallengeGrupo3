@@ -12,11 +12,19 @@ public class DeleteContactUseCase(IContactRepository contactRepository) : IDelet
     public async Task<Result> ExecuteAsync(DeleteContactDTO request)
     {
         var validationResult = new DeleteContactDTOValidator().Validate(request);
+
         if (!validationResult.IsValid)
         {
             // usar um log aqui para gerar erros
             var errors = validationResult.Errors.Select(e => e.ErrorMessage);
             return Result.Fail(errors);
+        }
+
+        var contact = await _contactRepository.GetContactByIdAsync(request.Id);
+
+        if (contact is null)
+        {
+            return Result.Fail("Contact not found");
         }
 
         await _contactRepository.DeleteContactAsync(request.Id);

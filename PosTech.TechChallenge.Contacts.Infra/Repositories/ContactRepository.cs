@@ -1,43 +1,48 @@
-﻿using PosTech.TechChallenge.Contacts.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+
+using PosTech.TechChallenge.Contacts.Domain;
+using PosTech.TechChallenge.Contacts.Infra.Context;
 
 namespace PosTech.TechChallenge.Contacts.Infra;
 
 public class ContactRepository : IContactRepository
 {
-    private List<Contact> _contacts = [];
+    protected AplicationDbContext _context;
+    protected DbSet<Contact> _dbSet;
 
-    public Task<Contact> CreateContactAsync(Contact contact)
+    public ContactRepository(AplicationDbContext context)
     {
-        _contacts.Add(contact);
-        return Task.FromResult(contact);
+        _context = context;
+        _dbSet = _context.Set<Contact>();
     }
 
-    public Task DeleteContactAsync(Guid id)
+    public async Task<Contact> CreateContactAsync(Contact contact)
     {
-        _contacts = _contacts.FindAll(x => x.Id != id);
-        return Task.CompletedTask;
+        await _dbSet.AddAsync(contact);
+        await _context.SaveChangesAsync();
+        return contact;
     }
 
-    public Task<Contact?> GetContactByIdAsync(Guid id)
+    public async Task DeleteContactAsync(Guid id)
     {
-        var contact = _contacts.Find(x => x.Id == id);
-        return Task.FromResult(contact);
+        _dbSet.Remove(await GetContactByIdAsync(id));
+        await _context.SaveChangesAsync();
     }
 
-    public Task<ICollection<Contact>> GetContactsByDDDAsync(DDDBrazil ddd)
+    public async Task<Contact?> GetContactByIdAsync(Guid id)
     {
-        var contacts = _contacts.FindAll(x => x.DDD == ddd);
-        ICollection<Contact> result = contacts;
-        return Task.FromResult(result);
+        return await _dbSet.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public Task<Contact> UpdateContactAsync(Contact contact)
+    public async Task<ICollection<Contact>> GetContactsByDDDAsync(DDDBrazil ddd)
     {
-        var contactIndex = _contacts.FindIndex(x => x.Id == contact.Id);
-        _contacts.ElementAt(contactIndex).DDD = contact.DDD;
-        _contacts.ElementAt(contactIndex).Name = contact.Name;
-        _contacts.ElementAt(contactIndex).Email = contact.Email;
-        _contacts.ElementAt(contactIndex).PhoneNumber = contact.PhoneNumber;
-        return Task.FromResult(contact);
+        return await _dbSet.Where(x => x.DDD == ddd).AsNoTracking().ToListAsync();
+    }
+
+    public async Task<Contact> UpdateContactAsync(Contact contact)
+    {
+        _dbSet.Update(contact);
+        await _context.SaveChangesAsync();
+        return contact;
     }
 }
