@@ -1,12 +1,14 @@
-﻿namespace PosTech.TechChallenge.Contacts.Application;
+﻿using FluentResults;
+
+namespace PosTech.TechChallenge.Contacts.Application;
 
 
 public interface IUseCase<TRequest, TResponse>
 {
-    public Task<TResponse> ExecuteAsync(TRequest request);
+    public Task<Result<TResponse>> ExecuteAsync(TRequest request);
 }
 
 public interface IUseCase<TRequest>
 {
-    public Task ExecuteAsync(TRequest request);
+    public Task<Result> ExecuteAsync(TRequest request);
 }

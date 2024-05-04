@@ -2,20 +2,12 @@
 
 namespace PosTech.TechChallenge.Contacts.Application;
 
-public record UpdateContactDTO
+public record UpdateContactDTO(Guid Id, string? Name, DDDBrazil? DDD, string? PhoneNumber, string? Email)
 {
-    public UpdateContactDTO(Guid id, string name, DDDBrazil dDD, string phoneNumber, string email)
-    {
-        this.Id = id;
-        this.Name = name;
-        this.DDD = dDD;
-        this.PhoneNumber = phoneNumber;
-        this.Email = email;
-    }
 
-    public Guid Id { get; set; }
-    public string? Name { get; set; }
-    public DDDBrazil? DDD { get; set; }
-    public string? PhoneNumber { get; set; }
-    public string? Email { get; set; }
+    public Guid Id { get; set; } = Id;
+    public string? Name { get; set; } = Name;
+    public DDDBrazil? DDD { get; set; } = DDD;
+    public string? PhoneNumber { get; set; } = PhoneNumber;
+    public string? Email { get; set; } = Email;
 }

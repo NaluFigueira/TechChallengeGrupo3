@@ -1,16 +1,17 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using PosTech.TechChallenge.Contacts.Domain;
-using PosTech.TechChallenge.Contacts.Application;
-using FluentResults;
+﻿using PosTech.TechChallenge.Contacts.Application;
+using PosTech.TechChallenge.Contacts.Infra;
 
-namespace PosTech.TechChallenge.Contacts.Infra;
+namespace PosTech.TechChallenge.Contacts.Api;
 
 public static class DependencyInjectionExtensions
 {
     public static IServiceCollection AddContactUseCases(this IServiceCollection services)
     {
-        services.AddTransient<IUseCase<CreateContactDTO, Result<Contact>>, CreateContactUseCase>();
-        services.AddSingleton<CreateContactDTOValidator>();
+        services.AddScoped<ICreateContactUseCase, CreateContactUseCase>();
+        services.AddScoped<IUpdateContactUseCase, UpdateContactUseCase>();
+        services.AddScoped<IGetContactByDDDUseCase, GetContactByDDDUseCase>();
+        services.AddScoped<IDeleteContactUseCase, DeleteContactUseCase>();
+        services.AddSingleton<IContactRepository, ContactRepository>();
 
         return services;
     }
