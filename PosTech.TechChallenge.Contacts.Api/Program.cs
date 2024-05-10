@@ -21,12 +21,17 @@ builder.Services.AddDbContext<AplicationDbContext>(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+Console.WriteLine("Applying migrations");
+
+using (var context = (AplicationDbContext)app.Services.GetService(typeof(AplicationDbContext)))
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    context.Database.Migrate();
 }
+
+Console.WriteLine("Done");
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
