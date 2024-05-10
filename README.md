@@ -10,7 +10,7 @@ A aplicação deve realizar o cadastro de contatos regionais, podendo:
 
 ## Solução proposta
 
-![Tech Challenge - Fase 1](https://github.com/NaluFigueira/TechChallenge1Grupo3/assets/24214761/10ecfb21-98d2-4866-8d47-c8e9ab05b377)
+![Tech Challenge - Fase 1_page-0001](https://github.com/NaluFigueira/TechChallenge1Grupo3/assets/24214761/87745589-427d-44e7-a84a-4df1f4e6614c)
 
 ### Validações dos campos
 
@@ -35,7 +35,6 @@ A aplicação deve realizar o cadastro de contatos regionais, podendo:
 2. No arquivo `docker-compose.yml` alterar os campos `<your_password>` para a senha que gostaria de colocar para o servidor do SQL Server. O acesso ao servidor é feito com o user padrão SA. É possível inserir outros usuários neste mesmo arquivo, caso seja necessário.
 3. No arquivo `appsettings.json` alterar o campo `DefaultConnection.Password` para a mesma senha inserida no passo 2. Caso tenha sido inserido um novo usuário, é preciso alterar a chave em `DefaultConnection.User`.
 4. Na raiz do projeto executar o comando:
-
 ```bash
 docker-compose build
 ```
