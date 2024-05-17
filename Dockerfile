@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 8080
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0.202 AS build
 WORKDIR /src
 COPY ["./PosTech.TechChallenge.Contacts.Api/PosTech.TechChallenge.Contacts.Api.csproj", "./PosTech.TechChallenge.Contacts.Api/"]
 COPY ["./PosTech.TechChallenge.Contacts.Application/PosTech.TechChallenge.Contacts.Application.csproj", "./PosTech.TechChallenge.Contacts.Application/"]
@@ -12,7 +12,7 @@ RUN dotnet restore "./PosTech.TechChallenge.Contacts.Api/PosTech.TechChallenge.C
 COPY . .
 RUN dotnet build "./PosTech.TechChallenge.Contacts.Api/PosTech.TechChallenge.Contacts.Api.csproj" -c Release -o /app
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS migration
+FROM mcr.microsoft.com/dotnet/sdk:8.0.202 AS migration
 WORKDIR /src
 COPY . .
 RUN dotnet restore "./PosTech.TechChallenge.Contacts.Infra/PosTech.TechChallenge.Contacts.Infra.csproj"

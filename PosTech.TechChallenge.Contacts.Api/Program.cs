@@ -8,8 +8,6 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
@@ -23,9 +21,12 @@ var app = builder.Build();
 
 Console.WriteLine("Applying migrations");
 
-using (var context = (AplicationDbContext)app.Services.GetService(typeof(AplicationDbContext)))
+using (var serviceScope = app.Services.CreateScope())
 {
-    context.Database.Migrate();
+    var serviceDb = serviceScope.ServiceProvider
+                     .GetService<AplicationDbContext>();
+
+    serviceDb!.Database.Migrate();
 }
 
 Console.WriteLine("Done");
