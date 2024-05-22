@@ -8,7 +8,7 @@ namespace PosTech.TechChallenge.Contacts.Tests;
 public class DeleteContactUseCaseTests
 {
     [Fact]
-    public async Task ExecuteAsync_ShouldReturnResultOk_WhenContactIsDeletedSuccessfully()
+    public async Task ExecuteAsync_WhenContactIsDeletedSuccessfully_ShouldReturnSuccess()
     {
         // Arrange
         var mockRepository = new Mock<IContactRepository>();

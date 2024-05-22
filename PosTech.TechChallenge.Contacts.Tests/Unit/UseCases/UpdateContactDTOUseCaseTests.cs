@@ -9,7 +9,7 @@ namespace PosTech.TechChallenge.Contacts.Tests;
 public class UpdateContactDTOUseCaseTests
 {
     [Fact]
-    public async Task ExecuteAsync_ShouldReturnResultOk_WhenDataIsValid()
+    public async Task ExecuteAsync_WhenDataIsValid_ShouldReturnResultOk()
     {
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
@@ -54,7 +54,7 @@ public class UpdateContactDTOUseCaseTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_ShouldReturnResultFail_WhenContactHasInvalidFields()
+    public async Task ExecuteAsync_WhenContactHasInvalidFields_ShouldReturnResultFail()
     {
         // Arrange
         var mockRepository = new Mock<IContactRepository>();

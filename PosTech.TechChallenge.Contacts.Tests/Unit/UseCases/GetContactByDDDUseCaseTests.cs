@@ -11,7 +11,7 @@ namespace PosTech.TechChallenge.Contacts.Tests;
 public class GetContactByDDDUseCaseTests
 {
     [Fact]
-    public async Task ExecuteAsync_ShouldReturnResultOkWithCollectionWithoutContacts_WhenRequestedByDDD()
+    public async Task ExecuteAsync_WhenRequestedByDDD_ShouldReturnResultOkWithCollectionWithoutContacts()
     {
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
@@ -39,7 +39,7 @@ public class GetContactByDDDUseCaseTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_ShouldReturnResultOkWithCollectionWithOneContact_WhenRequestedByDDD()
+    public async Task ExecuteAsync_WhenRequestedByDDD_ShouldReturnResultOkWithCollectionWithOneContact()
     {
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
@@ -73,7 +73,7 @@ public class GetContactByDDDUseCaseTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_ShouldReturnResultOkWithCollectionWithTwoContacts_WhenRequestedByDDD()
+    public async Task ExecuteAsync_WhenRequestedByDDD_ShouldReturnResultOkWithCollectionWithTwoContacts()
     {
         // Arrange
         var mockRepository = new Mock<IContactRepository>();

@@ -8,7 +8,7 @@ namespace PosTech.TechChallenge.Contacts.Tests;
 public class CreateContactUseCaseTests
 {
     [Fact]
-    public async Task CreateContactUseCaseTests_ExecuteAsync_ShouldReturnOkWhenValidRequest()
+    public async Task ExecuteAsync_WhenValidRequest_ShouldReturnOk()
     {
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
@@ -50,7 +50,7 @@ public class CreateContactUseCaseTests
     }
 
     [Fact]
-    public async Task CreateContactUseCaseTests_ExecuteAsync_ShouldReturnResultFailWhenContactHasInvalidFields()
+    public async Task ExecuteAsync_WhenContactHasInvalidFields_ShouldReturnResultFail()
     {
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
