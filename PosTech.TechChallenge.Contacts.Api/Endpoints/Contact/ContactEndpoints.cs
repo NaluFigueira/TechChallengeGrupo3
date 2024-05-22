@@ -1,7 +1,9 @@
 ﻿
 using System.Net;
+using System.Text.Json;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 
 using PosTech.TechChallenge.Contacts.Application;
@@ -21,6 +23,21 @@ public static class ContactEndpoints
             {
                 Tags = tags,
                 Summary = "Obtain contacts with specified DDD",
+                Parameters = [new OpenApiParameter()
+                {
+                    Name = "ddd",
+                    In = ParameterLocation.Query,
+                    Required = true,
+                    Description = "Contact's ddd to filter query",
+                    Schema = new OpenApiSchema()
+                    {
+                        Type = "string",
+                        Enum = Enum.GetValues(typeof(DDDBrazil))
+                                    .Cast<DDDBrazil>()
+                                    .Select(e => new OpenApiInteger((int)e))
+                                    .ToList<IOpenApiAny>()
+                    }
+                }]
             })
             .Produces<ICollection<Contact>>(StatusCodes.Status200OK)
             .Produces<string>(StatusCodes.Status400BadRequest)
@@ -31,6 +48,16 @@ public static class ContactEndpoints
             {
                 Tags = tags,
                 Summary = "Creates contact",
+                RequestBody = new OpenApiRequestBody()
+                {
+                    Content = new Dictionary<string, OpenApiMediaType>
+                    {
+                        ["application/json"] = new OpenApiMediaType
+                        {
+                            Example = new OpenApiString(JsonSerializer.Serialize(new CreateContactDTO("Theo Victor Costa", DDDBrazil.DDD_18, "988903023", "theo.costa@centrooleo.com.br"))),
+                        }
+                    }
+                }
             })
             .Produces(StatusCodes.Status201Created)
             .Produces<string>(StatusCodes.Status400BadRequest)
@@ -41,6 +68,16 @@ public static class ContactEndpoints
             {
                 Tags = tags,
                 Summary = "Updates any info of any contact",
+                RequestBody = new OpenApiRequestBody()
+                {
+                    Content = new Dictionary<string, OpenApiMediaType>
+                    {
+                        ["application/json"] = new OpenApiMediaType
+                        {
+                            Example = new OpenApiString(JsonSerializer.Serialize(new UpdateContactDTO(Id: Guid.NewGuid(), Name: null, DDD: null, PhoneNumber: "986125476", Email: null))),
+                        }
+                    }
+                }
             })
             .Produces(StatusCodes.Status204NoContent)
             .Produces<string>(StatusCodes.Status400BadRequest)
@@ -51,6 +88,17 @@ public static class ContactEndpoints
             {
                 Tags = tags,
                 Summary = "Deletes specified contact",
+                Parameters = [new OpenApiParameter()
+                {
+                    Name = "id",
+                    In = ParameterLocation.Path,
+                    Required = true,
+                    Description = "Contact's identifier",
+                    Schema = new OpenApiSchema()
+                    {
+                        Type = "string",
+                    }
+                }]
             })
             .Produces(StatusCodes.Status204NoContent)
             .Produces<string>(StatusCodes.Status400BadRequest)
