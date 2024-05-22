@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 
+using Microsoft.Extensions.Logging;
+
 using Moq;
 
 using PosTech.TechChallenge.Contacts.Application;
@@ -15,6 +17,7 @@ public class GetContactByDDDUseCaseTests
     {
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
+        var mockLogger = new Mock<ILogger<GetContactByDDDUseCase>>();
 
         var selectedDDD = DDDBrazil.DDD_32;
         Collection<Contact> contacts = [];
@@ -24,7 +27,7 @@ public class GetContactByDDDUseCaseTests
             .Setup(repo => repo.GetContactsByDDDAsync(It.IsAny<DDDBrazil>()))
             .ReturnsAsync(contacts);
 
-        var useCase = new GetContactByDDDUseCase(mockRepository.Object);
+        var useCase = new GetContactByDDDUseCase(mockRepository.Object, mockLogger.Object);
 
         // Act
         var result = await useCase.ExecuteAsync(requestDto);
@@ -43,6 +46,7 @@ public class GetContactByDDDUseCaseTests
     {
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
+        var mockLogger = new Mock<ILogger<GetContactByDDDUseCase>>();
 
         var selectedDDD = DDDBrazil.DDD_55;
         var contact = new ContactBuilder().WithDDD(selectedDDD).Build();
@@ -53,7 +57,7 @@ public class GetContactByDDDUseCaseTests
             .Setup(repo => repo.GetContactsByDDDAsync(It.IsAny<DDDBrazil>()))
             .ReturnsAsync(contacts);
 
-        var useCase = new GetContactByDDDUseCase(mockRepository.Object);
+        var useCase = new GetContactByDDDUseCase(mockRepository.Object, mockLogger.Object);
 
         // Act
         var result = await useCase.ExecuteAsync(requestDto);
@@ -77,6 +81,7 @@ public class GetContactByDDDUseCaseTests
     {
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
+        var mockLogger = new Mock<ILogger<GetContactByDDDUseCase>>();
 
         var selectedDDD = DDDBrazil.DDD_21;
         var contact1 = new ContactBuilder().WithDDD(selectedDDD).Build();
@@ -93,7 +98,7 @@ public class GetContactByDDDUseCaseTests
             .Setup(repo => repo.GetContactsByDDDAsync(It.IsAny<DDDBrazil>()))
             .ReturnsAsync(contacts);
 
-        var useCase = new GetContactByDDDUseCase(mockRepository.Object);
+        var useCase = new GetContactByDDDUseCase(mockRepository.Object, mockLogger.Object);
 
         // Act
         var result = await useCase.ExecuteAsync(requestDto);

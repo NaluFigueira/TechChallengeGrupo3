@@ -2,6 +2,7 @@
 using PosTech.TechChallenge.Contacts.Domain;
 using PosTech.TechChallenge.Contacts.Infra;
 using PosTech.TechChallenge.Contacts.Application;
+using Microsoft.Extensions.Logging;
 
 namespace PosTech.TechChallenge.Contacts.Tests;
 
@@ -12,6 +13,7 @@ public class CreateContactUseCaseTests
     {
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
+        var mockLogger = new Mock<ILogger<CreateContactUseCase>>();
 
         var request = new CreateContactDTOBuilder().Build();
         var expectedContact = new Contact
@@ -26,7 +28,7 @@ public class CreateContactUseCaseTests
             .Setup(repo => repo.CreateContactAsync(It.IsAny<Contact>()))
             .ReturnsAsync(expectedContact);
 
-        var useCase = new CreateContactUseCase(mockRepository.Object);
+        var useCase = new CreateContactUseCase(mockRepository.Object, mockLogger.Object);
 
         // Act
         var result = await useCase.ExecuteAsync(request);
@@ -54,6 +56,7 @@ public class CreateContactUseCaseTests
     {
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
+        var mockLogger = new Mock<ILogger<CreateContactUseCase>>();
 
         var request = new CreateContactDTOBuilder().WithPhoneNumber("").Build();
         var expectedContact = new Contact
@@ -68,7 +71,7 @@ public class CreateContactUseCaseTests
             .Setup(repo => repo.CreateContactAsync(It.IsAny<Contact>()))
             .ThrowsAsync(new Exception("Validation failed."));
 
-        var useCase = new CreateContactUseCase(mockRepository.Object);
+        var useCase = new CreateContactUseCase(mockRepository.Object, mockLogger.Object);
 
         // Act
         var result = await useCase.ExecuteAsync(request);

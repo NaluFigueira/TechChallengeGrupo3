@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+
 using Moq;
 
 using PosTech.TechChallenge.Contacts.Application;
@@ -13,6 +15,7 @@ public class UpdateContactDTOUseCaseTests
     {
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
+        var mockLogger = new Mock<ILogger<UpdateContactUseCase>>();
 
         var contact = new ContactBuilder().Build();
 
@@ -34,7 +37,7 @@ public class UpdateContactDTOUseCaseTests
             .Setup(repo => repo.UpdateContactAsync(It.IsAny<Contact>()))
             .ReturnsAsync(updatedContact);
 
-        var useCase = new UpdateContactUseCase(mockRepository.Object);
+        var useCase = new UpdateContactUseCase(mockRepository.Object, mockLogger.Object);
 
         // Act
         var result = await useCase.ExecuteAsync(request);
@@ -58,6 +61,7 @@ public class UpdateContactDTOUseCaseTests
     {
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
+        var mockLogger = new Mock<ILogger<UpdateContactUseCase>>();
 
         var contact = new ContactBuilder()
             .WithName("")
@@ -72,7 +76,7 @@ public class UpdateContactDTOUseCaseTests
             Email: contact.Email // Invalid Email
         );
 
-        var useCase = new UpdateContactUseCase(mockRepository.Object);
+        var useCase = new UpdateContactUseCase(mockRepository.Object, mockLogger.Object);
 
         // Act
         var result = await useCase.ExecuteAsync(request);

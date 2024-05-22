@@ -1,12 +1,15 @@
 ﻿using FluentResults;
 
+using Microsoft.Extensions.Logging;
+
 using PosTech.TechChallenge.Contacts.Domain;
 using PosTech.TechChallenge.Contacts.Infra;
 
 namespace PosTech.TechChallenge.Contacts.Application;
 
-public class UpdateContactUseCase(IContactRepository contactRepository) : IUpdateContactUseCase
+public class UpdateContactUseCase(IContactRepository contactRepository, ILogger<UpdateContactUseCase> logger) : IUpdateContactUseCase
 {
+    private readonly ILogger _logger = logger;
     private readonly IContactRepository _contactRepository = contactRepository;
 
     public async Task<Result> ExecuteAsync(UpdateContactDTO request)
@@ -15,8 +18,11 @@ public class UpdateContactUseCase(IContactRepository contactRepository) : IUpdat
         var validationResult = new UpdateContactDTOValidator().Validate(request);
         if (!validationResult.IsValid)
         {
-            // usar um log aqui para gerar erros
             var errors = validationResult.Errors.Select(e => e.ErrorMessage);
+            foreach (var error in errors)
+            {
+                _logger.LogError("[ERR] UpdateContactUseCase: {error}", error);
+            }
             return Result.Fail(errors);
         }
 
@@ -27,7 +33,6 @@ public class UpdateContactUseCase(IContactRepository contactRepository) : IUpdat
             return Result.Fail("Contact not found");
         }
 
-        //Talvez começar a usar um auto mapper pra isso seja interessante
         var updatedContact = new Contact
         {
             Id = request.Id,
