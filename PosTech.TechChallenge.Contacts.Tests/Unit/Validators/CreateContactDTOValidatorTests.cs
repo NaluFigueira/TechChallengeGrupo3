@@ -1,4 +1,6 @@
-﻿using PosTech.TechChallenge.Contacts.Application;
+﻿using FluentAssertions;
+
+using PosTech.TechChallenge.Contacts.Application;
 
 namespace PosTech.TechChallenge.Contacts.Tests;
 
@@ -21,8 +23,8 @@ public class CreateContactDTOValidatorTests
         var result = _validator.Validate(createContactDTO);
 
         // Assert
-        Assert.NotEmpty(result.Errors);
-        Assert.Contains("Name is required.", result.Errors.Select(err => err.ErrorMessage));
+        result.Errors.Should().NotBeEmpty();
+        result.Errors.Select(err => err.ErrorMessage).Should().Contain("Name is required.");
     }
 
     [Fact]
@@ -35,8 +37,8 @@ public class CreateContactDTOValidatorTests
         var result = _validator.Validate(createContactDTO);
 
         // Assert
-        Assert.NotEmpty(result.Errors);
-        Assert.Contains("DDD is required", result.Errors.Select(err => err.ErrorMessage));
+        result.Errors.Should().NotBeEmpty();
+        result.Errors.Select(err => err.ErrorMessage).Should().Contain("Invalid DDD");
     }
 
     [Theory]
@@ -57,8 +59,8 @@ public class CreateContactDTOValidatorTests
         var result = _validator.Validate(createContactDTO);
 
         // Assert
-        Assert.NotEmpty(result.Errors);
-        Assert.Contains(expectedMessage, result.Errors.Select(err => err.ErrorMessage));
+        result.Errors.Should().NotBeEmpty();
+        result.Errors.Select(err => err.ErrorMessage).Should().Contain(expectedMessage);
     }
 
     [Theory]
@@ -76,8 +78,8 @@ public class CreateContactDTOValidatorTests
         var result = _validator.Validate(createContactDTO);
 
         // Assert
-        Assert.NotEmpty(result.Errors);
-        Assert.Contains(expectedMessage, result.Errors.Select(err => err.ErrorMessage));
+        result.Errors.Should().NotBeEmpty();
+        result.Errors.Select(err => err.ErrorMessage).Should().Contain(expectedMessage);
     }
 
 
@@ -91,6 +93,6 @@ public class CreateContactDTOValidatorTests
         var result = _validator.Validate(createContactDTO);
 
         // Assert
-        Assert.Empty(result.Errors);
+        result.Errors.Should().BeEmpty();
     }
 }

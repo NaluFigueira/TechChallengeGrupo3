@@ -1,3 +1,5 @@
+using FluentAssertions;
+
 using Microsoft.Extensions.Logging;
 
 using Moq;
@@ -43,8 +45,8 @@ public class UpdateContactDTOUseCaseTests
         var result = await useCase.ExecuteAsync(request);
 
         // Assert
-        Assert.NotNull(result);
-        Assert.True(result.IsSuccess);
+        result.Should().NotBeNull();
+        result.IsSuccess.Should().BeTrue();
 
         // Verify that the repository was called correctly
         mockRepository.Verify(repo => repo.UpdateContactAsync(It.Is<Contact>(c =>
@@ -82,9 +84,9 @@ public class UpdateContactDTOUseCaseTests
         var result = await useCase.ExecuteAsync(request);
 
         // Assert
-        Assert.NotNull(result);
-        Assert.False(result.IsSuccess);
-        Assert.NotEmpty(result.Errors);
+        result.Should().NotBeNull();
+        result.IsSuccess.Should().BeFalse();
+        result.Errors.Should().NotBeEmpty();
 
         mockRepository.Verify(repo => repo.UpdateContactAsync(It.IsAny<Contact>()), Times.Never());
     }

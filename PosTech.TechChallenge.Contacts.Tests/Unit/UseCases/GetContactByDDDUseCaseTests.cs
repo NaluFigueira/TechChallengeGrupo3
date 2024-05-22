@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 
+using FluentAssertions;
+
 using Microsoft.Extensions.Logging;
 
 using Moq;
@@ -104,18 +106,19 @@ public class GetContactByDDDUseCaseTests
         var result = await useCase.ExecuteAsync(requestDto);
 
         // Assert
-        Assert.NotNull(result);
-        Assert.NotNull(result.ValueOrDefault);
-        Assert.True(result.IsSuccess);
-        Assert.NotEmpty(result.Value);
-        Assert.Equal(contacts.Count, result.Value.Count);
+        result.Should().NotBeNull();
+        result.ValueOrDefault.Should().NotBeNull();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().NotBeEmpty();
+        result.Value.Count.Should().Be(contacts.Count);
 
         for (int i = 0; i < contacts.Count; i++)
         {
-            Assert.Equal(contacts[i].DDD, result.Value.ElementAt(i).DDD);
-            Assert.Equal(contacts[i].Name, result.Value.ElementAt(i).Name);
-            Assert.Equal(contacts[i].PhoneNumber, result.Value.ElementAt(i).PhoneNumber);
-            Assert.Equal(contacts[i].Email, result.Value.ElementAt(i).Email);
+            result.Value.ElementAt(i).Id.Should().Be(contacts[i].Id);
+            result.Value.ElementAt(i).Name.Should().Be(contacts[i].Name);
+            result.Value.ElementAt(i).DDD.Should().Be(contacts[i].DDD);
+            result.Value.ElementAt(i).PhoneNumber.Should().Be(contacts[i].PhoneNumber);
+            result.Value.ElementAt(i).Email.Should().Be(contacts[i].Email);
         }
 
         mockRepository.Verify(repo => repo.GetContactsByDDDAsync(selectedDDD), Times.Once);

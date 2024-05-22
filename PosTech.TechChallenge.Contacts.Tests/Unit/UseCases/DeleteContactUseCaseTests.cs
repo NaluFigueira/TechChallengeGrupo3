@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FluentAssertions;
+
+using Microsoft.Extensions.Logging;
 
 using Moq;
 
@@ -31,8 +33,8 @@ public class DeleteContactUseCaseTests
         var result = await useCase.ExecuteAsync(requestDto);
 
         // Assert
-        Assert.NotNull(result);
-        Assert.True(result.IsSuccess);
+        result.Should().NotBeNull();
+        result.IsSuccess.Should().BeTrue();
 
         mockRepository.Verify(repo => repo.DeleteContactAsync(contactId), Times.Once);
     }
