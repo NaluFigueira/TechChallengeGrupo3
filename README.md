@@ -32,12 +32,14 @@ Desenvolvimento:
 - FluentValidation
 - OpenAPI
 - EntityFrameworkCore
+- ILogger
 
 Testes:
 
 - XUnit
 - Bogus
 - Moq
+- FluentAssertions
 
 ## Como executar o projeto localmente
 
