@@ -1,3 +1,7 @@
+using FluentAssertions;
+
+using Microsoft.Extensions.Logging;
+
 using Moq;
 
 using PosTech.TechChallenge.Contacts.Application;
@@ -9,10 +13,11 @@ namespace PosTech.TechChallenge.Contacts.Tests;
 public class UpdateContactDTOUseCaseTests
 {
     [Fact]
-    public async Task ExecuteAsync_ShouldReturnResultOk_WhenDataIsValid()
+    public async Task ExecuteAsync_WhenDataIsValid_ShouldReturnResultOk()
     {
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
+        var mockLogger = new Mock<ILogger<UpdateContactUseCase>>();
 
         var contact = new ContactBuilder().Build();
 
@@ -34,14 +39,14 @@ public class UpdateContactDTOUseCaseTests
             .Setup(repo => repo.UpdateContactAsync(It.IsAny<Contact>()))
             .ReturnsAsync(updatedContact);
 
-        var useCase = new UpdateContactUseCase(mockRepository.Object);
+        var useCase = new UpdateContactUseCase(mockRepository.Object, mockLogger.Object);
 
         // Act
         var result = await useCase.ExecuteAsync(request);
 
         // Assert
-        Assert.NotNull(result);
-        Assert.True(result.IsSuccess);
+        result.Should().NotBeNull();
+        result.IsSuccess.Should().BeTrue();
 
         // Verify that the repository was called correctly
         mockRepository.Verify(repo => repo.UpdateContactAsync(It.Is<Contact>(c =>
@@ -54,10 +59,11 @@ public class UpdateContactDTOUseCaseTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_ShouldReturnResultFail_WhenContactHasInvalidFields()
+    public async Task ExecuteAsync_WhenContactHasInvalidFields_ShouldReturnResultFail()
     {
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
+        var mockLogger = new Mock<ILogger<UpdateContactUseCase>>();
 
         var contact = new ContactBuilder()
             .WithName("")
@@ -72,15 +78,15 @@ public class UpdateContactDTOUseCaseTests
             Email: contact.Email // Invalid Email
         );
 
-        var useCase = new UpdateContactUseCase(mockRepository.Object);
+        var useCase = new UpdateContactUseCase(mockRepository.Object, mockLogger.Object);
 
         // Act
         var result = await useCase.ExecuteAsync(request);
 
         // Assert
-        Assert.NotNull(result);
-        Assert.False(result.IsSuccess);
-        Assert.NotEmpty(result.Errors);
+        result.Should().NotBeNull();
+        result.IsSuccess.Should().BeFalse();
+        result.Errors.Should().NotBeEmpty();
 
         mockRepository.Verify(repo => repo.UpdateContactAsync(It.IsAny<Contact>()), Times.Never());
     }

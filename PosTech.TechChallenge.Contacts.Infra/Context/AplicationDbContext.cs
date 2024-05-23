@@ -60,6 +60,44 @@ public class AplicationDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(250);
         });
+
+        modelBuilder.Entity<Contact>().HasData([
+            new Contact() {
+                Id = Guid.NewGuid(),
+                DDD = DDDBrazil.DDD_43,
+                Email = "pedro-ferreira85@yahoo.com.br",
+                Name = "Pedro Henrique Erick Ferreira",
+                PhoneNumber = "989340101"
+            },
+            new Contact() {
+                Id = Guid.NewGuid(),
+                DDD = DDDBrazil.DDD_63,
+                Email = "thomas.pires@credendio.com.br",
+                Name = "Thomas Vinicius João Pires",
+                PhoneNumber = "989769978"
+            },
+            new Contact() {
+                Id = Guid.NewGuid(),
+                DDD = DDDBrazil.DDD_11,
+                Email = "julia92@casabellavidros.com.br",
+                Name = "Julia Milena Rita Almeida",
+                PhoneNumber = "998212236"
+            },
+            new Contact() {
+                Id = Guid.NewGuid(),
+                DDD = DDDBrazil.DDD_21,
+                Email = "bianca_assis@4now.com.br",
+                Name = "Bianca Liz Assis",
+                PhoneNumber = "992804701"
+            },
+            new Contact() {
+                Id = Guid.NewGuid(),
+                DDD = DDDBrazil.DDD_32,
+                Email = "alessandra75@jovempanfmtaubate.com.br",
+                Name = "Alessandra Gabrielly Esther Costa",
+                PhoneNumber = "985537746"
+            },
+        ]);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

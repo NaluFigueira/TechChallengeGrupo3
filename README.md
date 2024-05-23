@@ -23,6 +23,22 @@ A aplicação deve realizar o cadastro de contatos regionais, podendo:
    - Caso o número de telefone seja de 9 dígitos, o primeiro deve ser 9
 5. E-mail deve ser válido
 
+## Tecnologias e ferramentas
+
+Desenvolvimento:
+
+- .NET 8.0
+- FluentResults
+- FluentValidation
+- OpenAPI
+- EntityFrameworkCore
+
+Testes:
+
+- XUnit
+- Bogus
+- Moq
+
 ## Como executar o projeto localmente
 
 ### Requerimentos
@@ -35,6 +51,7 @@ A aplicação deve realizar o cadastro de contatos regionais, podendo:
 2. No arquivo `docker-compose.yml` alterar os campos `<your_password>` para a senha que gostaria de colocar para o servidor do SQL Server. O acesso ao servidor é feito com o user padrão SA. É possível inserir outros usuários neste mesmo arquivo, caso seja necessário.
 3. No arquivo `appsettings.json` alterar o campo `DefaultConnection.Password` para a mesma senha inserida no passo 2. Caso tenha sido inserido um novo usuário, é preciso alterar a chave em `DefaultConnection.User`.
 4. Na raiz do projeto executar o comando:
+
 ```bash
 docker-compose build
 ```

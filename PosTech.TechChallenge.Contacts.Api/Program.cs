@@ -8,8 +8,12 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
+builder.Services.AddLogging();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SchemaFilter<DescriptionSchemaFilter>();
+});
 builder.Services.AddControllers();
 builder.Services.AddContactUseCases();
 builder.Services.AddDbContext<AplicationDbContext>(options =>

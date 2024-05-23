@@ -1,4 +1,6 @@
-﻿using PosTech.TechChallenge.Contacts.Application;
+﻿using FluentAssertions;
+
+using PosTech.TechChallenge.Contacts.Application;
 
 namespace PosTech.TechChallenge.Contacts.Tests;
 
@@ -12,7 +14,7 @@ public class CreateContactDTOValidatorTests
     }
 
     [Fact]
-    public void CreateContactDTOValidator_Validate_ShouldReturnErrorWhenNameIsEmpty()
+    public void Validate_WhenNameIsEmpty_ShouldReturnError()
     {
         //Arrange
         var createContactDTO = new CreateContactDTOBuilder().WithName("").Build();
@@ -21,12 +23,12 @@ public class CreateContactDTOValidatorTests
         var result = _validator.Validate(createContactDTO);
 
         // Assert
-        Assert.NotEmpty(result.Errors);
-        Assert.Contains("Name is required.", result.Errors.Select(err => err.ErrorMessage));
+        result.Errors.Should().NotBeEmpty();
+        result.Errors.Select(err => err.ErrorMessage).Should().Contain("Name is required.");
     }
 
     [Fact]
-    public void CreateContactDTOValidator_Validate_ShouldReturnErrorWhenDDDIsEmpty()
+    public void Validate_WhenDDDIsEmpty_ShouldReturnError()
     {
         //Arrange
         var createContactDTO = new CreateContactDTOBuilder().WithDDD(0).Build();
@@ -35,8 +37,8 @@ public class CreateContactDTOValidatorTests
         var result = _validator.Validate(createContactDTO);
 
         // Assert
-        Assert.NotEmpty(result.Errors);
-        Assert.Contains("DDD is required", result.Errors.Select(err => err.ErrorMessage));
+        result.Errors.Should().NotBeEmpty();
+        result.Errors.Select(err => err.ErrorMessage).Should().Contain("Invalid DDD");
     }
 
     [Theory]
@@ -45,7 +47,7 @@ public class CreateContactDTOValidatorTests
     [InlineData("55912345678", "Phone number must be 8 or 9 digits.")]
     [InlineData("2345678", "Phone number must be 8 or 9 digits.")]
     [InlineData("888888888", "Phone number with 9 digits must start with '9'.")]
-    public void CreateContactDTOValidator_Validate_ShouldReturnErrorWhenPhoneNumberIsInvalidFormat(
+    public void Validate_WhenPhoneNumberIsInvalidFormat_ShouldReturnError(
         string phoneNumber,
         string expectedMessage
     )
@@ -57,14 +59,14 @@ public class CreateContactDTOValidatorTests
         var result = _validator.Validate(createContactDTO);
 
         // Assert
-        Assert.NotEmpty(result.Errors);
-        Assert.Contains(expectedMessage, result.Errors.Select(err => err.ErrorMessage));
+        result.Errors.Should().NotBeEmpty();
+        result.Errors.Select(err => err.ErrorMessage).Should().Contain(expectedMessage);
     }
 
     [Theory]
     [InlineData("", "Email is required.")]
     [InlineData("invalidEmail.com", "A valid email is required.")]
-    public void CreateContactDTOValidator_Validate_ShouldReturnErrorWhenEmailIsInvalidFormat(
+    public void Validate_WhenEmailIsInvalidFormat_ShouldReturnError(
         string email,
         string expectedMessage
     )
@@ -76,13 +78,13 @@ public class CreateContactDTOValidatorTests
         var result = _validator.Validate(createContactDTO);
 
         // Assert
-        Assert.NotEmpty(result.Errors);
-        Assert.Contains(expectedMessage, result.Errors.Select(err => err.ErrorMessage));
+        result.Errors.Should().NotBeEmpty();
+        result.Errors.Select(err => err.ErrorMessage).Should().Contain(expectedMessage);
     }
 
 
     [Fact]
-    public void CreateContactDTOValidator_Validate_ShouldNotReturnErrorWhenFieldIsInvalid()
+    public void Validate_WhenFieldIsInvalid_ShouldNotReturnError()
     {
         //Arrange
         var createContactDTO = new CreateContactDTOBuilder().Build();
@@ -91,6 +93,6 @@ public class CreateContactDTOValidatorTests
         var result = _validator.Validate(createContactDTO);
 
         // Assert
-        Assert.Empty(result.Errors);
+        result.Errors.Should().BeEmpty();
     }
 }

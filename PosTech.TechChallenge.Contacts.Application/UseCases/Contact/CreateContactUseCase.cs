@@ -1,12 +1,15 @@
 ﻿using FluentResults;
 
+using Microsoft.Extensions.Logging;
+
 using PosTech.TechChallenge.Contacts.Domain;
 using PosTech.TechChallenge.Contacts.Infra;
 
 namespace PosTech.TechChallenge.Contacts.Application;
 
-public class CreateContactUseCase(IContactRepository contactRepository) : ICreateContactUseCase
+public class CreateContactUseCase(IContactRepository contactRepository, ILogger<CreateContactUseCase> logger) : ICreateContactUseCase
 {
+    private readonly ILogger _logger = logger;
     private readonly IContactRepository _contactRepository = contactRepository;
 
     public async Task<Result<Contact>> ExecuteAsync(CreateContactDTO request)
@@ -15,12 +18,14 @@ public class CreateContactUseCase(IContactRepository contactRepository) : ICreat
         var validationResult = new CreateContactDTOValidator().Validate(request);
         if (!validationResult.IsValid)
         {
-            // usar um log aqui para gerar erros
             var errors = validationResult.Errors.Select(e => e.ErrorMessage);
+            foreach (var error in errors)
+            {
+                _logger.LogError("[ERR] CreateContactUseCase: {error}", error);
+            }
             return Result.Fail(errors);
         }
 
-        //Talvez começar a usar um auto mapper pra isso seja interessante
         var newContact = new Contact
         {
             Name = request.Name,
