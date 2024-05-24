@@ -7,24 +7,10 @@ namespace PosTech.TechChallenge.Contacts.Infra.Context;
 
 public class AplicationDbContext : DbContext
 {
-    private readonly string _connectionString;
 
-    public AplicationDbContext()
+    public AplicationDbContext(DbContextOptions<AplicationDbContext> options) : base(options)
     {
-        IConfiguration configuration = new ConfigurationBuilder()
-            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-            .AddJsonFile("appsettings.json")
-            .Build();
-
-        _connectionString = configuration.GetConnectionString("DefaultConnection")!;
     }
-
-    public AplicationDbContext(string connectionString)
-    {
-        _connectionString = connectionString;
-    }
-
-    public DbSet<Contact> Contact { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -100,11 +86,5 @@ public class AplicationDbContext : DbContext
         ]);
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            optionsBuilder.UseSqlServer(_connectionString);
-        }
-    }
+    public DbSet<Contact> Contact { get; set; }
 }

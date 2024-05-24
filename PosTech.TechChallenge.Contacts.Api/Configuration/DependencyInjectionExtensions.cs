@@ -1,7 +1,7 @@
 ﻿using PosTech.TechChallenge.Contacts.Application;
 using PosTech.TechChallenge.Contacts.Infra;
 
-namespace PosTech.TechChallenge.Contacts.Api;
+namespace PosTech.TechChallenge.Contacts.Api.Configuration;
 
 public static class DependencyInjectionExtensions
 {
@@ -11,7 +11,6 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IUpdateContactUseCase, UpdateContactUseCase>();
         services.AddScoped<IGetContactByDDDUseCase, GetContactByDDDUseCase>();
         services.AddScoped<IDeleteContactUseCase, DeleteContactUseCase>();
-        services.AddScoped<IContactRepository, ContactRepository>();
 
         return services;
     }

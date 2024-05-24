@@ -31,4 +31,8 @@
     <ProjectReference Include="..\PosTech.TechChallenge.Contacts.Infra\PosTech.TechChallenge.Contacts.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Configuration/" />
+  </ItemGroup>
+
 </Project>
