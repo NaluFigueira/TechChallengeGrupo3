@@ -38,6 +38,7 @@ Testes:
 - XUnit
 - Bogus
 - Moq
+- Microsoft.AspNetCore.Mvc.Testing
 
 ## Como executar o projeto localmente
 
