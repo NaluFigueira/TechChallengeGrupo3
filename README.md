@@ -32,6 +32,7 @@ Desenvolvimento:
 - FluentValidation
 - OpenAPI
 - EntityFrameworkCore
+- ILogger
 
 Testes:
 
@@ -39,6 +40,7 @@ Testes:
 - Bogus
 - Moq
 - Microsoft.AspNetCore.Mvc.Testing
+- FluentAssertions
 
 ## Como executar o projeto localmente
 
