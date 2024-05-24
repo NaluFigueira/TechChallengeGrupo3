@@ -39,6 +39,7 @@ Testes:
 - XUnit
 - Bogus
 - Moq
+- Microsoft.AspNetCore.Mvc.Testing
 - FluentAssertions
 
 ## Como executar o projeto localmente
@@ -50,19 +51,17 @@ Testes:
 ### Instruções
 
 1. Baixar o projeto localmente.
-2. No arquivo `docker-compose.yml` alterar os campos `<your_password>` para a senha que gostaria de colocar para o servidor do SQL Server. O acesso ao servidor é feito com o user padrão SA. É possível inserir outros usuários neste mesmo arquivo, caso seja necessário.
-3. No arquivo `appsettings.json` alterar o campo `DefaultConnection.Password` para a mesma senha inserida no passo 2. Caso tenha sido inserido um novo usuário, é preciso alterar a chave em `DefaultConnection.User`.
-4. Na raiz do projeto executar o comando:
+2. Na raiz do projeto executar o comando:
 
 ```bash
 docker-compose build
 ```
 
-4. E, em seguida:
+3. E, em seguida:
 
 ```bash
 docker-compose up
 ```
 
-5. Acessar a url http://localhost:8080/swagger/index.html para ter acesso a inteface do Swagger e fazer requisições.
-6. Para encerrar a aplicação, basta cancelar o comando executado em 4.
+4. Acessar a url http://localhost:8080/swagger/index.html para ter acesso a inteface do Swagger e fazer requisições.
+5. Para encerrar a aplicação, basta cancelar o comando executado em 4.
