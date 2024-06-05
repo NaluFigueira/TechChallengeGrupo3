@@ -21,6 +21,7 @@
     <PackageReference Include="Moq" Version="4.20.70" />
     <PackageReference Include="System.Net.Http.Formatting.Extension" Version="5.2.3" />
     <PackageReference Include="xunit" Version="2.5.3" />
+    <PackageReference Include="Xunit.Gherkin.Quick" Version="4.5.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
   </ItemGroup>
 
@@ -39,4 +40,9 @@
     <Folder Include="Builders/Unit/" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="Integration\Features\**\*.feature">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

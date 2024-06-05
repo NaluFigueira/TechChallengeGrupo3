@@ -20,4 +20,20 @@ public class BaseIntegrationTests : IClassFixture<WebApplicationFactory<Startup>
         _dbContext = scope.ServiceProvider.GetRequiredService<AplicationDbContext>();
         _contactRepository = scope.ServiceProvider.GetService<IContactRepository>();
     }
+
+    public HttpClient GetHttpClient()
+    {
+        return _httpClient;
+    }
+
+    public AplicationDbContext GetAplicationDbContext()
+    {
+        return _dbContext;
+    }
+
+    public IContactRepository GetContactRepository()
+    {
+        return _contactRepository;
+    }
+
 }
