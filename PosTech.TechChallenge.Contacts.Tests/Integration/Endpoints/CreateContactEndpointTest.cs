@@ -26,6 +26,11 @@ public class CreateContactEndpointTest(WebApplicationFactory<Startup> factory) :
         var createdContact = _dbContext.Contact.FirstOrDefault(c => c.Name == contact.Name);
         _dbContext.Contact.Remove(createdContact!);
         await _dbContext.SaveChangesAsync();
+
         result.StatusCode.Should().Be(HttpStatusCode.Created);
+        createdContact.Should().NotBeNull();
+        createdContact?.PhoneNumber.Should().Be(contact.PhoneNumber);
+        createdContact?.Email.Should().Be(contact.Email);
+        createdContact?.DDD.Should().Be(contact.DDD);
     }
 }

@@ -33,8 +33,17 @@ public class UpdateContactEndpointTest(WebApplicationFactory<Startup> factory) :
                                                         ));
 
         //Assert
+        var updatedContact = await _contactRepository.GetContactByIdAsync(contact.Id);
+
         _dbContext.Contact.Remove(contact);
         await _dbContext.SaveChangesAsync();
+
         result.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        updatedContact.Should().NotBeNull();
+        updatedContact?.Name.Should().Be("NewName");
+        updatedContact?.Email.Should().Be(contact.Email);
+        updatedContact?.DDD.Should().Be(contact.DDD);
+        updatedContact?.PhoneNumber.Should().Be(contact.PhoneNumber);
+
     }
 }

@@ -25,5 +25,7 @@ public class DeleteContactEndpointTest(WebApplicationFactory<Startup> factory) :
 
         //Assert
         result.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        var foundContact = await _contactRepository.GetContactByIdAsync(contact.Id);
+        foundContact.Should().BeNull();
     }
 }
