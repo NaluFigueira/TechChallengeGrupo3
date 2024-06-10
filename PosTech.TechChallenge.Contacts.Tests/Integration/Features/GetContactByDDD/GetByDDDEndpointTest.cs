@@ -26,8 +26,9 @@ public sealed class GetContactByDDDFeatureTest : Feature
 
 
     [Given(@"a user who has access to the get by ddd endpoint")]
-    public static void GivenAUserWhoHasAccessToTheGetByDDDEndpoint()
+    public async Task GivenAUserWhoHasAccessToTheGetByDDDEndpoint()
     {
+        await _base.SetUserTokenInHeaders();
     }
 
     [And(@"user has two contacts with ddd 11 and one with ddd 18")]
@@ -51,6 +52,7 @@ public sealed class GetContactByDDDFeatureTest : Feature
     [Then(@"the API should return only contacts with ddd 11")]
     public async Task ThenTheAPIShouldReturnOnlyContactsWithDdd11()
     {
+        await _base.ClearUser();
         var dbContext = _base.GetAplicationDbContext();
         dbContext.RemoveRange(_contactData);
         await dbContext.SaveChangesAsync();

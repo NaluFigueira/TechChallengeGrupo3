@@ -2,7 +2,6 @@
 
 namespace PosTech.TechChallenge.Contacts.Application;
 
-
 public interface IUseCase<TRequest, TResponse>
 {
     public Task<Result<TResponse>> ExecuteAsync(TRequest request);

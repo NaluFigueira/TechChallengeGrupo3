@@ -29,8 +29,9 @@ public sealed class UpdateContactFeatureTest : Feature
 
 
     [Given(@"a user who has access to the update endpoint")]
-    public void GivenAUserWhoHasAccessToTheUpdateEndpoint()
+    public async Task GivenAUserWhoHasAccessToTheUpdateEndpoint()
     {
+        await _base.SetUserTokenInHeaders();
     }
 
     [When(@"they update a contact name to NewName")]
@@ -55,6 +56,7 @@ public sealed class UpdateContactFeatureTest : Feature
     [Then(@"the API should update contact correctly")]
     public async Task ThenTheAPIShouldUpdateContactCorrectly()
     {
+        await _base.ClearUser();
         var updatedContact = await _base.GetContactRepository().GetContactByIdAsync(_contact.Id);
         var dbContext = _base.GetAplicationDbContext();
 

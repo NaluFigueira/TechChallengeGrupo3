@@ -20,5 +20,7 @@ var app = builder.Build();
 startup.Configure(app);
 app.ApplyMigrations();
 app.MapContactEndpoints();
+app.MapUserEndpoints();
+app.MapAuthenticationEndpoints();
 
 app.Run();

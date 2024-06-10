@@ -1,5 +1,4 @@
 ﻿
-using System.Net;
 using System.Text.Json;
 
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +40,9 @@ public static class ContactEndpoints
             })
             .Produces<ICollection<Contact>>(StatusCodes.Status200OK)
             .Produces<string>(StatusCodes.Status400BadRequest)
-            .Produces<string>(StatusCodes.Status500InternalServerError);
+            .Produces<string>(StatusCodes.Status401Unauthorized)
+            .Produces<string>(StatusCodes.Status500InternalServerError)
+            .RequireAuthorization();
 
         app.MapPost("/contacts", ([FromBody] CreateContactDTO dto, ICreateContactUseCase useCase) => CreateContact(dto, useCase))
             .WithOpenApi(operation => new(operation)
@@ -61,7 +62,9 @@ public static class ContactEndpoints
             })
             .Produces(StatusCodes.Status201Created)
             .Produces<string>(StatusCodes.Status400BadRequest)
-            .Produces<string>(StatusCodes.Status500InternalServerError);
+            .Produces<string>(StatusCodes.Status401Unauthorized)
+            .Produces<string>(StatusCodes.Status500InternalServerError)
+            .RequireAuthorization();
 
         app.MapPatch("/contacts", ([FromBody] UpdateContactDTO dto, IUpdateContactUseCase useCase) => UpdateContact(dto, useCase))
             .WithOpenApi(operation => new(operation)
@@ -81,7 +84,9 @@ public static class ContactEndpoints
             })
             .Produces(StatusCodes.Status204NoContent)
             .Produces<string>(StatusCodes.Status400BadRequest)
-            .Produces<string>(StatusCodes.Status500InternalServerError);
+            .Produces<string>(StatusCodes.Status401Unauthorized)
+            .Produces<string>(StatusCodes.Status500InternalServerError)
+            .RequireAuthorization();
 
         app.MapDelete("/contacts/{id}", ([FromRoute] Guid id, IDeleteContactUseCase useCase) => DeleteContact(id, useCase))
             .WithOpenApi(operation => new(operation)
@@ -102,12 +107,14 @@ public static class ContactEndpoints
             })
             .Produces(StatusCodes.Status204NoContent)
             .Produces<string>(StatusCodes.Status400BadRequest)
-            .Produces<string>(StatusCodes.Status500InternalServerError);
+            .Produces<string>(StatusCodes.Status401Unauthorized)
+            .Produces<string>(StatusCodes.Status500InternalServerError)
+            .RequireAuthorization();
     }
 
     private static async Task<IResult> CreateContact(CreateContactDTO dto, ICreateContactUseCase createContactUseCase)
     {
-        return await CallUseCase(async () =>
+        return await EndpointUtils.CallUseCase(async () =>
         {
             var result = await createContactUseCase.ExecuteAsync(dto);
             return result.IsSuccess ? Results.Created() : Results.BadRequest(string.Join(Environment.NewLine, result.Errors));
@@ -116,7 +123,7 @@ public static class ContactEndpoints
 
     private static async Task<IResult> GetContactByDDD(DDDBrazil ddd, IGetContactByDDDUseCase getContactByDDDUseCase)
     {
-        return await CallUseCase(async () =>
+        return await EndpointUtils.CallUseCase(async () =>
         {
             var result = await getContactByDDDUseCase.ExecuteAsync(new GetContactByDddDTO(ddd));
             return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(string.Join(Environment.NewLine, result.Errors));
@@ -125,7 +132,7 @@ public static class ContactEndpoints
 
     private static async Task<IResult> UpdateContact(UpdateContactDTO dto, IUpdateContactUseCase updateContactUseCase)
     {
-        return await CallUseCase(async () =>
+        return await EndpointUtils.CallUseCase(async () =>
         {
             var result = await updateContactUseCase.ExecuteAsync(dto);
             return result.IsSuccess ? Results.NoContent() : Results.BadRequest(string.Join(Environment.NewLine, result.Errors));
@@ -134,22 +141,10 @@ public static class ContactEndpoints
 
     private static async Task<IResult> DeleteContact(Guid id, IDeleteContactUseCase deleteContactUseCase)
     {
-        return await CallUseCase(async () =>
+        return await EndpointUtils.CallUseCase(async () =>
         {
             var result = await deleteContactUseCase.ExecuteAsync(new DeleteContactDTO(id));
             return result.IsSuccess ? Results.NoContent() : Results.BadRequest(string.Join(Environment.NewLine, result.Errors));
         });
-    }
-
-    private static async Task<IResult> CallUseCase(Func<Task<IResult>> func)
-    {
-        try
-        {
-            return await func();
-        }
-        catch (Exception ex)
-        {
-            return Results.Problem(statusCode: (int?)HttpStatusCode.InternalServerError, detail: ex.Message);
-        }
     }
 }
