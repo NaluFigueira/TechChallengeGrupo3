@@ -45,4 +45,9 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Integration/Features/AuthenticateUser/AuthenticateUser.feature" />
+    <None Remove="Integration/Features/CreateUser/CreateUser.feature" />
+  </ItemGroup>
 </Project>

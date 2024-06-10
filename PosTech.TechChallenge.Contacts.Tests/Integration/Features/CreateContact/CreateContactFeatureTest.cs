@@ -27,8 +27,9 @@ public sealed class CreateContactFeatureTest : Feature
 
 
     [Given(@"a user who has access to the creation endpoint")]
-    public void GivenAUserWhoHasAccessToTheCreationEndpoint()
+    public async Task GivenAUserWhoHasAccessToTheCreationEndpoint()
     {
+        await _base.SetUserTokenInHeaders();
     }
 
     [When(@"they fill in valid contact information")]
@@ -47,6 +48,7 @@ public sealed class CreateContactFeatureTest : Feature
     [Then(@"the API should add new contact to list")]
     public async Task ThenTheAPIShouldAddNewContactToList()
     {
+        await _base.ClearUser();
         var dbContext = _base.GetAplicationDbContext();
         var createdContact = dbContext.Contact.FirstOrDefault(c => c.Name == _contactData.Name);
         dbContext.Contact.Remove(createdContact!);
