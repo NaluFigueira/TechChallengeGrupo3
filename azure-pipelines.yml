@@ -8,16 +8,6 @@ variables:
   releaseBranchName: 'release'
   dotnetSdkVersion: '8.x' 
 
-parameters:
-  - name: ambiente
-    displayName: Escolha um ambiente
-    type: string
-    default: 'dev'
-    values: 
-      - 'dev'
-      - 'stage'
-      - 'prod'
-
 stages: 
   - stage: 'Build'
     displayName: 'Build'
