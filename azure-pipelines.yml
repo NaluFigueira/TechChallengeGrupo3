@@ -49,3 +49,65 @@ stages:
         - publish: '$(Build.ArtifactStagingDirectory)'
           artifact: drop
 
+  - stage: 'Development'
+    displayName: 'Deploy to the Development environment'
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+      - deployment: Deploy
+        pool:
+          name: Default
+        environment: development
+        #variables:
+          #- group: ''
+        strategy: 
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: drop
+                - script: |
+                    echo Deployment to Development successful!
+                  displayName: 'Deploy to Development'
+  
+  - stage: 'Staging'
+    displayName: 'Deploy to the Staging environment'
+    dependsOn: Development
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/stage')
+    jobs:
+      - deployment: Deploy
+        pool:
+          name: Default
+        environment: staging
+        #variables:
+          #- group: ''
+        strategy: 
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: drop
+                - script: |
+                    echo Deployment to Staging successful!
+                  displayName: 'Deploy to Staging'
+
+  - stage: 'Production'
+    displayName: 'Deploy to the Production environment'
+    dependsOn: Staging
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+    jobs:
+      - deployment: Deploy
+        pool:
+          name: Default
+        environment: production
+        #variables:
+          #- group: ''
+        strategy: 
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: drop
+                - script: |
+                    echo Deployment to Production successful!
+                  displayName: 'Deploy to Production'
