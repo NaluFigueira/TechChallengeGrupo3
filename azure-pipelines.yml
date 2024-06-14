@@ -6,7 +6,7 @@ pr:
 variables:
   buildConfiguration: 'Release'
   releaseBranchName: 'release'
-  dotnetSdkVersion: '8.x' 
+  dotnetSdkVersion: '8.0.202' 
 
 stages: 
   - stage: 'Build'
