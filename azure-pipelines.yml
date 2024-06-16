@@ -73,7 +73,7 @@ stages:
               dockerComposeFile: '**/docker-compose.yml'
               action: 'Run a Docker Compose command'
               dockerComposeCommand: 'up'
-              arguments: '-d --no-deps --build -p techchallenge'
+              arguments: '-d --no-deps --build'
       - job: RunTests
         dependsOn: StartMultiContainer
         condition: succeeded()
