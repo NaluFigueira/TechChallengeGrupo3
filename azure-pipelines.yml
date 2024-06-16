@@ -17,51 +17,51 @@ variables:
 pool:
   name: Default
 
-#resources:
-#- repo: self
+resources:
+- repo: self
 
 stages: 
-  # stage: 'Build'
-#   displayName: 'Build'
-#   jobs:
-#   - job: 'Build'
-#     displayName: 'Build Job'
-#     steps:
-#       - task: UseDotNet@2
-#         displayName: 'Use .NET SDK $(dotnetSdkVersion)'
-#         inputs:
-#           packageType: 'sdk'
-#           version: '$(dotnetSdkVersion)'
-#
-#       - task: DotNetCoreCLI@2
-#         displayName: 'Restore project'
-#         inputs:
-#           command: 'restore'
-#           projects: '**/*.csproj'
-#
-#       - task: DotNetCoreCLI@2
-#         displayName: 'Build project'
-#         inputs:
-#           command: 'build'
-#           arguments: '--no-restore --configuration $(buildConfiguration)'
-#           projects: '**/*.csproj'
-#
-#       - task: DotNetCoreCLI@2
-#         displayName: 'Publish project'
-#         inputs:
-#           command: 'publish'
-#           projects: '**/*.csproj'
-#           publishWebProjects: false
-#           arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
-#           zipAfterPublish: true
-#
-#       - publish: '$(Build.ArtifactStagingDirectory)'
-#         artifact: drop
+  - stage: 'Build'
+    displayName: 'Build'
+    jobs:
+    - job: 'Build'
+      displayName: 'Build Job'
+      steps:
+        - task: UseDotNet@2
+          displayName: 'Use .NET SDK $(dotnetSdkVersion)'
+          inputs:
+            packageType: 'sdk'
+            version: '$(dotnetSdkVersion)'
+
+        - task: DotNetCoreCLI@2
+          displayName: 'Restore project'
+          inputs:
+            command: 'restore'
+            projects: '**/*.csproj'
+
+        - task: DotNetCoreCLI@2
+          displayName: 'Build project'
+          inputs:
+            command: 'build'
+            arguments: '--no-restore --configuration $(buildConfiguration)'
+            projects: '**/*.csproj'
+
+        - task: DotNetCoreCLI@2
+          displayName: 'Publish project'
+          inputs:
+            command: 'publish'
+            projects: '**/*.csproj'
+            publishWebProjects: false
+            arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+            zipAfterPublish: true
+
+        - publish: '$(Build.ArtifactStagingDirectory)'
+          artifact: drop
 
   - stage: 'Tests'
     displayName: Run unit and integration tests
-    #dependsOn: Build
-    #condition: succeeded()
+    dependsOn: Build
+    condition: succeeded()
     jobs:
       - job: StartMultiContainer
         displayName: Build and start docker-compose
