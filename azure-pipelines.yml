@@ -68,20 +68,12 @@ stages:
         displayName: Build and start docker-compose
         steps:
           - task: DockerCompose@0
-            displayName: Build
+            displayName: Run build and start
             inputs:
-              dockerComposeFile: '**/docker-compose.yml'
-              action: 'Run a Docker Compose command'
-              arguments: '-p techchallenge build'
-          - task: DockerCompose@0
-            displayName: Up
-            inputs:
-              containerregistrytype: 'Azure Container Registry'
-              azureSubscription: 'Azure for Students(fda58ff8-485e-45aa-a64a-21c06afd7d57)'
-              azureContainerRegistry: '{"loginServer":"techchallengegrupo3acr.azurecr.io", "id" : "/subscriptions/fda58ff8-485e-45aa-a64a-21c06afd7d57/resourceGroups/TechChallenge/providers/Microsoft.ContainerRegistry/registries/TechChallengeGrupo3ACR"}'
               dockerComposeFile: '**/docker-compose.yml'
               action: 'Run a Docker Compose command'
               dockerComposeCommand: 'up'
+              arguments: '-d --no-deps --build -p techchallenge'
       - job: RunTests
         dependsOn: StartMultiContainer
         condition: succeeded()
