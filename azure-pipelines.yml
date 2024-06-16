@@ -67,10 +67,6 @@ stages:
       - job: StartMultiContainer
         displayName: Build and start docker-compose
         steps:
-          - script: |
-              echo "Setting Docker Compose project name"
-              export COMPOSE_PROJECT_NAME=$(COMPOSE_PROJECT_NAME)
-            displayName: 'Set Docker Compose Project Name'
           - task: DockerCompose@0
             displayName: Build
             inputs:
@@ -80,6 +76,7 @@ stages:
               dockerComposeFile: '**/docker-compose.yml'
               action: 'Run a Docker Compose command'
               dockerComposeCommand: 'build'
+              arguments: '-p techchallenge'
           - task: DockerCompose@0
             displayName: Up
             inputs:
