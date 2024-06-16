@@ -73,9 +73,6 @@ stages:
               azureSubscription: 'Azure for Students(fda58ff8-485e-45aa-a64a-21c06afd7d57)'
               azureContainerRegistry: '{"loginServer":"techchallengegrupo3acr.azurecr.io", "id" : "/subscriptions/fda58ff8-485e-45aa-a64a-21c06afd7d57/resourceGroups/TechChallenge/providers/Microsoft.ContainerRegistry/registries/TechChallengeGrupo3ACR"}'
               dockerComposeFile: '**/docker-compose.yml'
-              additionalDockerComposeFiles: |
-                **/Dockerfile
-                **/init/init.sql
               action: 'Run a Docker Compose command'
               dockerComposeCommand: 'build'
           - task: DockerCompose@0
