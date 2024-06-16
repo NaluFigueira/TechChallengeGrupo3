@@ -91,6 +91,8 @@ stages:
               action: 'Run a Docker Compose command'
               dockerComposeCommand: 'up'
       - job: RunTests
+        dependsOn: StartMultiContainer
+        condition: succeeded()
         displayName: Run unit and integration tests
         steps:
         - task: DotNetCoreCLI@2
