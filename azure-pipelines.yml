@@ -69,6 +69,7 @@ stages:
           - task: DockerCompose@0
             displayName: Run build and start
             inputs:
+              projectName: 'techchallenge'
               dockerComposeFile: '**/docker-compose.yml'
               action: 'Run a Docker Compose command'
               dockerComposeCommand: 'up'
