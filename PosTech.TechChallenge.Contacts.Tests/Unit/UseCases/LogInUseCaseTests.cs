@@ -9,7 +9,7 @@ using Moq;
 using PosTech.TechChallenge.Contacts.Application;
 using PosTech.TechChallenge.Contacts.Domain;
 
-namespace PosTech.TechChallenge.Contacts.Tests;
+namespace PosTech.TechChallenge.Contacts.Tests.Unit;
 
 public class LogInUseCaseTests
 {
