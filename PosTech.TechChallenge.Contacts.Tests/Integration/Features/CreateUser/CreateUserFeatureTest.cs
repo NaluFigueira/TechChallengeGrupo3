@@ -8,7 +8,7 @@ using PosTech.TechChallenge.Contacts.Api;
 
 using Xunit.Gherkin.Quick;
 
-namespace PosTech.TechChallenge.Contacts.Tests;
+namespace PosTech.TechChallenge.Contacts.Tests.Integration;
 
 [FeatureFile("Integration/Features/CreateUser/CreateUser.feature")]
 public class CreateUserFeatureTest : Feature

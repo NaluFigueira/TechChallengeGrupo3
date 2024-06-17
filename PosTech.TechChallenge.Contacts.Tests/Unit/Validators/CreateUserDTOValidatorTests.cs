@@ -2,7 +2,7 @@
 
 using PosTech.TechChallenge.Contacts.Application;
 
-namespace PosTech.TechChallenge.Contacts.Tests;
+namespace PosTech.TechChallenge.Contacts.Tests.Unit;
 
 public class CreateUserDTOValidatorTests
 {

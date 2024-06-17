@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using FluentAssertions;
 
 
-namespace PosTech.TechChallenge.Contacts.Tests;
+namespace PosTech.TechChallenge.Contacts.Tests.Unit;
 
 public class CreateContactUseCaseTests
 {

@@ -10,7 +10,7 @@ A aplicação deve realizar o cadastro de contatos regionais, podendo:
 
 ## Solução proposta
 
-![Tech Challenge - Fase 1_page-0001](https://github.com/NaluFigueira/TechChallenge1Grupo3/assets/24214761/87745589-427d-44e7-a84a-4df1f4e6614c)
+![Tech Challenge - Fase 1_page-0001](https://github.com/NaluFigueira/TechChallenge1Grupo3/assets/24214761/79edde82-5b9e-4244-9926-faf271fef442)
 
 ### Validações dos campos
 
@@ -33,6 +33,9 @@ Desenvolvimento:
 - OpenAPI
 - EntityFrameworkCore
 - ILogger
+- Identity
+- JWT Bearer Token
+
 
 Testes:
 

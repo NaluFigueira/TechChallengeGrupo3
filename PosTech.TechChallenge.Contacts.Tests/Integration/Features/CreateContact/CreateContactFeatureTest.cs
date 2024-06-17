@@ -10,7 +10,7 @@ using PosTech.TechChallenge.Contacts.Domain;
 
 using Xunit.Gherkin.Quick;
 
-namespace PosTech.TechChallenge.Contacts.Tests;
+namespace PosTech.TechChallenge.Contacts.Tests.Integration;
 
 [FeatureFile("Integration/Features/CreateContact/CreateContact.feature")]
 public sealed class CreateContactFeatureTest : Feature
