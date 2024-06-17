@@ -90,7 +90,7 @@ stages:
   - stage: 'Push'
     displayName: Build and push image stage
     dependsOn: Tests
-    condition: succeeded()
+    condition: and(succeeded(), in(variables['Build.SourceBranch'], 'refs/heads/development', 'refs/heads/stage', 'refs/heads/main'))
     jobs:
     - job: BuildAndPush
       displayName: Build and push image job
@@ -108,7 +108,7 @@ stages:
   - stage: 'Development'
     displayName: 'Deploy to the Development environment'
     dependsOn: Push
-    condition: and(succeeded(), in(variables['Build.SourceBranch'], 'refs/heads/development', 'refs/heads/stage', 'refs/heads/main'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
     jobs:
       - deployment: Deploy
         environment: development
