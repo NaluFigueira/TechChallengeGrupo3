@@ -10,7 +10,7 @@ using PosTech.TechChallenge.Contacts.Application;
 using PosTech.TechChallenge.Contacts.Domain;
 using PosTech.TechChallenge.Contacts.Infra;
 
-namespace PosTech.TechChallenge.Contacts.Tests;
+namespace PosTech.TechChallenge.Contacts.Tests.Unit;
 
 public class GetContactByDDDUseCaseTests
 {

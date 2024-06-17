@@ -9,7 +9,7 @@ using PosTech.TechChallenge.Contacts.Domain;
 
 using Xunit.Gherkin.Quick;
 
-namespace PosTech.TechChallenge.Contacts.Tests;
+namespace PosTech.TechChallenge.Contacts.Tests.Integration;
 
 [FeatureFile("Integration/Features/GetContactByDDD/GetContactByDDD.feature")]
 public sealed class GetContactByDDDFeatureTest : Feature
