@@ -6,7 +6,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 
 
-namespace PosTech.TechChallenge.Contacts.Tests;
+namespace PosTech.TechChallenge.Contacts.Tests.Unit;
 
 public class CreateUserUseCaseTests
 {

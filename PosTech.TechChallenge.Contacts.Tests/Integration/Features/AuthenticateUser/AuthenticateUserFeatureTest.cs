@@ -9,7 +9,7 @@ using PosTech.TechChallenge.Contacts.Application;
 
 using Xunit.Gherkin.Quick;
 
-namespace PosTech.TechChallenge.Contacts.Tests;
+namespace PosTech.TechChallenge.Contacts.Tests.Integration;
 
 [FeatureFile("Integration/Features/AuthenticateUser/AuthenticateUser.feature")]
 public class AuthenticateUserFeatureTest : Feature
