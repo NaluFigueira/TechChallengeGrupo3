@@ -108,7 +108,7 @@ stages:
   - stage: 'Development'
     displayName: 'Deploy to the Development environment'
     dependsOn: Push
-    condition: succeeded()
+    condition: and(succeeded(), in(variables['Build.SourceBranch'], 'refs/heads/development', 'refs/heads/stage', 'refs/heads/main'))
     jobs:
       - deployment: Deploy
         environment: development
