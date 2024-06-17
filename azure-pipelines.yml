@@ -21,51 +21,57 @@ resources:
 - repo: self
 
 stages: 
-  - stage: 'Build'
-    displayName: 'Build'
-    jobs:
-    - job: 'Build'
-      displayName: 'Build Job'
-      steps:
-        - task: UseDotNet@2
-          displayName: 'Use .NET SDK $(dotnetSdkVersion)'
-          inputs:
-            packageType: 'sdk'
-            version: '$(dotnetSdkVersion)'
-
-        - task: DotNetCoreCLI@2
-          displayName: 'Restore project'
-          inputs:
-            command: 'restore'
-            projects: '**/*.csproj'
-
-        - task: DotNetCoreCLI@2
-          displayName: 'Build project'
-          inputs:
-            command: 'build'
-            arguments: '--no-restore --configuration $(buildConfiguration)'
-            projects: '**/*.csproj'
-
-        - task: DotNetCoreCLI@2
-          displayName: 'Publish project'
-          inputs:
-            command: 'publish'
-            projects: '**/*.csproj'
-            publishWebProjects: false
-            arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
-            zipAfterPublish: true
-
-        - publish: '$(Build.ArtifactStagingDirectory)'
-          artifact: drop
+#  - stage: 'Build'
+#    displayName: 'Build'
+#    jobs:
+#    - job: 'Build'
+#      displayName: 'Build Job'
+#      steps:
+#        - task: UseDotNet@2
+#          displayName: 'Use .NET SDK $(dotnetSdkVersion)'
+#          inputs:
+#            packageType: 'sdk'
+#            version: '$(dotnetSdkVersion)'
+#
+#        - task: DotNetCoreCLI@2
+#          displayName: 'Restore project'
+#          inputs:
+#            command: 'restore'
+#            projects: '**/*.csproj'
+#
+#        - task: DotNetCoreCLI@2
+#          displayName: 'Build project'
+#          inputs:
+#            command: 'build'
+#            arguments: '--no-restore --configuration $(buildConfiguration)'
+#            projects: '**/*.csproj'
+#
+#        - task: DotNetCoreCLI@2
+#          displayName: 'Publish project'
+#          inputs:
+#            command: 'publish'
+#            projects: '**/*.csproj'
+#            publishWebProjects: false
+#            arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+#            zipAfterPublish: true
+#
+#        - publish: '$(Build.ArtifactStagingDirectory)'
+#          artifact: drop
 
   - stage: 'Tests'
     displayName: Run unit and integration tests
-    dependsOn: Build
-    condition: succeeded()
+    #dependsOn: Build
+    #condition: succeeded()
     jobs:
       - job: StartMultiContainer
         displayName: Build and start docker-compose
         steps:
+          - task: DotNetCoreCLI@2
+            displayName: Run unit tests
+            inputs:
+              command: 'test'
+              arguments: '--filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Unit'
+              projects: '**/PosTech.TechChallenge.Contacts.Tests/*.csproj'
           - task: DockerCompose@0
             displayName: Run build and start
             inputs:
@@ -74,89 +80,86 @@ stages:
               action: 'Run a Docker Compose command'
               dockerComposeCommand: 'up'
               arguments: '-d --no-deps --build'
-      - job: RunTests
-        dependsOn: StartMultiContainer
-        condition: succeeded()
-        displayName: Run unit and integration tests
-        steps:
-        - task: DotNetCoreCLI@2
-          inputs:
-            command: 'test'
-            projects: '**/PosTech.TechChallenge.Contacts.Tests/*.csproj'
+          - task: DotNetCoreCLI@2
+            displayName: Run integration tests
+            inputs:
+              command: 'test'
+              arguments: '--filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Integration'
+              projects: '**/PosTech.TechChallenge.Contacts.Tests/*.csproj'
 
-  - stage: 'Push'
-    displayName: Build and push image stage
-    dependsOn: Tests
-    condition: succeeded()
-    jobs:
-    - job: BuildAndPush
-      displayName: Build and push image job
-      pool:
-        vmImage: $(vmImageName)
-      steps:
-      - task: Docker@2
-        displayName: Build and push service image to container registry
-        inputs:
-          command: buildAndPush
-          repository: $(imageRepository)
-          dockerfile: $(dockerfilePath)
-          containerRegistry: $(dockerRegistryServiceConnection)
-          tags: |
-            $(tag)
-
-  - stage: 'Development'
-    displayName: 'Deploy to the Development environment'
-    dependsOn: Push
-    condition: succeeded()
-    jobs:
-      - deployment: Deploy
-        environment: development
-        #variables:
-          #- group: ''
-        strategy: 
-          runOnce:
-            deploy:
-              steps:
-                - download: current
-                  artifact: drop
-                - script: |
-                    echo Deployment to Development successful!
-                  displayName: 'Deploy to Development'
-  
-  - stage: 'Staging'
-    displayName: 'Deploy to the Staging environment'
-    dependsOn: Development
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/stage')
-    jobs:
-      - deployment: Deploy
-        environment: staging
-        #variables:
-          #- group: ''
-        strategy: 
-          runOnce:
-            deploy:
-              steps:
-                - download: current
-                  artifact: drop
-                - script: |
-                    echo Deployment to Staging successful!
-                  displayName: 'Deploy to Staging'
-
-  - stage: 'Production'
-    displayName: 'Deploy to the Production environment'
-    dependsOn: Staging
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
-    jobs:
-      - deployment: Deploy
-        environment: production
-        #variables:
-          #- group: ''
-        strategy: 
-          runOnce:
-            deploy:
-              steps:
-                - download: current
-                  artifact: drop
-                - script: |
-                    echo Deployment to Production successful!
-                  displayName: 'Deploy to Production'
+#  - stage: 'Push'
+#    displayName: Build and push image stage
+#    dependsOn: Tests
+#    condition: succeeded()
+#    jobs:
+#    - job: BuildAndPush
+#      displayName: Build and push image job
+#      pool:
+#        vmImage: $(vmImageName)
+#      steps:
+#      - task: Docker@2
+#        displayName: Build and push service image to container registry
+#        inputs:
+#          command: buildAndPush
+#          repository: $(imageRepository)
+#          dockerfile: $(dockerfilePath)
+#          containerRegistry: $(dockerRegistryServiceConnection)
+#          tags: |
+#            $(tag)
+#
+#  - stage: 'Development'
+#   displayName: 'Deploy to the Development environment'
+#   dependsOn: Push
+#   condition: succeeded()
+#   jobs:
+#     - deployment: Deploy
+#       environment: development
+#       #variables:
+#         #- group: ''
+#       strategy: 
+#         runOnce:
+#           deploy:
+#             steps:
+#               - download: current
+#                 artifact: drop
+#               - script: |
+#                   echo Deployment to Development successful!
+#                 displayName: 'Deploy to Development'
+#  
+#  - stage: 'Staging'
+#   displayName: 'Deploy to the Staging environment'
+#   dependsOn: Development
+#   condition: eq(variables['Build.SourceBranch'], 'refs/heads/stage')
+#   jobs:
+#     - deployment: Deploy
+#       environment: staging
+#       #variables:
+#         #- group: ''
+#       strategy: 
+#         runOnce:
+#           deploy:
+#             steps:
+#               - download: current
+#                 artifact: drop
+#               - script: |
+#                   echo Deployment to Staging successful!
+#                 displayName: 'Deploy to Staging'
+#
+#  - stage: 'Production'
+#   displayName: 'Deploy to the Production environment'
+#   dependsOn: Staging
+#   condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+#   jobs:
+#     - deployment: Deploy
+#       environment: production
+#       #variables:
+#         #- group: ''
+#       strategy: 
+#         runOnce:
+#           deploy:
+#             steps:
+#               - download: current
+#                 artifact: drop
+#               - script: |
+#                   echo Deployment to Production successful!
+#                 displayName: 'Deploy to Production'
