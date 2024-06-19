@@ -25,6 +25,7 @@ jobs:
         run: dotnet build --no-restore -c Release ./PosTech.TechChallenge.Contacts.Api/PosTech.TechChallenge.Contacts.Api.csproj
 
   test:
+    name: Run unit and integration tests
     needs: build
     runs-on: ubuntu-latest
 
@@ -33,7 +34,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Start Docker Compose
-        run: docker-compose -f **/docker-compose.yml up -d --no-deps --build
+        run: docker-compose -f ./docker-compose.yml up -d --no-deps --build
 
       - name: Run unit tests
         run: dotnet test --filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Unit **/PosTech.TechChallenge.Contacts.Tests/*.csproj
