@@ -14,9 +14,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Use .NET SDK 8.0.202
-        run: dotnet --version
-        env:
-          dotnetSdkVersion: '8.0.202'
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.202'
           
       - name: Restore project
         run: dotnet restore **/*.csproj
