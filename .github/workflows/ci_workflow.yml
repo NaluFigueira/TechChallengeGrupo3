@@ -22,7 +22,7 @@ jobs:
         run: dotnet restore ./PosTech.TechChallenge.Contacts.Api/PosTech.TechChallenge.Contacts.Api.csproj
 
       - name: Build project
-        run: dotnet build --no-restore --configuration ./PosTech.TechChallenge.Contacts.Api/PosTech.TechChallenge.Contacts.Api.csproj
+        run: dotnet build --no-restore -c Release ./PosTech.TechChallenge.Contacts.Api/PosTech.TechChallenge.Contacts.Api.csproj
 
   test:
     needs: build
