@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    name: Build project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Use .NET SDK 8.0.202
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.202'
+          
+      - name: Restore project
+        run: dotnet restore ./PosTech.TechChallenge.Contacts.Api/PosTech.TechChallenge.Contacts.Api.csproj
+
+      - name: Build project
+        run: dotnet build --no-restore -c Release ./PosTech.TechChallenge.Contacts.Api/PosTech.TechChallenge.Contacts.Api.csproj
+
+  test:
+    name: Run unit and integration tests
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Use .NET SDK 8.0.202
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.202'
+
+      - name: Run unit tests
+        run: dotnet test --filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Unit ./PosTech.TechChallenge.Contacts.Tests/PosTech.TechChallenge.Contacts.Tests.csproj
+
+      - name: Start Docker Compose
+        run: docker-compose -f ./docker-compose.yml up -d --no-deps --build
+    
+      - name: Run integration tests
+        run: dotnet test --filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Integration ./PosTech.TechChallenge.Contacts.Tests/PosTech.TechChallenge.Contacts.Tests.csproj
+
+      
