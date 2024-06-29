@@ -15,8 +15,8 @@ variables:
   vmImageName: "ubuntu-latest"
 
 pool:
-  name: Default 
-  #vmImage: $(vmImageName)
+  #name: Default
+  vmImage: $(vmImageName)
 
 resources:
   - repo: self
