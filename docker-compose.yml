@@ -1,7 +1,6 @@
-version: "3.3"
-
 volumes:
   sqlserver_data:
+  grafana-data:
 
 services:
   api:
@@ -12,6 +11,31 @@ services:
       - "8080:8080"
     depends_on:
       - sqlserver.configurator
+      - prometheus
+      - grafana
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./observability/grafana/provisioning:/etc/grafana/provisioning/
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
+      - GF_AUTH_BASIC_ENABLED=false
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_AUTH_DISABLE_SIGNOUT_MENU=true
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/contacts-api.json
+
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
@@ -33,6 +57,7 @@ services:
       retries: 10
       start_period: 10s
       timeout: 3s
+
   sqlserver.configurator:
     image: mcr.microsoft.com/mssql/server:2022-latest
     volumes:
