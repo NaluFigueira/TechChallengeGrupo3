@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - '*'
+      - "*"
 
 jobs:
   build:
@@ -13,11 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Use .NET SDK 8.0.202
+      - name: Use .NET SDK 8.0.303
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.202'
-          
+          dotnet-version: "8.0.303"
+
       - name: Restore project
         run: dotnet restore ./PosTech.TechChallenge.Contacts.Api/PosTech.TechChallenge.Contacts.Api.csproj
 
@@ -33,18 +33,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Use .NET SDK 8.0.202
+      - name: Use .NET SDK 8.0.303
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.202'
+          dotnet-version: "8.0.303"
 
       - name: Run unit tests
         run: dotnet test --filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Unit ./PosTech.TechChallenge.Contacts.Tests/PosTech.TechChallenge.Contacts.Tests.csproj
 
       - name: Start Docker Compose
         run: docker-compose -f ./docker-compose.yml up -d --no-deps --build
-    
+
       - name: Run integration tests
         run: dotnet test --filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Integration ./PosTech.TechChallenge.Contacts.Tests/PosTech.TechChallenge.Contacts.Tests.csproj
-
-      
