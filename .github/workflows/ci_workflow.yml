@@ -42,7 +42,7 @@ jobs:
         run: dotnet test --filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Unit ./PosTech.TechChallenge.Contacts.Tests/PosTech.TechChallenge.Contacts.Tests.csproj
 
       - name: Start Docker Compose
-        run: docker-compose -f ./docker-compose.yml up -d --no-deps --build
+        run: docker compose -f ./docker-compose.yml up -d --no-deps --build
 
       - name: Run integration tests
         run: dotnet test --filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Integration ./PosTech.TechChallenge.Contacts.Tests/PosTech.TechChallenge.Contacts.Tests.csproj
