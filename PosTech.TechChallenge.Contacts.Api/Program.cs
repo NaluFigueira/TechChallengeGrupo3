@@ -1,14 +1,28 @@
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+
 using PosTech.TechChallenge.Contacts.Api;
 using PosTech.TechChallenge.Contacts.Api.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services
+    .AddOpenTelemetry()
+    .WithMetrics(metrics => metrics
+        .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("Contacts.Api"))
+        .AddProcessInstrumentation()
+        .AddRuntimeInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddAspNetCoreInstrumentation()
+        .AddPrometheusExporter()
+    );
+
 var configurationBuilder = new ConfigurationBuilder();
 #if DEBUG
 Console.WriteLine("Mode=Debug");
 configurationBuilder
     .AddJsonFile("appsettings.Development.json");
 #else
-Console.WriteLine("Mode=Release"); 
+Console.WriteLine("Mode=Release");
 configurationBuilder
     .AddJsonFile("appsettings.json");
 #endif
@@ -18,6 +32,7 @@ startup.ConfigureServices(builder.Services);
 
 var app = builder.Build();
 startup.Configure(app);
+app.UseOpenTelemetryPrometheusScrapingEndpoint();
 app.ApplyMigrations();
 app.MapContactEndpoints();
 app.MapUserEndpoints();
