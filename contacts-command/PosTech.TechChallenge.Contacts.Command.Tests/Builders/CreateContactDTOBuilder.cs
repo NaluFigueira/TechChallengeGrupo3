@@ -1,7 +1,7 @@
 ﻿using Bogus;
 
-using PosTech.TechChallenge.Contacts.Application;
-using PosTech.TechChallenge.Contacts.Domain;
+using PosTech.TechChallenge.Contacts.Command.Application;
+using PosTech.TechChallenge.Contacts.Command.Domain;
 
 namespace PosTech.TechChallenge.Contacts.Tests;
 

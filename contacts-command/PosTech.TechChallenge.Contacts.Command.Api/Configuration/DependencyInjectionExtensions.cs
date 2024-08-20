@@ -1,6 +1,6 @@
-﻿using PosTech.TechChallenge.Contacts.Application;
+﻿using PosTech.TechChallenge.Contacts.Command.Application;
 
-namespace PosTech.TechChallenge.Contacts.Api.Configuration;
+namespace PosTech.TechChallenge.Contacts.Command.Api.Configuration;
 
 public static class DependencyInjectionExtensions
 {

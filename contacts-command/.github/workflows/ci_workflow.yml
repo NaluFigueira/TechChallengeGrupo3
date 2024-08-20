@@ -19,10 +19,10 @@ jobs:
           dotnet-version: "8.0.303"
 
       - name: Restore project
-        run: dotnet restore ./PosTech.TechChallenge.Contacts.Api/PosTech.TechChallenge.Contacts.Api.csproj
+        run: dotnet restore ./PosTech.TechChallenge.Contacts.Command.Api/PosTech.TechChallenge.Contacts.Command.Api.csproj
 
       - name: Build project
-        run: dotnet build --no-restore -c Release ./PosTech.TechChallenge.Contacts.Api/PosTech.TechChallenge.Contacts.Api.csproj
+        run: dotnet build --no-restore -c Release ./PosTech.TechChallenge.Contacts.Command.Api/PosTech.TechChallenge.Contacts.Command.Api.csproj
 
   test:
     name: Run unit and integration tests

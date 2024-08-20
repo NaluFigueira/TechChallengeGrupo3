@@ -1,8 +1,8 @@
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 
-using PosTech.TechChallenge.Contacts.Api;
-using PosTech.TechChallenge.Contacts.Api.Configuration;
+using PosTech.TechChallenge.Contacts.Command.Api;
+using PosTech.TechChallenge.Contacts.Command.Api.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services

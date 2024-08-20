@@ -2,10 +2,10 @@
 
 using Microsoft.Extensions.Logging;
 
-using PosTech.TechChallenge.Contacts.Domain;
-using PosTech.TechChallenge.Contacts.Infra;
+using PosTech.TechChallenge.Contacts.Command.Domain;
+using PosTech.TechChallenge.Contacts.Command.Infra;
 
-namespace PosTech.TechChallenge.Contacts.Application;
+namespace PosTech.TechChallenge.Contacts.Command.Application;
 
 public class UpdateContactUseCase(IContactRepository contactRepository, ILogger<UpdateContactUseCase> logger) : IUpdateContactUseCase
 {

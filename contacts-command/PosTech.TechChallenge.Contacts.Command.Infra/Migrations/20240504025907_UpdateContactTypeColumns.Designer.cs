@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PosTech.TechChallenge.Contacts.Infra.Context;
+using PosTech.TechChallenge.Contacts.Command.Infra.Context;
 
 #nullable disable
 
-namespace PosTech.TechChallenge.Contacts.Infra.Migrations
+namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations
 {
     [DbContext(typeof(AplicationDbContext))]
     [Migration("20240504025907_UpdateContactTypeColumns")]
@@ -25,7 +25,7 @@ namespace PosTech.TechChallenge.Contacts.Infra.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("PosTech.TechChallenge.Contacts.Domain.Contact", b =>
+            modelBuilder.Entity("PosTech.TechChallenge.Contacts.Command.Domain.Contact", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

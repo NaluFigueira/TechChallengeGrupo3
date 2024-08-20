@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\PosTech.TechChallenge.Contacts.Domain\PosTech.TechChallenge.Contacts.Domain.csproj" />
+    <ProjectReference Include="..\PosTech.TechChallenge.Contacts.Command.Domain\PosTech.TechChallenge.Contacts.Command.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

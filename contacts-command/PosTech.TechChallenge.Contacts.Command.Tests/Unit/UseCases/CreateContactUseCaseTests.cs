@@ -1,7 +1,7 @@
 ﻿using Moq;
-using PosTech.TechChallenge.Contacts.Domain;
-using PosTech.TechChallenge.Contacts.Infra;
-using PosTech.TechChallenge.Contacts.Application;
+using PosTech.TechChallenge.Contacts.Command.Domain;
+using PosTech.TechChallenge.Contacts.Command.Infra;
+using PosTech.TechChallenge.Contacts.Command.Application;
 using Microsoft.Extensions.Logging;
 using FluentAssertions;
 

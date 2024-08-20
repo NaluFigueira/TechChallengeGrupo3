@@ -2,9 +2,9 @@
 
 using Microsoft.Extensions.Logging;
 
-using PosTech.TechChallenge.Contacts.Infra;
+using PosTech.TechChallenge.Contacts.Command.Infra;
 
-namespace PosTech.TechChallenge.Contacts.Application;
+namespace PosTech.TechChallenge.Contacts.Command.Application;
 
 public class DeleteContactUseCase(IContactRepository contactRepository, ILogger<DeleteContactUseCase> logger) : IDeleteContactUseCase
 {

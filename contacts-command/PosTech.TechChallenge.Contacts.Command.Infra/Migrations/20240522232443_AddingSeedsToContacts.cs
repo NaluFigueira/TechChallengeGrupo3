@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace PosTech.TechChallenge.Contacts.Infra.Migrations
+namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations
 {
     /// <inheritdoc />
     public partial class AddingSeedsToContacts : Migration

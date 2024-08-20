@@ -2,10 +2,10 @@
 
 using Microsoft.Extensions.Logging;
 
-using PosTech.TechChallenge.Contacts.Domain;
+using PosTech.TechChallenge.Contacts.Command.Domain;
 using Microsoft.AspNetCore.Identity;
 
-namespace PosTech.TechChallenge.Contacts.Application;
+namespace PosTech.TechChallenge.Contacts.Command.Application;
 
 public class LogInUseCase(
     ILogger<LogInUseCase> logger,

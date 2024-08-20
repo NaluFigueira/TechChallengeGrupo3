@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace PosTech.TechChallenge.Contacts.Api;
+namespace PosTech.TechChallenge.Contacts.Command.Api;
 
 public class EndpointUtils
 {

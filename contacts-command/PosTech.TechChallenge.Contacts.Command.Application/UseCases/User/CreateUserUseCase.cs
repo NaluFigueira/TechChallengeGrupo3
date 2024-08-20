@@ -3,9 +3,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
-using PosTech.TechChallenge.Contacts.Domain;
+using PosTech.TechChallenge.Contacts.Command.Domain;
 
-namespace PosTech.TechChallenge.Contacts.Application;
+namespace PosTech.TechChallenge.Contacts.Command.Application;
 
 public class CreateUserUseCase(
     ILogger<CreateUserUseCase> logger,

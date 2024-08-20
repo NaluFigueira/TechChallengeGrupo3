@@ -3,10 +3,10 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 
-using PosTech.TechChallenge.Contacts.Api;
-using PosTech.TechChallenge.Contacts.Application;
-using PosTech.TechChallenge.Contacts.Infra;
-using PosTech.TechChallenge.Contacts.Infra.Context;
+using PosTech.TechChallenge.Contacts.Command.Api;
+using PosTech.TechChallenge.Contacts.Command.Application;
+using PosTech.TechChallenge.Contacts.Command.Infra;
+using PosTech.TechChallenge.Contacts.Command.Infra.Context;
 
 namespace PosTech.TechChallenge.Contacts.Tests;
 

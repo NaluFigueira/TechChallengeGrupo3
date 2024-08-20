@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-using PosTech.TechChallenge.Contacts.Domain;
+using PosTech.TechChallenge.Contacts.Command.Domain;
 
-namespace PosTech.TechChallenge.Contacts.Infra;
+namespace PosTech.TechChallenge.Contacts.Command.Infra;
 
 public class UserDbContext : IdentityDbContext<User>
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace PosTech.TechChallenge.Contacts.Infra.Migrations.UserDb
+namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations.UserDb
 {
     /// <inheritdoc />
     public partial class CreatingUserContext : Migration

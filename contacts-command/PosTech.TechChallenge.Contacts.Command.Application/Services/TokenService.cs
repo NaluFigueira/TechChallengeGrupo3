@@ -4,9 +4,9 @@ using System.Text;
 
 using Microsoft.IdentityModel.Tokens;
 
-using PosTech.TechChallenge.Contacts.Domain;
+using PosTech.TechChallenge.Contacts.Command.Domain;
 
-namespace PosTech.TechChallenge.Contacts.Application;
+namespace PosTech.TechChallenge.Contacts.Command.Application;
 
 public class TokenService : ITokenService
 {

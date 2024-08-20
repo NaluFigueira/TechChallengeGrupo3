@@ -6,14 +6,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 
-using PosTech.TechChallenge.Contacts.Api.Configuration;
-using PosTech.TechChallenge.Contacts.Application;
-using PosTech.TechChallenge.Contacts.Domain;
-using PosTech.TechChallenge.Contacts.Infra;
+using PosTech.TechChallenge.Contacts.Command.Api.Configuration;
+using PosTech.TechChallenge.Contacts.Command.Application;
+using PosTech.TechChallenge.Contacts.Command.Domain;
+using PosTech.TechChallenge.Contacts.Command.Infra;
 
-using PosTech.TechChallenge.Contacts.Infra.Context;
+using PosTech.TechChallenge.Contacts.Command.Infra.Context;
 
-namespace PosTech.TechChallenge.Contacts.Api;
+namespace PosTech.TechChallenge.Contacts.Command.Api;
 public class Startup
 {
     public Startup(IConfiguration configuration)

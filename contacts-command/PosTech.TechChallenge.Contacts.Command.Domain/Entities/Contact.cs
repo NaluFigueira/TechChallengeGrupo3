@@ -1,4 +1,4 @@
-﻿namespace PosTech.TechChallenge.Contacts.Domain;
+﻿namespace PosTech.TechChallenge.Contacts.Command.Domain;
 
 public class Contact
 {

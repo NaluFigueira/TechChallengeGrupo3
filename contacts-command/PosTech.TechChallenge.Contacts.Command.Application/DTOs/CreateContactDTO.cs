@@ -1,6 +1,6 @@
-﻿using PosTech.TechChallenge.Contacts.Domain;
+﻿using PosTech.TechChallenge.Contacts.Command.Domain;
 
-namespace PosTech.TechChallenge.Contacts.Application;
+namespace PosTech.TechChallenge.Contacts.Command.Application;
 
 public record CreateContactDTO(string Name, DDDBrazil DDD, string PhoneNumber, string Email)
 {

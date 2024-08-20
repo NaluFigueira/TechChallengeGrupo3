@@ -1,10 +1,10 @@
 ﻿using Microsoft.OpenApi.Models;
 
-using PosTech.TechChallenge.Contacts.Application;
+using PosTech.TechChallenge.Contacts.Command.Application;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace PosTech.TechChallenge.Contacts.Api;
+namespace PosTech.TechChallenge.Contacts.Command.Api;
 
 public class DescriptionSchemaFilter : ISchemaFilter
 {

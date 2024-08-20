@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-using PosTech.TechChallenge.Contacts.Domain;
+using PosTech.TechChallenge.Contacts.Command.Domain;
 
-namespace PosTech.TechChallenge.Contacts.Infra.Context;
+namespace PosTech.TechChallenge.Contacts.Command.Infra.Context;
 
 public class AplicationDbContext : DbContext
 {

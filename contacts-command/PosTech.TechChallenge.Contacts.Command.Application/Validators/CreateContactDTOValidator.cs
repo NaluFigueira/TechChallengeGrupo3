@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace PosTech.TechChallenge.Contacts.Application;
+namespace PosTech.TechChallenge.Contacts.Command.Application;
 
 public class CreateContactDTOValidator : AbstractValidator<CreateContactDTO>
 {

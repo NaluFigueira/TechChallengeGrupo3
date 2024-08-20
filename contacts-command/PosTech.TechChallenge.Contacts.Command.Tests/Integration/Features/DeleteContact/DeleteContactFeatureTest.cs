@@ -4,7 +4,7 @@ using FluentAssertions;
 
 using Microsoft.AspNetCore.Mvc.Testing;
 
-using PosTech.TechChallenge.Contacts.Api;
+using PosTech.TechChallenge.Contacts.Command.Api;
 
 using Xunit.Gherkin.Quick;
 

@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PosTech.TechChallenge.Contacts.Infra;
+using PosTech.TechChallenge.Contacts.Command.Infra;
 
 #nullable disable
 
-namespace PosTech.TechChallenge.Contacts.Infra.Migrations.UserDb
+namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations.UserDb
 {
     [DbContext(typeof(UserDbContext))]
     [Migration("20240607180918_CreatingUserContext")]
@@ -158,7 +158,7 @@ namespace PosTech.TechChallenge.Contacts.Infra.Migrations.UserDb
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("PosTech.TechChallenge.Contacts.Domain.User", b =>
+            modelBuilder.Entity("PosTech.TechChallenge.Contacts.Command.Domain.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -234,7 +234,7 @@ namespace PosTech.TechChallenge.Contacts.Infra.Migrations.UserDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("PosTech.TechChallenge.Contacts.Domain.User", null)
+                    b.HasOne("PosTech.TechChallenge.Contacts.Command.Domain.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -243,7 +243,7 @@ namespace PosTech.TechChallenge.Contacts.Infra.Migrations.UserDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("PosTech.TechChallenge.Contacts.Domain.User", null)
+                    b.HasOne("PosTech.TechChallenge.Contacts.Command.Domain.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -258,7 +258,7 @@ namespace PosTech.TechChallenge.Contacts.Infra.Migrations.UserDb
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PosTech.TechChallenge.Contacts.Domain.User", null)
+                    b.HasOne("PosTech.TechChallenge.Contacts.Command.Domain.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -267,7 +267,7 @@ namespace PosTech.TechChallenge.Contacts.Infra.Migrations.UserDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("PosTech.TechChallenge.Contacts.Domain.User", null)
+                    b.HasOne("PosTech.TechChallenge.Contacts.Command.Domain.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

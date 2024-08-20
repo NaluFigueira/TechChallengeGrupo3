@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using PosTech.TechChallenge.Contacts.Domain;
-using PosTech.TechChallenge.Contacts.Infra.Context;
+using PosTech.TechChallenge.Contacts.Command.Domain;
+using PosTech.TechChallenge.Contacts.Command.Infra.Context;
 
-namespace PosTech.TechChallenge.Contacts.Infra;
+namespace PosTech.TechChallenge.Contacts.Command.Infra;
 
 public class ContactRepository : IContactRepository
 {

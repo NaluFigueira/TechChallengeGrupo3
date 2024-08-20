@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PosTech.TechChallenge.Contacts.Infra.Migrations
+namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations
 {
     /// <inheritdoc />
     public partial class CreateContactsTable : Migration

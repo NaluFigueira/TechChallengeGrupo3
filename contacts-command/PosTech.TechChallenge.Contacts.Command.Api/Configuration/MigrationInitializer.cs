@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using PosTech.TechChallenge.Contacts.Infra;
-using PosTech.TechChallenge.Contacts.Infra.Context;
+using PosTech.TechChallenge.Contacts.Command.Infra;
+using PosTech.TechChallenge.Contacts.Command.Infra.Context;
 
-namespace PosTech.TechChallenge.Contacts.Api.Configuration;
+namespace PosTech.TechChallenge.Contacts.Command.Api.Configuration;
 
 public static class MigrationInitializer
 {

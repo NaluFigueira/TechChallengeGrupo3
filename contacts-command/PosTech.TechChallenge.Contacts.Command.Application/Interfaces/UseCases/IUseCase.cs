@@ -1,6 +1,6 @@
 ﻿using FluentResults;
 
-namespace PosTech.TechChallenge.Contacts.Application;
+namespace PosTech.TechChallenge.Contacts.Command.Application;
 
 public interface IUseCase<TRequest, TResponse>
 {

@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PosTech.TechChallenge.Contacts.Infra\PosTech.TechChallenge.Contacts.Infra.csproj" />
-    <ProjectReference Include="..\PosTech.TechChallenge.Contacts.Domain\PosTech.TechChallenge.Contacts.Domain.csproj" />
+    <ProjectReference Include="..\PosTech.TechChallenge.Contacts.Command.Infra\PosTech.TechChallenge.Contacts.Command.Infra.csproj" />
+    <ProjectReference Include="..\PosTech.TechChallenge.Contacts.Command.Domain\PosTech.TechChallenge.Contacts.Command.Domain.csproj" />
   </ItemGroup>
 
 </Project>
