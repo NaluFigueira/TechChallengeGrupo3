@@ -1,44 +1,41 @@
-var builder = WebApplication.CreateBuilder(args);
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+using PosTech.TechChallenge.Users.Api;
+using PosTech.TechChallenge.Users.Api.Configuration;
+using PosTech.TechChallenge.Users.Api.Endpoints;
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Services
+    .AddOpenTelemetry()
+    .WithMetrics(metrics => metrics
+        .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("Contacts.Api"))
+        .AddProcessInstrumentation()
+        .AddRuntimeInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddAspNetCoreInstrumentation()
+        .AddPrometheusExporter()
+    );
+
+var configurationBuilder = new ConfigurationBuilder();
+#if DEBUG
+Console.WriteLine("Mode=Debug");
+configurationBuilder
+    .AddJsonFile("appsettings.Development.json");
+#else
+Console.WriteLine("Mode=Release");
+configurationBuilder
+    .AddJsonFile("appsettings.json");
+#endif
+
+var startup = new Startup(configurationBuilder.Build());
+startup.ConfigureServices(builder.Services);
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+startup.Configure(app);
+app.UseOpenTelemetryPrometheusScrapingEndpoint();
+app.ApplyMigrations();
+app.MapUserEndpoints();
+app.MapAuthenticationEndpoints();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

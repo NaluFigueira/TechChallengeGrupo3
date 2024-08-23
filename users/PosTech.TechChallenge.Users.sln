@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.TechChallenge.Users
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.TechChallenge.Users.Infra", "PosTech.TechChallenge.Users.Infra\PosTech.TechChallenge.Users.Infra.csproj", "{ED260869-DB18-4EA8-B536-7B78AE55B996}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.TechChallenge.Users.Tests", "PosTech.TechChallenge.Users.Tests\PosTech.TechChallenge.Users.Tests.csproj", "{AD241AEF-8ADA-4ABC-B379-61EEC4AC9B55}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.TechChallenge.Users.Tests", "PosTech.TechChallenge.Users.Tests\PosTech.TechChallenge.Users.Tests.csproj", "{640C2E76-AD33-47C7-99F1-A4D082513A8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{ED260869-DB18-4EA8-B536-7B78AE55B996}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED260869-DB18-4EA8-B536-7B78AE55B996}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED260869-DB18-4EA8-B536-7B78AE55B996}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AD241AEF-8ADA-4ABC-B379-61EEC4AC9B55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AD241AEF-8ADA-4ABC-B379-61EEC4AC9B55}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AD241AEF-8ADA-4ABC-B379-61EEC4AC9B55}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AD241AEF-8ADA-4ABC-B379-61EEC4AC9B55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{640C2E76-AD33-47C7-99F1-A4D082513A8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{640C2E76-AD33-47C7-99F1-A4D082513A8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{640C2E76-AD33-47C7-99F1-A4D082513A8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{640C2E76-AD33-47C7-99F1-A4D082513A8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
