@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.TechChallenge.Conta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.TechChallenge.Contacts.Query.Infra", "PosTech.TechChallenge.Contacts.Query.Infra\PosTech.TechChallenge.Contacts.Query.Infra.csproj", "{0C10AF35-48F4-4117-A4A4-402F5ED23C92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.TechChallenge.Contacts.Query.Tests", "PosTech.TechChallenge.Contacts.Query.Tests\PosTech.TechChallenge.Contacts.Query.Tests.csproj", "{A48B298E-A348-4105-9784-D3D9BA9A16EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosTech.TechChallenge.Contacts.Query.Tests", "PosTech.TechChallenge.Contacts.Query.Tests\PosTech.TechChallenge.Contacts.Query.Tests.csproj", "{4CD1CB2D-0AC3-4C4A-883C-F43CA8FEEAAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{0C10AF35-48F4-4117-A4A4-402F5ED23C92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C10AF35-48F4-4117-A4A4-402F5ED23C92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C10AF35-48F4-4117-A4A4-402F5ED23C92}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A48B298E-A348-4105-9784-D3D9BA9A16EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A48B298E-A348-4105-9784-D3D9BA9A16EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A48B298E-A348-4105-9784-D3D9BA9A16EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A48B298E-A348-4105-9784-D3D9BA9A16EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CD1CB2D-0AC3-4C4A-883C-F43CA8FEEAAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CD1CB2D-0AC3-4C4A-883C-F43CA8FEEAAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CD1CB2D-0AC3-4C4A-883C-F43CA8FEEAAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CD1CB2D-0AC3-4C4A-883C-F43CA8FEEAAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
