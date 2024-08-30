@@ -1,44 +1,29 @@
 using System.Text;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 
 using PosTech.TechChallenge.Contacts.Command.Api.Configuration;
-using PosTech.TechChallenge.Contacts.Command.Application;
-using PosTech.TechChallenge.Contacts.Command.Domain;
 using PosTech.TechChallenge.Contacts.Command.Infra;
 
 using PosTech.TechChallenge.Contacts.Command.Infra.Context;
 
 namespace PosTech.TechChallenge.Contacts.Command.Api;
-public class Startup
+public class Startup(IConfiguration configuration)
 {
-    public Startup(IConfiguration configuration)
-    {
-        Configuration = configuration;
-    }
 
-    public IConfiguration Configuration { get; }
+    public IConfiguration Configuration { get; } = configuration;
 
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers();
-        services.AddDbContext<AplicationDbContext>(options =>
+        services.AddDbContext<ContactDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),
             ServiceLifetime.Scoped
         );
-        services.AddDbContext<UserDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),
-            ServiceLifetime.Scoped
-        );
-        services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<UserDbContext>()
-                .AddDefaultTokenProviders();
         services.AddScoped<IContactRepository, ContactRepository>();
-        services.AddScoped<ITokenService, TokenService>();
         services.AddLogging();
         services.AddAuthentication(options => options.DefaultAuthenticateScheme =
                 JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
@@ -51,9 +36,7 @@ public class Startup
                 });
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c => c.SchemaFilter<DescriptionSchemaFilter>());
-        services.AddUserUseCases();
         services.AddContactUseCases();
-        services.AddAuthenticationUseCases();
     }
 
     public void Configure(IApplicationBuilder app)
@@ -61,6 +44,5 @@ public class Startup
         app.UseSwagger();
         app.UseSwaggerUI();
         app.UseHttpsRedirection();
-
     }
 }

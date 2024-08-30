@@ -3,7 +3,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PosTech.TechChallenge.Contacts.Command.Infra.Context;
 
@@ -11,16 +10,14 @@ using PosTech.TechChallenge.Contacts.Command.Infra.Context;
 
 namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations
 {
-    [DbContext(typeof(AplicationDbContext))]
-    [Migration("20240522232443_AddingSeedsToContacts")]
-    partial class AddingSeedsToContacts
+    [DbContext(typeof(ContactDbContext))]
+    partial class ContactDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -61,7 +58,7 @@ namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a82b622c-4510-4097-accc-eb5e0de5b6f3"),
+                            Id = new Guid("58f110af-9e0c-4f22-a7e4-9974c1dbb83d"),
                             DDD = (byte)43,
                             Email = "pedro-ferreira85@yahoo.com.br",
                             Name = "Pedro Henrique Erick Ferreira",
@@ -69,7 +66,7 @@ namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5a88b2d1-c503-4970-ae5a-564d42d05e59"),
+                            Id = new Guid("60d6e410-f0b0-4dde-a1bc-3a7a8175a8e6"),
                             DDD = (byte)63,
                             Email = "thomas.pires@credendio.com.br",
                             Name = "Thomas Vinicius João Pires",
@@ -77,7 +74,7 @@ namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations
                         },
                         new
                         {
-                            Id = new Guid("15c3b39a-088d-4a35-adc3-e18c0700251e"),
+                            Id = new Guid("c4006681-aba6-4738-9507-041788b7d55f"),
                             DDD = (byte)11,
                             Email = "julia92@casabellavidros.com.br",
                             Name = "Julia Milena Rita Almeida",
@@ -85,7 +82,7 @@ namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations
                         },
                         new
                         {
-                            Id = new Guid("969b2536-d662-4eb0-bcc8-29922ebf913d"),
+                            Id = new Guid("b8cbd154-d9b6-4a51-b84b-c509a7a92ae5"),
                             DDD = (byte)21,
                             Email = "bianca_assis@4now.com.br",
                             Name = "Bianca Liz Assis",
@@ -93,7 +90,7 @@ namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations
                         },
                         new
                         {
-                            Id = new Guid("caecd404-a14f-4035-9b66-e63464de65bd"),
+                            Id = new Guid("df8671a4-e875-40c2-ba3b-c7284d8c6665"),
                             DDD = (byte)32,
                             Email = "alessandra75@jovempanfmtaubate.com.br",
                             Name = "Alessandra Gabrielly Esther Costa",

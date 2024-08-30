@@ -35,7 +35,5 @@ startup.Configure(app);
 app.UseOpenTelemetryPrometheusScrapingEndpoint();
 app.ApplyMigrations();
 app.MapContactEndpoints();
-app.MapUserEndpoints();
-app.MapAuthenticationEndpoints();
 
 app.Run();

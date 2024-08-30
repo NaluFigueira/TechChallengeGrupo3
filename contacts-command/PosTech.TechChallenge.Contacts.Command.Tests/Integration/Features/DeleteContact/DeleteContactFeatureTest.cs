@@ -25,16 +25,16 @@ public sealed class DeleteContactFeatureTest : Feature
 
 
     [Given(@"a user who has access to the deletion endpoint")]
-    public async Task GivenAUserWhoHasAccessToTheCreationEndpoint()
+    public void GivenAUserWhoHasAccessToTheCreationEndpoint()
     {
-        await _base.SetUserTokenInHeaders();
+        _base.SetUserTokenInHeaders();
     }
 
     [When(@"they send the desired contact id through the endpoint")]
     public async Task WhenTheySendTheDesiredContactIdThroughTheEndpoint()
     {
         var contact = new ContactBuilder().Build();
-        var dbContext = _base.GetAplicationDbContext();
+        var dbContext = _base.GetContactDbContext();
         dbContext.Contact.Add(contact);
         await dbContext.SaveChangesAsync();
         _contactId = contact.Id;
@@ -45,7 +45,6 @@ public sealed class DeleteContactFeatureTest : Feature
     [Then(@"the API should remove the contact from the list")]
     public async Task ThenTheAPIShouldRemoveContactFromTheList()
     {
-        await _base.ClearUser();
         _result.StatusCode.Should().Be(HttpStatusCode.NoContent);
         var foundContact = await _base.GetContactRepository().GetContactByIdAsync(_contactId);
         foundContact.Should().BeNull();

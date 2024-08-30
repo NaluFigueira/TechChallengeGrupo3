@@ -1,16 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 using PosTech.TechChallenge.Contacts.Command.Domain;
 
 namespace PosTech.TechChallenge.Contacts.Command.Infra.Context;
 
-public class AplicationDbContext : DbContext
+public class ContactDbContext(DbContextOptions<ContactDbContext> options) : DbContext(options)
 {
-
-    public AplicationDbContext(DbContextOptions<AplicationDbContext> options) : base(options)
-    {
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

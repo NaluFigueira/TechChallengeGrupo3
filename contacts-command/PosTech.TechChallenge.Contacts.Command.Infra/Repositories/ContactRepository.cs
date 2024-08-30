@@ -7,10 +7,10 @@ namespace PosTech.TechChallenge.Contacts.Command.Infra;
 
 public class ContactRepository : IContactRepository
 {
-    protected AplicationDbContext _context;
+    protected ContactDbContext _context;
     protected DbSet<Contact> _dbSet;
 
-    public ContactRepository(AplicationDbContext context)
+    public ContactRepository(ContactDbContext context)
     {
         _context = context;
         _dbSet = _context.Set<Contact>();
@@ -25,18 +25,18 @@ public class ContactRepository : IContactRepository
 
     public async Task DeleteContactAsync(Guid id)
     {
-        _dbSet.Remove(await GetContactByIdAsync(id));
-        await _context.SaveChangesAsync();
+        var contact = await GetContactByIdAsync(id);
+
+        if (contact is not null)
+        {
+            _dbSet.Remove(contact);
+            await _context.SaveChangesAsync();
+        }
     }
 
     public async Task<Contact?> GetContactByIdAsync(Guid id)
     {
         return await _dbSet.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
-    }
-
-    public async Task<ICollection<Contact>> GetContactsByDDDAsync(DDDBrazil ddd)
-    {
-        return await _dbSet.Where(x => x.DDD == ddd).AsNoTracking().ToListAsync();
     }
 
     public async Task<Contact> UpdateContactAsync(Contact contact)

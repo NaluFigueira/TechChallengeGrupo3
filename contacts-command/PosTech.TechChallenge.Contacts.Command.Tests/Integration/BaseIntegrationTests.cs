@@ -1,30 +1,31 @@
-﻿using System.Net.Http.Headers;
+﻿using Bogus;
+using System.Net.Http.Headers;
+using System.Security.Claims;
 
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 
 using PosTech.TechChallenge.Contacts.Command.Api;
-using PosTech.TechChallenge.Contacts.Command.Application;
 using PosTech.TechChallenge.Contacts.Command.Infra;
 using PosTech.TechChallenge.Contacts.Command.Infra.Context;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace PosTech.TechChallenge.Contacts.Tests;
 
 public class BaseIntegrationTests : IClassFixture<WebApplicationFactory<Startup>>
 {
     protected readonly HttpClient _httpClient;
-    protected readonly AplicationDbContext _dbContext;
-    protected readonly UserDbContext _userContext;
+    protected readonly ContactDbContext _dbContext;
     protected readonly IContactRepository _contactRepository;
-    private CreateUserDTO _userDTO;
 
     public BaseIntegrationTests(WebApplicationFactory<Startup> factory)
     {
         _httpClient = factory.CreateDefaultClient();
         var scope = factory.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
 
-        _dbContext = scope.ServiceProvider.GetRequiredService<AplicationDbContext>();
-        _userContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
+        _dbContext = scope.ServiceProvider.GetRequiredService<ContactDbContext>();
         _contactRepository = scope.ServiceProvider.GetService<IContactRepository>();
     }
 
@@ -33,14 +34,9 @@ public class BaseIntegrationTests : IClassFixture<WebApplicationFactory<Startup>
         return _httpClient;
     }
 
-    public AplicationDbContext GetAplicationDbContext()
+    public ContactDbContext GetContactDbContext()
     {
         return _dbContext;
-    }
-
-    public UserDbContext GetUserDbContext()
-    {
-        return _userContext;
     }
 
     public IContactRepository GetContactRepository()
@@ -48,32 +44,33 @@ public class BaseIntegrationTests : IClassFixture<WebApplicationFactory<Startup>
         return _contactRepository;
     }
 
-    public async Task SetUserTokenInHeaders()
+    public void SetUserTokenInHeaders()
     {
-        _userDTO = new CreateUserDTOBuilder()
-                        .WithPassword("S3cur3P@ssW0rd")
-                        .WithRePassword("S3cur3P@ssW0rd")
-                        .Build();
-        await _httpClient.PostAsJsonAsync("/users", _userDTO);
-
-        var loginDTO = new LoginDTO()
-        {
-            UserName = _userDTO.UserName,
-            Password = _userDTO.Password,
-        };
-
-        var result = await _httpClient.PostAsJsonAsync("/login", loginDTO);
-        var token = await result.Content.ReadAsStringAsync();
+        var token = GenerateToken();
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Trim('"'));
     }
 
-    public async Task ClearUser()
+    private static string GenerateToken()
     {
-        var createdUser = _userContext.Users.FirstOrDefault(c => c.UserName == _userDTO.UserName);
-        if (createdUser is not null)
-        {
-            _userContext.Users.Remove(createdUser!);
-            await _userContext.SaveChangesAsync();
-        }
+        var faker = new Faker("pt_BR");
+
+        Claim[] claims =
+        [
+            new Claim("username", faker.Name.FullName()),
+            new Claim("id", Guid.NewGuid().ToString()),
+            new Claim("loginTimestamp", DateTime.UtcNow.ToString())
+        ];
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("c2d4a61141f0616bef9eac3c6cd539c454509dddfed9d0df54a6a17bfbe9172b"));
+
+        var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        var token = new JwtSecurityToken(
+            expires: DateTime.Now.AddMinutes(10),
+            claims: claims,
+            signingCredentials: signingCredentials
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
