@@ -1,8 +1,3 @@
-pr:
-  branches:
-    include:
-      - "*"
-
 variables:
   buildConfiguration: "Release"
   releaseBranchName: "release"
@@ -14,16 +9,14 @@ variables:
   tag: "$(Build.BuildId)"
   vmImageName: "ubuntu-latest"
 
-pool:
-  #name: Default
-  vmImage: $(vmImageName)
-
 resources:
   - repo: self
 
 stages:
   - stage: "Build"
     displayName: "Build"
+    pool:
+      vmImage: $(vmImageName)
     jobs:
       - job: "Build"
         displayName: "Build Job"
@@ -61,6 +54,8 @@ stages:
 
   - stage: "Tests"
     displayName: Run unit and integration tests
+    pool:
+      vmImage: $(vmImageName)
     dependsOn: Build
     condition: succeeded()
     jobs:
@@ -95,6 +90,8 @@ stages:
 
   - stage: "Push"
     displayName: Build and push image stage
+    pool:
+      vmImage: $(vmImageName)
     dependsOn: Tests
     condition: and(succeeded(), in(variables['Build.SourceBranch'], 'refs/heads/development', 'refs/heads/stage', 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:
@@ -113,6 +110,8 @@ stages:
 
   - stage: "Development"
     displayName: "Deploy to the Development environment"
+    pool:
+      vmImage: $(vmImageName)
     dependsOn: Push
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:
@@ -132,6 +131,8 @@ stages:
 
   - stage: "Staging"
     displayName: "Deploy to the Staging environment"
+    pool:
+      vmImage: $(vmImageName)
     dependsOn: Development
     condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/stage'), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:
@@ -151,6 +152,8 @@ stages:
 
   - stage: "Production"
     displayName: "Deploy to the Production environment"
+    pool:
+      vmImage: $(vmImageName)
     dependsOn: Staging
     condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:

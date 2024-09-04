@@ -1,2 +1,7 @@
 extends:
   template: ../azure-pipelines-template.yml
+
+pr:
+  branches:
+    include:
+      - "*"
