@@ -10,25 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<< HEAD:contacts-query/PosTech.TechChallenge.Contacts.Query.Tests/PosTech.TechChallenge.Contacts.Query.Tests.csproj
     <PackageReference Include="Bogus" Version="35.6.0" />
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.8" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-=======
-    <PackageReference Include="Bogus" Version="35.5.1" />
-    <PackageReference Include="coverlet.collector" Version="6.0.2">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="FluentAssertions" Version="6.12.0" />
-    <PackageReference Include="FluentResults" Version="3.16.0" />
-    <PackageReference Include="FluentValidation" Version="11.9.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.7" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
->>>>>>> development:PosTech.TechChallenge.Contacts.Tests/PosTech.TechChallenge.Contacts.Tests.csproj
     <PackageReference Include="Moq" Version="4.20.70" />
     <PackageReference Include="System.Net.Http.Formatting.Extension" Version="5.2.3" />
     <PackageReference Include="xunit" Version="2.9.0" />
@@ -56,12 +42,4 @@
     </Content>
   </ItemGroup>
 
-<<<<<<< HEAD:contacts-query/PosTech.TechChallenge.Contacts.Query.Tests/PosTech.TechChallenge.Contacts.Query.Tests.csproj
 </Project>
-=======
-  <ItemGroup>
-    <None Remove="Integration/Features/AuthenticateUser/AuthenticateUser.feature" />
-    <None Remove="Integration/Features/CreateUser/CreateUser.feature" />
-  </ItemGroup>
-</Project>
->>>>>>> development:PosTech.TechChallenge.Contacts.Tests/PosTech.TechChallenge.Contacts.Tests.csproj
