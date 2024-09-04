@@ -1,6 +1,7 @@
 ﻿
 using System.Text.Json;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -17,7 +18,7 @@ public static class ContactEndpoints
     {
         var tags = new List<OpenApiTag> { new() { Name = "Contacts" } };
 
-        app.MapPost("/contacts", ([FromBody] CreateContactDTO dto, ICreateContactUseCase useCase) => CreateContact(dto, useCase))
+        app.MapPost("/contacts", [Authorize] ([FromBody] CreateContactDTO dto, ICreateContactUseCase useCase) => CreateContact(dto, useCase))
             .WithOpenApi(operation => new(operation)
             {
                 Tags = tags,
@@ -39,7 +40,7 @@ public static class ContactEndpoints
             .Produces<string>(StatusCodes.Status500InternalServerError)
             .RequireAuthorization();
 
-        app.MapPatch("/contacts", ([FromBody] UpdateContactDTO dto, IUpdateContactUseCase useCase) => UpdateContact(dto, useCase))
+        app.MapPatch("/contacts", [Authorize] ([FromBody] UpdateContactDTO dto, IUpdateContactUseCase useCase) => UpdateContact(dto, useCase))
             .WithOpenApi(operation => new(operation)
             {
                 Tags = tags,
@@ -61,7 +62,7 @@ public static class ContactEndpoints
             .Produces<string>(StatusCodes.Status500InternalServerError)
             .RequireAuthorization();
 
-        app.MapDelete("/contacts/{id}", ([FromRoute] Guid id, IDeleteContactUseCase useCase) => DeleteContact(id, useCase))
+        app.MapDelete("/contacts/{id}", [Authorize] ([FromRoute] Guid id, IDeleteContactUseCase useCase) => DeleteContact(id, useCase))
             .WithOpenApi(operation => new(operation)
             {
                 Tags = tags,

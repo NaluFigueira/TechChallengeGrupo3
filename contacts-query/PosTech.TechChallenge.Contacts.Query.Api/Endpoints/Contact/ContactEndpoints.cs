@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 
@@ -15,7 +16,7 @@ public static class ContactEndpoints
     {
         var tags = new List<OpenApiTag> { new() { Name = "Contacts" } };
 
-        app.MapGet("/contacts", (DDDBrazil ddd, IGetContactByDDDUseCase useCase) => GetContactByDDD(ddd, useCase))
+        app.MapGet("/contacts", [Authorize] (DDDBrazil ddd, IGetContactByDDDUseCase useCase) => GetContactByDDD(ddd, useCase))
             .WithOpenApi(operation => new(operation)
             {
                 Tags = tags,
