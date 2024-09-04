@@ -96,7 +96,7 @@ stages:
   - stage: "Push"
     displayName: Build and push image stage
     dependsOn: Tests
-    condition: and(succeeded(), in(variables['Build.SourceBranch'], 'refs/heads/development', 'refs/heads/stage', 'refs/heads/main'))
+    condition: and(succeeded(), in(variables['Build.SourceBranch'], 'refs/heads/development', 'refs/heads/stage', 'refs/heads/main')), ne(variables['Build.Reason'], 'PullRequest')
     jobs:
       - job: BuildAndPush
         displayName: Build and push image job
@@ -114,7 +114,7 @@ stages:
   - stage: "Development"
     displayName: "Deploy to the Development environment"
     dependsOn: Push
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development')), ne(variables['Build.Reason'], 'PullRequest')
     jobs:
       - deployment: Deploy
         environment: development
@@ -133,7 +133,7 @@ stages:
   - stage: "Staging"
     displayName: "Deploy to the Staging environment"
     dependsOn: Development
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/stage')
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/stage'), ne(variables['Build.Reason'], 'PullRequest')
     jobs:
       - deployment: Deploy
         environment: staging
@@ -152,7 +152,7 @@ stages:
   - stage: "Production"
     displayName: "Deploy to the Production environment"
     dependsOn: Staging
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest')
     jobs:
       - deployment: Deploy
         environment: production
