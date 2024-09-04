@@ -1,8 +1,3 @@
-parameters:
-  - name: excludeTriggerPaths
-    type: object
-    default: ["*"]
-
 variables:
   buildConfiguration: "Release"
   releaseBranchName: "release"
@@ -13,17 +8,6 @@ variables:
   dockerfilePath: "$(Build.SourcesDirectory)/Dockerfile"
   tag: "$(Build.BuildId)"
   vmImageName: "ubuntu-latest"
-  excludePaths: ${{ parameters.excludeTriggerPaths }}
-
-trigger:
-  branches:
-    include:
-      - "*"
-  paths:
-    exclude:
-      - ${{ variables.excludePaths[0] }}
-      - ${{ variables.excludePaths[1] }}
-      - ${{ variables.excludePaths[2] }}
 
 resources:
   repositories:

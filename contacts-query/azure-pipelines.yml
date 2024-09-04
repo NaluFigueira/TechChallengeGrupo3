@@ -1,11 +1,16 @@
 extends:
   template: ../azure-pipelines-template.yml
-  parameters:
-    triggerPaths:
-      - "contacts-command/*"
-      - "users/*"
 
 pr:
   branches:
     include:
       - "*"
+
+trigger:
+  branches:
+    include:
+      - "*"
+  paths:
+    exclude:
+      - "contacts-command/*"
+      - "users/*"
