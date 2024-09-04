@@ -1,0 +1,173 @@
+variables:
+  buildConfiguration: "Release"
+  releaseBranchName: "release"
+  dotnetSdkVersion: "8.0.303"
+  dockerRegistryServiceConnection: "0c09f5c0-b44c-4513-b468-df3436a1068f"
+  imageRepository: "techchallengegrupo3"
+  containerRegistry: "techchallengegrupo3acr.azurecr.io"
+  dockerfilePath: "$(Build.SourcesDirectory)/Dockerfile"
+  tag: "$(Build.BuildId)"
+  vmImageName: "ubuntu-latest"
+
+resources:
+  repositories:
+    - repository: self
+
+stages:
+  - stage: "Build"
+    displayName: "Build"
+    pool:
+      vmImage: $(vmImageName)
+    jobs:
+      - job: "Build"
+        displayName: "Build Job"
+        steps:
+          - task: UseDotNet@2
+            displayName: "Use .NET SDK $(dotnetSdkVersion)"
+            inputs:
+              packageType: "sdk"
+              version: "$(dotnetSdkVersion)"
+
+          - task: DotNetCoreCLI@2
+            displayName: "Restore project"
+            inputs:
+              command: "restore"
+              projects: "**/*.csproj"
+
+          - task: DotNetCoreCLI@2
+            displayName: "Build project"
+            inputs:
+              command: "build"
+              arguments: "--no-restore --configuration $(buildConfiguration)"
+              projects: "**/*.csproj"
+
+          - task: DotNetCoreCLI@2
+            displayName: "Publish project"
+            inputs:
+              command: "publish"
+              projects: "**/*.csproj"
+              publishWebProjects: false
+              arguments: "--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)"
+              zipAfterPublish: true
+
+          - publish: "$(Build.ArtifactStagingDirectory)"
+            artifact: drop
+
+  - stage: "Tests"
+    displayName: Run unit and integration tests
+    pool:
+      vmImage: $(vmImageName)
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+      - job: RunTest
+        displayName: Run unit and integration tests
+        steps:
+          - task: UseDotNet@2
+            displayName: "Use .NET SDK $(dotnetSdkVersion)"
+            inputs:
+              packageType: "sdk"
+              version: "$(dotnetSdkVersion)"
+          - task: DotNetCoreCLI@2
+            displayName: Run unit tests
+            inputs:
+              command: "test"
+              arguments: "--filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Unit"
+              projects: "**/PosTech.TechChallenge.Contacts.Tests/*.csproj"
+          - task: DockerCompose@0
+            displayName: Run build and start docker-compose
+            inputs:
+              projectName: "techchallenge"
+              dockerComposeFile: "**/docker-compose.yml"
+              action: "Run a Docker Compose command"
+              dockerComposeCommand: "up"
+              arguments: "-d --no-deps --build"
+          - task: DotNetCoreCLI@2
+            displayName: Run integration tests
+            inputs:
+              command: "test"
+              arguments: "--filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Integration"
+              projects: "**/PosTech.TechChallenge.Contacts.Tests/*.csproj"
+
+  - stage: "Push"
+    displayName: Build and push image stage
+    pool:
+      vmImage: $(vmImageName)
+    dependsOn: Tests
+    condition: and(succeeded(), in(variables['Build.SourceBranch'], 'refs/heads/development', 'refs/heads/stage', 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))
+    jobs:
+      - job: BuildAndPush
+        displayName: Build and push image job
+        steps:
+          - task: Docker@2
+            displayName: Build and push service image to container registry
+            inputs:
+              command: buildAndPush
+              repository: $(imageRepository)
+              dockerfile: $(dockerfilePath)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)
+
+  - stage: "Development"
+    displayName: "Deploy to the Development environment"
+    pool:
+      vmImage: $(vmImageName)
+    dependsOn: Push
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development'), ne(variables['Build.Reason'], 'PullRequest'))
+    jobs:
+      - deployment: Deploy
+        environment: development
+        #variables:
+        #- group: ''
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: drop
+                - script: |
+                    echo Deployment to Development successful!
+                  displayName: "Deploy to Development"
+
+  - stage: "Staging"
+    displayName: "Deploy to the Staging environment"
+    pool:
+      vmImage: $(vmImageName)
+    dependsOn: Development
+    condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/stage'), ne(variables['Build.Reason'], 'PullRequest'))
+    jobs:
+      - deployment: Deploy
+        environment: staging
+        #variables:
+        #- group: ''
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: drop
+                - script: |
+                    echo Deployment to Staging successful!
+                  displayName: "Deploy to Staging"
+
+  - stage: "Production"
+    displayName: "Deploy to the Production environment"
+    pool:
+      vmImage: $(vmImageName)
+    dependsOn: Staging
+    condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))
+    jobs:
+      - deployment: Deploy
+        environment: production
+        #variables:
+        #- group: ''
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: drop
+                - script: |
+                    echo Deployment to Production successful!
+                  displayName: "Deploy to Production"
