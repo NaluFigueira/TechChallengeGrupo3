@@ -10,7 +10,8 @@ variables:
   vmImageName: "ubuntu-latest"
 
 resources:
-  - repo: self
+  repositories:
+    - repository: self
 
 stages:
   - stage: "Build"
