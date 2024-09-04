@@ -1,0 +1,6 @@
+@PosTech.TechChallenge.Contacts.Query.Api_HostAddress = http://localhost:5229
+
+GET {{PosTech.TechChallenge.Contacts.Query.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
