@@ -93,23 +93,23 @@ stages:
               arguments: "--filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Integration"
               projects: "**/PosTech.TechChallenge.Contacts.Tests/*.csproj"
 
-  # - stage: "Push"
-  #   displayName: Build and push image stage
-  #   dependsOn: Tests
-  #   condition: and(succeeded(), in(variables['Build.SourceBranch'], 'refs/heads/development', 'refs/heads/stage', 'refs/heads/main'))
-  #   jobs:
-  #     - job: BuildAndPush
-  #       displayName: Build and push image job
-  #       steps:
-  #         - task: Docker@2
-  #           displayName: Build and push service image to container registry
-  #           inputs:
-  #             command: buildAndPush
-  #             repository: $(imageRepository)
-  #             dockerfile: $(dockerfilePath)
-  #             containerRegistry: $(dockerRegistryServiceConnection)
-  #             tags: |
-  #               $(tag)
+  - stage: "Push"
+    displayName: Build and push image stage
+    dependsOn: Tests
+    condition: and(succeeded(), in(variables['Build.SourceBranch'], 'refs/heads/development', 'refs/heads/stage', 'refs/heads/main'))
+    jobs:
+      - job: BuildAndPush
+        displayName: Build and push image job
+        steps:
+          - task: Docker@2
+            displayName: Build and push service image to container registry
+            inputs:
+              command: buildAndPush
+              repository: $(imageRepository)
+              dockerfile: $(dockerfilePath)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)
 
   - stage: "Development"
     displayName: "Deploy to the Development environment"
