@@ -12,13 +12,19 @@ A aplicação set trata de uma lista compartilhada de contatos, com as seguintes
 
 ### Arquitetura da solução
 
-![Tech Challenge - Fase 1_page-0001](https://github.com/NaluFigueira/TechChallenge1Grupo3/assets/24214761/79edde82-5b9e-4244-9926-faf271fef442)
+![Arquitetura de solução](https://github.com/user-attachments/assets/fbaf467b-cee9-4136-8685-252c48a9df10)
 
 ### Arquitetura técnica
 
+![Arquitetura técnica](https://github.com/user-attachments/assets/587b6ad6-fc3e-4045-9b97-e6eb6127844d)
+
 ### Arquitetura de dados
 
+![Arquitetura de dados](https://github.com/user-attachments/assets/08d87a62-6fdd-491b-88a3-67eb0595c13b)
+
 ### Processo de desenvolvimento
+
+![Processo de desenvolvimento](https://github.com/user-attachments/assets/12190b5b-ef49-4e9b-bcc3-293b17c53425)
 
 ### Validações dos campos
 
