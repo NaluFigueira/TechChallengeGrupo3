@@ -1,3 +1,8 @@
+parameters:
+  - name: excludeTriggerPaths
+    type: object
+    default: ["*"]
+
 variables:
   buildConfiguration: "Release"
   releaseBranchName: "release"
@@ -8,6 +13,13 @@ variables:
   dockerfilePath: "$(Build.SourcesDirectory)/Dockerfile"
   tag: "$(Build.BuildId)"
   vmImageName: "ubuntu-latest"
+
+trigger:
+  branches:
+    include:
+      - "*"
+  paths:
+    exclude: ${{ parameters.excludeTriggerPaths }}
 
 resources:
   repositories:
