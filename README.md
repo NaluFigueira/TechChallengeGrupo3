@@ -2,7 +2,7 @@
 
 ## Requisitos
 
-A aplicação deve realizar o cadastro de contatos regionais, podendo:
+A aplicação set trata de uma lista compartilhada de contatos, com as seguintes funcionalidades:
 
 - Permitir o cadastro de novos contatos, incluindo nome, telefone e e-mail. Associe cada contato a um DDD correspondente à região.
 - Consultar e visualizar os contatos cadastrados, os quais podem ser filtrados pelo DDD da região.
@@ -10,7 +10,15 @@ A aplicação deve realizar o cadastro de contatos regionais, podendo:
 
 ## Solução proposta
 
+### Arquitetura da solução
+
 ![Tech Challenge - Fase 1_page-0001](https://github.com/NaluFigueira/TechChallenge1Grupo3/assets/24214761/79edde82-5b9e-4244-9926-faf271fef442)
+
+### Arquitetura técnica
+
+### Arquitetura de dados
+
+### Processo de desenvolvimento
 
 ### Validações dos campos
 
@@ -36,12 +44,12 @@ Desenvolvimento:
 - Identity
 - JWT Bearer Token
 
-
 Testes:
 
 - XUnit
 - Bogus
 - Moq
+- Xunit.Gherkin
 - Microsoft.AspNetCore.Mvc.Testing
 - FluentAssertions
 
@@ -54,7 +62,7 @@ Testes:
 ### Instruções
 
 1. Baixar o projeto localmente.
-2. Na raiz do projeto executar o comando:
+2. Na pasta raiz de cada MS (users, contacts-command, contacts-query) executar os comandos:
 
 ```bash
 docker-compose build
@@ -63,8 +71,9 @@ docker-compose build
 3. E, em seguida:
 
 ```bash
-docker-compose up
+docker-compose up -d
 ```
 
-4. Acessar a url http://localhost:8080/swagger/index.html para ter acesso a inteface do Swagger e fazer requisições.
-5. Para encerrar a aplicação, basta cancelar o comando executado em 4.
+4. Acessar a url http://localhost:8080/swagger/index.html para ter acesso a inteface do Swagger do MS users e fazer requisições.
+5. Acessar a url http://localhost:8081/swagger/index.html para ter acesso a inteface do Swagger do MS contacts-query e fazer requisições.
+6. Acessar a url http://localhost:8082/swagger/index.html para ter acesso a inteface do Swagger do MS contacts-command e fazer requisições.
