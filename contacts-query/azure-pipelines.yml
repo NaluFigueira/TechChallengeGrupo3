@@ -1,5 +1,7 @@
 extends:
   template: ../azure-pipelines-template.yml
+  parameters:
+    dockerfilePath: "$(Build.SourcesDirectory)/contacts-query/Dockerfile"
 
 pr:
   branches:

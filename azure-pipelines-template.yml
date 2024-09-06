@@ -1,3 +1,8 @@
+parameters:
+  - name: dockerfilePath
+    type: string
+    default: ""
+
 variables:
   buildConfiguration: "Release"
   releaseBranchName: "release"
@@ -5,7 +10,7 @@ variables:
   dockerRegistryServiceConnection: "0c09f5c0-b44c-4513-b468-df3436a1068f"
   imageRepository: "techchallengegrupo3"
   containerRegistry: "techchallengegrupo3acr.azurecr.io"
-  dockerfilePath: "$(Build.SourcesDirectory)/Dockerfile"
+  dockerfilePath: ${{parameters.dockerfilePath}}
   tag: "$(Build.BuildId)"
   vmImageName: "ubuntu-latest"
 
