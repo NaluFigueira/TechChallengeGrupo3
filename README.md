@@ -1,4 +1,4 @@
-# FIAP - Tech Challenge 1 - Grupo 3
+# FIAP - Tech Challenge - Grupo 3
 
 ## Requisitos
 
