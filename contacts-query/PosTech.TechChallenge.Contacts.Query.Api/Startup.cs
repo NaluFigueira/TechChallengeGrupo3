@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 using PosTech.TechChallenge.Contacts.Query.Api.Configuration;
+using PosTech.TechChallenge.Contacts.Query.Infra.Consumers;
 using PosTech.TechChallenge.Contacts.Query.Infra.Context;
 using PosTech.TechChallenge.Contacts.Query.Infra.Interfaces;
 using PosTech.TechChallenge.Contacts.Query.Infra.Repositories;
@@ -66,6 +67,7 @@ public class Startup
             });
         });
         services.AddContactUseCases();
+        services.AddHostedService<ContactCreatedConsumer>();
     }
 
     public void Configure(IApplicationBuilder app)

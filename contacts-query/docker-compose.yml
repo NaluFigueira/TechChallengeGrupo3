@@ -2,26 +2,32 @@ volumes:
   sqlserver_data:
   grafana-data:
 
+networks:
+  techChallengeNetwork:
+    external: true
+
 services:
-  api:
+  contacts_query_api:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "8081:8080"
     depends_on:
-      - sqlserver.configurator
-      - prometheus
-      - grafana
+      - contacts_query_sqlserver.configurator
+      - contacts_query_prometheus
+      - contacts_query_grafana
+    networks:
+      - techChallengeNetwork
 
-  prometheus:
+  contacts_query_prometheus:
     image: prom/prometheus:latest
     volumes:
       - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9091:9090"
 
-  grafana:
+  contacts_query_grafana:
     image: grafana/grafana:latest
     ports:
       - "3001:3000"
@@ -35,8 +41,10 @@ services:
       - GF_AUTH_DISABLE_LOGIN_FORM=true
       - GF_AUTH_DISABLE_SIGNOUT_MENU=true
       - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/contacts-api.json
+    networks:
+      - techChallengeNetwork
 
-  sqlserver:
+  contacts_query_sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       - ACCEPT_EULA=Y
@@ -57,16 +65,20 @@ services:
       retries: 10
       start_period: 10s
       timeout: 3s
+    networks:
+      - techChallengeNetwork
 
-  sqlserver.configurator:
+  contacts_query_sqlserver.configurator:
     image: mcr.microsoft.com/mssql/server:2022-latest
     volumes:
       - ./init:/docker-entrypoint-initdb.d
     depends_on:
-      sqlserver:
+      contacts_query_sqlserver:
         condition: service_healthy
     command: >
       bash -c '
-      /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P S3cur3P@ssW0rd -d master -i docker-entrypoint-initdb.d/init.sql;
+      /opt/mssql-tools18/bin/sqlcmd -S contacts_query_sqlserver -U sa -P S3cur3P@ssW0rd -d master -i docker-entrypoint-initdb.d/init.sql;
       echo "All done!";
       '
+    networks:
+      - techChallengeNetwork
