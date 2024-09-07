@@ -39,16 +39,7 @@ public class CreateContactUseCase(IContactRepository contactRepository, ILogger<
 
         var contact = await _contactRepository.CreateContactAsync(newContact);
 
-        try
-        {
-            _producer.PublishMessageOnQueue(contact, ContactQueues.ContactCreated);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("[ERROR] Message: {message}", ex.Message);
-            _logger.LogError("[ERROR] StackTrace: {stackTrace}", ex.StackTrace);
-        }
-
+        _producer.PublishMessageOnQueue(contact, ContactQueues.ContactCreated);
 
         return Result.Ok(contact);
     }
