@@ -83,7 +83,7 @@ stages:
               docker network create techChallengeNetwork
             displayName: "Create Docker Network"
           - task: DockerCompose@1
-            displayName: Run build and start docker-compose
+            displayName: Run base docker-compose
             inputs:
               projectName: "techchallenge"
               dockerComposeFile: "../**/docker-compose.yml"
@@ -91,7 +91,7 @@ stages:
               dockerComposeCommand: "up"
               arguments: "-d"
           - task: DockerCompose@1
-            displayName: Run build and start docker-compose
+            displayName: Run build and start MS docker-compose
             inputs:
               projectName: "techchallenge"
               dockerComposeFile: "**/docker-compose.yml"
