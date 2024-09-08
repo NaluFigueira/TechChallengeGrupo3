@@ -3,13 +3,16 @@
 using Microsoft.Extensions.Logging;
 
 using PosTech.TechChallenge.Contacts.Command.Infra;
+using PosTech.TechChallenge.Contacts.Command.Infra.Interfaces;
+using PosTech.TechChallenge.Contacts.Command.Infra.Queues;
 
 namespace PosTech.TechChallenge.Contacts.Command.Application;
 
-public class DeleteContactUseCase(IContactRepository contactRepository, ILogger<DeleteContactUseCase> logger) : IDeleteContactUseCase
+public class DeleteContactUseCase(IContactRepository contactRepository, ILogger<DeleteContactUseCase> logger, IProducer producer) : IDeleteContactUseCase
 {
     private readonly ILogger _logger = logger;
     private readonly IContactRepository _contactRepository = contactRepository;
+    private readonly IProducer _producer = producer;
 
     public async Task<Result> ExecuteAsync(DeleteContactDTO request)
     {
@@ -33,6 +36,8 @@ public class DeleteContactUseCase(IContactRepository contactRepository, ILogger<
         }
 
         await _contactRepository.DeleteContactAsync(request.Id);
+
+        _producer.PublishMessageOnQueue(request.Id, ContactQueues.ContactDeleted);
 
         return Result.Ok();
     }

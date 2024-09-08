@@ -4,6 +4,7 @@ using PosTech.TechChallenge.Contacts.Command.Infra;
 using PosTech.TechChallenge.Contacts.Command.Application;
 using Microsoft.Extensions.Logging;
 using FluentAssertions;
+using PosTech.TechChallenge.Contacts.Command.Infra.Interfaces;
 
 
 namespace PosTech.TechChallenge.Contacts.Tests.Unit;
@@ -16,6 +17,7 @@ public class CreateContactUseCaseTests
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
         var mockLogger = new Mock<ILogger<CreateContactUseCase>>();
+        var mockProducer = new Mock<IProducer>();
 
         var request = new CreateContactDTOBuilder().Build();
         var expectedContact = new Contact
@@ -30,7 +32,7 @@ public class CreateContactUseCaseTests
             .Setup(repo => repo.CreateContactAsync(It.IsAny<Contact>()))
             .ReturnsAsync(expectedContact);
 
-        var useCase = new CreateContactUseCase(mockRepository.Object, mockLogger.Object);
+        var useCase = new CreateContactUseCase(mockRepository.Object, mockLogger.Object, mockProducer.Object);
 
         // Act
         var result = await useCase.ExecuteAsync(request);
@@ -59,6 +61,7 @@ public class CreateContactUseCaseTests
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
         var mockLogger = new Mock<ILogger<CreateContactUseCase>>();
+        var mockProducer = new Mock<IProducer>();
 
         var request = new CreateContactDTOBuilder().WithPhoneNumber("").Build();
         var expectedContact = new Contact
@@ -73,7 +76,7 @@ public class CreateContactUseCaseTests
             .Setup(repo => repo.CreateContactAsync(It.IsAny<Contact>()))
             .ThrowsAsync(new Exception("Validation failed."));
 
-        var useCase = new CreateContactUseCase(mockRepository.Object, mockLogger.Object);
+        var useCase = new CreateContactUseCase(mockRepository.Object, mockLogger.Object, mockProducer.Object);
 
         // Act
         var result = await useCase.ExecuteAsync(request);

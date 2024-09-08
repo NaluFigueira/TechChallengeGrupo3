@@ -4,13 +4,16 @@ using Microsoft.Extensions.Logging;
 
 using PosTech.TechChallenge.Contacts.Command.Domain;
 using PosTech.TechChallenge.Contacts.Command.Infra;
+using PosTech.TechChallenge.Contacts.Command.Infra.Interfaces;
+using PosTech.TechChallenge.Contacts.Command.Infra.Queues;
 
 namespace PosTech.TechChallenge.Contacts.Command.Application;
 
-public class CreateContactUseCase(IContactRepository contactRepository, ILogger<CreateContactUseCase> logger) : ICreateContactUseCase
+public class CreateContactUseCase(IContactRepository contactRepository, ILogger<CreateContactUseCase> logger, IProducer producer) : ICreateContactUseCase
 {
     private readonly ILogger _logger = logger;
     private readonly IContactRepository _contactRepository = contactRepository;
+    private readonly IProducer _producer = producer;
 
     public async Task<Result<Contact>> ExecuteAsync(CreateContactDTO request)
     {
@@ -35,6 +38,8 @@ public class CreateContactUseCase(IContactRepository contactRepository, ILogger<
         };
 
         var contact = await _contactRepository.CreateContactAsync(newContact);
+
+        _producer.PublishMessageOnQueue(contact, ContactQueues.ContactCreated);
 
         return Result.Ok(contact);
     }

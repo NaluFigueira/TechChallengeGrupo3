@@ -2,7 +2,7 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
-  - job_name: 'Contacts.Api.Job'
+  - job_name: "Contacts.Api.Job"
     scrape_interval: 5s
     static_configs:
-      - targets: ['api:8080']
+      - targets: ["contacts_query_api:8080"]
