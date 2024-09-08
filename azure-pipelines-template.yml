@@ -2,6 +2,18 @@ parameters:
   - name: dockerfilePath
     type: string
     default: ""
+  - name: testsProjectPath
+    type: string
+    default: ""
+  - name: unitTestFilter
+    type: string
+    default: ""
+  - name: integrationTestFilter
+    type: string
+    default: ""
+  - name: dockerComposeFilePath
+    type: string
+    default: ""
 
 variables:
   buildConfiguration: "Release"
@@ -11,6 +23,10 @@ variables:
   imageRepository: "techchallengegrupo3"
   containerRegistry: "techchallengegrupo3acr.azurecr.io"
   dockerfilePath: ${{parameters.dockerfilePath}}
+  testsProjectPath: ${{parameters.testsProjectPath}}
+  unitTestFilter: ${{parameters.unitTestFilter}}
+  integrationTestFilter: ${{parameters.integrationTestFilter}}
+  dockerComposeFilePath: ${{parameters.dockerComposeFilePath}}
   tag: "$(Build.BuildId)"
   vmImageName: "ubuntu-latest"
 
@@ -77,8 +93,8 @@ stages:
             displayName: Run unit tests
             inputs:
               command: "test"
-              arguments: "--filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Unit"
-              projects: "**/PosTech.TechChallenge.Contacts.Tests/*.csproj"
+              arguments: ${unitTestFilter}
+              projects: $(testsProjectPath)
           - script: |
               docker network create techChallengeNetwork
             displayName: "Create Docker Network"
@@ -86,7 +102,7 @@ stages:
             displayName: Run base docker-compose
             inputs:
               projectName: "techchallenge"
-              dockerComposeFile: "../**/docker-compose.yml"
+              dockerComposeFile: "$(Build.SourcesDirectory)/docker-compose.yml"
               action: "Run a Docker Compose command"
               dockerComposeCommand: "up"
               arguments: "-d"
@@ -94,7 +110,7 @@ stages:
             displayName: Run build and start MS docker-compose
             inputs:
               projectName: "techchallenge"
-              dockerComposeFile: "**/docker-compose.yml"
+              dockerComposeFile: $(dockerComposeFilePath)
               action: "Run a Docker Compose command"
               dockerComposeCommand: "up"
               arguments: "-d --no-deps --build"
@@ -102,8 +118,8 @@ stages:
             displayName: Run integration tests
             inputs:
               command: "test"
-              arguments: "--filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Integration"
-              projects: "**/PosTech.TechChallenge.Contacts.Tests/*.csproj"
+              arguments: ${integrationTestFilter}
+              projects: $(testsProjectPath)
 
   - stage: "Push"
     displayName: Build and push image stage

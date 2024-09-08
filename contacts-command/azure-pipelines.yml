@@ -2,6 +2,10 @@ extends:
   template: ../azure-pipelines-template.yml
   parameters:
     dockerfilePath: "$(Build.SourcesDirectory)/contacts-command/Dockerfile"
+    dockerComposeFilePath: "$(Build.SourcesDirectory)/contacts-command/docker-compose.yml"
+    testsProjectPath: "$(Build.SourcesDirectory)/contacts-command/PosTech.TechChallenge.Contacts.Command.Tests/*.csproj"
+    unitTestFilter: "--filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Unit"
+    integrationTestFilter: "--filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Integration"
 
 pr:
   branches:
