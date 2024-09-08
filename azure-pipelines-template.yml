@@ -79,7 +79,7 @@ stages:
               command: "test"
               arguments: "--filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Unit"
               projects: "**/PosTech.TechChallenge.Contacts.Tests/*.csproj"
-          - task: DockerCompose@0
+          - task: DockerCompose@1
             displayName: Run build and start docker-compose
             inputs:
               projectName: "techchallenge"
