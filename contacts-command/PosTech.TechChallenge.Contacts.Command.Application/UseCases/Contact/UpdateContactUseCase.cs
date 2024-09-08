@@ -4,13 +4,16 @@ using Microsoft.Extensions.Logging;
 
 using PosTech.TechChallenge.Contacts.Command.Domain;
 using PosTech.TechChallenge.Contacts.Command.Infra;
+using PosTech.TechChallenge.Contacts.Command.Infra.Interfaces;
+using PosTech.TechChallenge.Contacts.Command.Infra.Queues;
 
 namespace PosTech.TechChallenge.Contacts.Command.Application;
 
-public class UpdateContactUseCase(IContactRepository contactRepository, ILogger<UpdateContactUseCase> logger) : IUpdateContactUseCase
+public class UpdateContactUseCase(IContactRepository contactRepository, ILogger<UpdateContactUseCase> logger, IProducer producer) : IUpdateContactUseCase
 {
     private readonly ILogger _logger = logger;
     private readonly IContactRepository _contactRepository = contactRepository;
+    private readonly IProducer _producer = producer;
 
     public async Task<Result> ExecuteAsync(UpdateContactDTO request)
     {
@@ -43,6 +46,8 @@ public class UpdateContactUseCase(IContactRepository contactRepository, ILogger<
         };
 
         await _contactRepository.UpdateContactAsync(updatedContact);
+
+        _producer.PublishMessageOnQueue(contact, ContactQueues.ContactUpdated);
 
         return Result.Ok();
     }

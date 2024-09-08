@@ -67,7 +67,7 @@ public class Startup
             });
         });
         services.AddContactUseCases();
-        services.AddHostedService<ContactCreatedConsumer>();
+        services.RegisterConsumers();
     }
 
     public void Configure(IApplicationBuilder app)
