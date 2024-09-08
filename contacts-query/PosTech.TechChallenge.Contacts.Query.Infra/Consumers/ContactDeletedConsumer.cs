@@ -1,6 +1,7 @@
 using System;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -11,7 +12,7 @@ using PosTech.TechChallenge.Contacts.Query.Infra.Workers;
 
 namespace PosTech.TechChallenge.Contacts.Query.Infra.Consumers;
 
-public class ContactDeletedConsumer(ILogger<ConsumerWorker<Guid>> logger, IServiceScopeFactory scopeFactory) : ConsumerWorker<Guid>(logger)
+public class ContactDeletedConsumer(ILogger<ConsumerWorker<Guid>> logger, IConfiguration configuration, IServiceScopeFactory scopeFactory) : ConsumerWorker<Guid>(logger, configuration)
 {
     private readonly IServiceScopeFactory _scopeFactory = scopeFactory;
     protected override string QueueName => ContactQueues.ContactDeleted;

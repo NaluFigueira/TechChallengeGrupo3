@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -8,7 +9,7 @@ using PosTech.TechChallenge.Contacts.Query.Infra.Workers;
 
 namespace PosTech.TechChallenge.Contacts.Query.Infra.Consumers;
 
-public class ContactCreatedConsumer(ILogger<ConsumerWorker<Contact>> logger, IServiceScopeFactory scopeFactory) : ConsumerWorker<Contact>(logger)
+public class ContactCreatedConsumer(ILogger<ConsumerWorker<Contact>> logger, IConfiguration configuration, IServiceScopeFactory scopeFactory) : ConsumerWorker<Contact>(logger, configuration)
 {
     private readonly IServiceScopeFactory _scopeFactory = scopeFactory;
     protected override string QueueName => ContactQueues.ContactCreated;
