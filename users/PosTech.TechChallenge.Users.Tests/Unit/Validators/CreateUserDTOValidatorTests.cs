@@ -5,7 +5,7 @@ using FluentAssertions;
 using PosTech.TechChallenge.Users.Application.Validators;
 using PosTech.TechChallenge.Users.Tests.Builders;
 
-namespace PosTech.TechChallenge.Users.Tests.Unit.Validators;
+namespace PosTech.TechChallenge.Users.Tests.Unit;
 
 public class CreateUserDTOValidatorTests
 {

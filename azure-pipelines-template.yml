@@ -1,5 +1,20 @@
 parameters:
+  - name: baseMSPath
+    type: string
+    default: ""
   - name: dockerfilePath
+    type: string
+    default: ""
+  - name: testsProjectPath
+    type: string
+    default: ""
+  - name: unitTestFilter
+    type: string
+    default: ""
+  - name: integrationTestFilter
+    type: string
+    default: ""
+  - name: dockerComposeFilePath
     type: string
     default: ""
 
@@ -11,6 +26,11 @@ variables:
   imageRepository: "techchallengegrupo3"
   containerRegistry: "techchallengegrupo3acr.azurecr.io"
   dockerfilePath: ${{parameters.dockerfilePath}}
+  testsProjectPath: ${{parameters.testsProjectPath}}
+  unitTestFilter: ${{parameters.unitTestFilter}}
+  integrationTestFilter: ${{parameters.integrationTestFilter}}
+  dockerComposeFilePath: ${{parameters.dockerComposeFilePath}}
+  baseMSPath: ${{parameters.baseMSPath}}
   tag: "$(Build.BuildId)"
   vmImageName: "ubuntu-latest"
 
@@ -37,20 +57,20 @@ stages:
             displayName: "Restore project"
             inputs:
               command: "restore"
-              projects: "**/*.csproj"
+              projects: $(baseMSPath)
 
           - task: DotNetCoreCLI@2
             displayName: "Build project"
             inputs:
               command: "build"
               arguments: "--no-restore --configuration $(buildConfiguration)"
-              projects: "**/*.csproj"
+              projects: $(baseMSPath)
 
           - task: DotNetCoreCLI@2
             displayName: "Publish project"
             inputs:
               command: "publish"
-              projects: "**/*.csproj"
+              projects: $(baseMSPath)
               publishWebProjects: false
               arguments: "--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)"
               zipAfterPublish: true
@@ -77,13 +97,24 @@ stages:
             displayName: Run unit tests
             inputs:
               command: "test"
-              arguments: "--filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Unit"
-              projects: "**/PosTech.TechChallenge.Contacts.Tests/*.csproj"
-          - task: DockerCompose@0
-            displayName: Run build and start docker-compose
+              arguments: $(unitTestFilter)
+              projects: $(testsProjectPath)
+          - script: |
+              docker network create techChallengeNetwork
+            displayName: "Create Docker Network"
+          - task: DockerCompose@1
+            displayName: Run base docker-compose
             inputs:
               projectName: "techchallenge"
-              dockerComposeFile: "**/docker-compose.yml"
+              dockerComposeFile: "$(Build.SourcesDirectory)/docker-compose.yml"
+              action: "Run a Docker Compose command"
+              dockerComposeCommand: "up"
+              arguments: "-d"
+          - task: DockerCompose@1
+            displayName: Run build and start MS docker-compose
+            inputs:
+              projectName: "techchallenge"
+              dockerComposeFile: $(dockerComposeFilePath)
               action: "Run a Docker Compose command"
               dockerComposeCommand: "up"
               arguments: "-d --no-deps --build"
@@ -91,8 +122,8 @@ stages:
             displayName: Run integration tests
             inputs:
               command: "test"
-              arguments: "--filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Integration"
-              projects: "**/PosTech.TechChallenge.Contacts.Tests/*.csproj"
+              arguments: $(integrationTestFilter)
+              projects: $(testsProjectPath)
 
   - stage: "Push"
     displayName: Build and push image stage
