@@ -79,6 +79,17 @@ stages:
               command: "test"
               arguments: "--filter FullyQualifiedName~PosTech.TechChallenge.Contacts.Tests.Unit"
               projects: "**/PosTech.TechChallenge.Contacts.Tests/*.csproj"
+          - script: |
+              docker network create techChallengeNetwork
+            displayName: "Create Docker Network"
+          - task: DockerCompose@1
+            displayName: Run build and start docker-compose
+            inputs:
+              projectName: "techchallenge"
+              dockerComposeFile: "../**/docker-compose.yml"
+              action: "Run a Docker Compose command"
+              dockerComposeCommand: "up"
+              arguments: "-d"
           - task: DockerCompose@1
             displayName: Run build and start docker-compose
             inputs:
