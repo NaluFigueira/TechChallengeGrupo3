@@ -6,6 +6,7 @@ extends:
     testsProjectPath: "$(Build.SourcesDirectory)/users/PosTech.TechChallenge.Users.Tests/*.csproj"
     unitTestFilter: "--filter FullyQualifiedName~PosTech.TechChallenge.Users.Tests.Unit"
     integrationTestFilter: "--filter FullyQualifiedName~PosTech.TechChallenge.Users.Tests.Integration"
+    baseMSPath: "$(Build.SourcesDirectory)/users/**/*.csproj"
 
 pr:
   branches:
