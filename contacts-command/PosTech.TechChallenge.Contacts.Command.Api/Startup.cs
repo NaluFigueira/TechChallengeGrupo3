@@ -10,6 +10,8 @@ using PosTech.TechChallenge.Contacts.Command.Api.Configuration;
 using PosTech.TechChallenge.Contacts.Command.Infra;
 
 using PosTech.TechChallenge.Contacts.Command.Infra.Context;
+using PosTech.TechChallenge.Contacts.Command.Infra.Interfaces;
+using PosTech.TechChallenge.Contacts.Command.Infra.Producers;
 
 namespace PosTech.TechChallenge.Contacts.Command.Api;
 public class Startup(IConfiguration configuration)
@@ -25,6 +27,7 @@ public class Startup(IConfiguration configuration)
             ServiceLifetime.Scoped
         );
         services.AddScoped<IContactRepository, ContactRepository>();
+        services.AddScoped<IProducer, Producer>();
         services.AddLogging();
         services.AddAuthentication(options => options.DefaultAuthenticateScheme =
                 JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters

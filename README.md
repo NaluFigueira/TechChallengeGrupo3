@@ -68,15 +68,16 @@ Testes:
 ### Instruções
 
 1. Baixar o projeto localmente.
-2. Na pasta raiz de cada MS (users, contacts-command, contacts-query) executar os comandos:
+2. Na pasta raiz do projeto executar o comando
+
+```bash
+docker-compose up -d
+```
+
+3. Na pasta raiz de cada MS (users, contacts-command, contacts-query) executar os comandos:
 
 ```bash
 docker-compose build
-```
-
-3. E, em seguida:
-
-```bash
 docker-compose up -d
 ```
 

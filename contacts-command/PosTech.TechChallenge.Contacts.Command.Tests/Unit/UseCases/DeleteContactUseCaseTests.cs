@@ -6,6 +6,7 @@ using Moq;
 
 using PosTech.TechChallenge.Contacts.Command.Application;
 using PosTech.TechChallenge.Contacts.Command.Infra;
+using PosTech.TechChallenge.Contacts.Command.Infra.Interfaces;
 
 namespace PosTech.TechChallenge.Contacts.Tests.Unit;
 
@@ -17,6 +18,7 @@ public class DeleteContactUseCaseTests
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
         var mockLogger = new Mock<ILogger<DeleteContactUseCase>>();
+        var mockProducer = new Mock<IProducer>();
         var contactId = Guid.NewGuid();
         var requestDto = new DeleteContactDTO(contactId);
 
@@ -27,7 +29,7 @@ public class DeleteContactUseCaseTests
         mockRepository
             .Setup(repo => repo.DeleteContactAsync(It.IsAny<Guid>()));
 
-        var useCase = new DeleteContactUseCase(mockRepository.Object, mockLogger.Object);
+        var useCase = new DeleteContactUseCase(mockRepository.Object, mockLogger.Object, mockProducer.Object);
 
         // Act
         var result = await useCase.ExecuteAsync(requestDto);

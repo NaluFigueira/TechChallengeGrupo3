@@ -9,7 +9,7 @@ using PosTech.TechChallenge.Users.Application.UseCases;
 using PosTech.TechChallenge.Users.Domain.Entities;
 using PosTech.TechChallenge.Users.Tests.Builders;
 
-namespace PosTech.TechChallenge.Users.Tests.Unit.UseCases;
+namespace PosTech.TechChallenge.Users.Tests.Unit;
 
 public class CreateUserUseCaseTests
 {

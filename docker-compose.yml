@@ -1,0 +1,17 @@
+volumes:
+  rabbitmq_data:
+
+networks:
+  techChallengeNetwork:
+    external: true
+
+services:
+  rabbitmq:
+    image: masstransit/rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - techChallengeNetwork
