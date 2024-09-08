@@ -7,6 +7,7 @@ using Moq;
 using PosTech.TechChallenge.Contacts.Command.Application;
 using PosTech.TechChallenge.Contacts.Command.Domain;
 using PosTech.TechChallenge.Contacts.Command.Infra;
+using PosTech.TechChallenge.Contacts.Command.Infra.Interfaces;
 
 namespace PosTech.TechChallenge.Contacts.Tests.Unit;
 
@@ -18,6 +19,7 @@ public class UpdateContactDTOUseCaseTests
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
         var mockLogger = new Mock<ILogger<UpdateContactUseCase>>();
+        var mockProducer = new Mock<IProducer>();
 
         var contact = new ContactBuilder().Build();
 
@@ -39,7 +41,7 @@ public class UpdateContactDTOUseCaseTests
             .Setup(repo => repo.UpdateContactAsync(It.IsAny<Contact>()))
             .ReturnsAsync(updatedContact);
 
-        var useCase = new UpdateContactUseCase(mockRepository.Object, mockLogger.Object);
+        var useCase = new UpdateContactUseCase(mockRepository.Object, mockLogger.Object, mockProducer.Object);
 
         // Act
         var result = await useCase.ExecuteAsync(request);
@@ -64,6 +66,7 @@ public class UpdateContactDTOUseCaseTests
         // Arrange
         var mockRepository = new Mock<IContactRepository>();
         var mockLogger = new Mock<ILogger<UpdateContactUseCase>>();
+        var mockProducer = new Mock<IProducer>();
 
         var contact = new ContactBuilder()
             .WithName("")
@@ -78,7 +81,7 @@ public class UpdateContactDTOUseCaseTests
             Email: contact.Email // Invalid Email
         );
 
-        var useCase = new UpdateContactUseCase(mockRepository.Object, mockLogger.Object);
+        var useCase = new UpdateContactUseCase(mockRepository.Object, mockLogger.Object, mockProducer.Object);
 
         // Act
         var result = await useCase.ExecuteAsync(request);
