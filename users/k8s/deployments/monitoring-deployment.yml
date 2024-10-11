@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tech-challenge-users-monitoring-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tech-challenge-users-monitoring
+  template:
+    metadata:
+      labels:
+        app: tech-challenge-users-monitoring
+    spec:
+      initContainers:
+        - name: wait-for-api
+          image: busybox
+          command:
+            [
+              "sh",
+              "-c",
+              "until nslookup tech-challenge-users-api-service.tech-challenge.svc.cluster.local; do echo waiting for tech-challenge-users-api-service; sleep 2; done;",
+            ]
+      volumes:
+        - name: prometheus-config
+          configMap:
+            name: prometheus-config
+        - name: grafana-provisioning-dashboards
+          configMap:
+            name: grafana-config
+            items:
+              - key: default.yml
+                path: default.yml
+              - key: contacts-api.json
+                path: contacts-api.json
+        - name: grafana-provisioning-datasources
+          configMap:
+            name: grafana-config
+        - name: grafana-data
+          persistentVolumeClaim:
+            claimName: tech-challenge-users-monitoring-pvc
+      containers:
+        - name: prometheus
+          image: prom/prometheus:latest
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: prometheus-config
+              mountPath: /etc/prometheus/prometheus.yml
+              subPath: prometheus.yml
+        - name: grafana
+          image: grafana/grafana:latest
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: grafana-data
+              mountPath: /var/lib/grafana
+            - name: grafana-provisioning-dashboards
+              mountPath: /etc/grafana/provisioning/dashboards
+            - name: grafana-provisioning-datasources
+              mountPath: /etc/grafana/provisioning/datasources
+          env:
+            - name: GF_AUTH_ANONYMOUS_ENABLED
+              value: "true"
+            - name: GF_AUTH_ANONYMOUS_ORG_ROLE
+              value: "Viewer"
+            - name: GF_AUTH_BASIC_ENABLED
+              value: "false"
+            - name: GF_AUTH_DISABLE_LOGIN_FORM
+              value: "true"
+            - name: GF_AUTH_DISABLE_SIGNOUT_MENU
+              value: "true"
+            - name: GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH
+              value: "/etc/grafana/provisioning/dashboards/contacts-api.json"
+      restartPolicy: Always
