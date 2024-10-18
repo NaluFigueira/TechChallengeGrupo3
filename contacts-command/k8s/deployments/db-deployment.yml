@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tech-challenge-users-db-deployment
+  name: tech-challenge-contacts-command-db-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tech-challenge-users-db
+      app: tech-challenge-contacts-command-db
   template:
     metadata:
       labels:
-        app: tech-challenge-users-db
+        app: tech-challenge-contacts-command-db
     spec:
       volumes:
-        - name: tech-challenge-users-volume
+        - name: tech-challenge-contacts-command-volume
           persistentVolumeClaim:
-            claimName: tech-challenge-users-db-pvc
+            claimName: tech-challenge-contacts-command-db-pvc
       initContainers:
-        - name: tech-challenge-users-init-db
+        - name: tech-challenge-contacts-command-init-db
           image: mcr.microsoft.com/mssql/server:2022-latest
           ports:
             - containerPort: 1433
@@ -25,13 +25,13 @@ spec:
             - /bin/bash
             - -c
             - |
-              /opt/mssql/bin/sqlservr --accept-eula & sleep 30
+              /opt/mssql/bin/sqlservr --accept-eula & sleep 40
               /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "S3cur3P@ssW0rd" -d master -Q "IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'TechChallenge') CREATE DATABASE [TechChallenge];" -C
           env:
             - name: SA_PASSWORD
               value: "S3cur3P@ssW0rd"
           volumeMounts:
-            - name: tech-challenge-users-volume
+            - name: tech-challenge-contacts-command-volume
               mountPath: /var/opt/mssql
       containers:
         - name: sqlserver
@@ -46,6 +46,6 @@ spec:
             - name: MSSQL_PID
               value: "Developer"
           volumeMounts:
-            - name: tech-challenge-users-volume
+            - name: tech-challenge-contacts-command-volume
               mountPath: /var/opt/mssql
       restartPolicy: Always
