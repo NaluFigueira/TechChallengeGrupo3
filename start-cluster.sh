@@ -16,15 +16,15 @@ kubectl apply -n tech-challenge -f ./users/k8s/configmaps/grafana-configmap.yml
 kubectl apply -n tech-challenge -f ./users/k8s/pvcs/db-volume.yml 
 kubectl apply -n tech-challenge -f ./users/k8s/pvcs/monitoring-volume.yml 
 
-# Apply deployments
-kubectl apply -n tech-challenge -f ./users/k8s/deployments/db-deployment.yml 
-kubectl apply -n tech-challenge -f ./users/k8s/deployments/api-deployment.yml 
-kubectl apply -n tech-challenge -f ./users/k8s/deployments/monitoring-deployment.yml 
-
 # Apply services
 kubectl apply -n tech-challenge -f ./users/k8s/services/db-service.yml 
 kubectl apply -n tech-challenge -f ./users/k8s/services/api-service.yml 
 kubectl apply -n tech-challenge -f ./users/k8s/services/grafana-service.yml 
+
+# Apply deployments
+kubectl apply -n tech-challenge -f ./users/k8s/deployments/db-deployment.yml 
+kubectl apply -n tech-challenge -f ./users/k8s/deployments/api-deployment.yml 
+kubectl apply -n tech-challenge -f ./users/k8s/deployments/monitoring-deployment.yml 
 
 #----------------------------------------------------------------------
 #----------------------------------------------------------------------

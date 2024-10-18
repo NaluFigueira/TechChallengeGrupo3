@@ -13,14 +13,18 @@ spec:
         app: tech-challenge-users-api
     spec:
       initContainers:
-        - name: wait-for-db
+        - name: wait-for-db-deployment
           image: busybox
           command:
-            [
-              "sh",
-              "-c",
-              "until nslookup sqlserver.tech-challenge.svc.cluster.local; do echo waiting for sqlserver; sleep 2; done;",
-            ]
+            - /bin/sh
+            - -c
+            - |
+              until nc -z -v -w30 sqlserver 1433
+              do
+                echo "Waiting for SQL Server to be ready..."
+                sleep 5
+              done
+              echo "SQL Server is up and running!"
       containers:
         - name: api
           image: techchallengegrupo3acr.azurecr.io/techchallengegrupo3:221

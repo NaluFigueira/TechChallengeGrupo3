@@ -13,14 +13,18 @@ spec:
         app: tech-challenge-users-monitoring
     spec:
       initContainers:
-        - name: wait-for-api
+        - name: wait-for-api-deployment
           image: busybox
           command:
-            [
-              "sh",
-              "-c",
-              "until nslookup tech-challenge-users-api-service.tech-challenge.svc.cluster.local; do echo waiting for tech-challenge-users-api-service; sleep 2; done;",
-            ]
+            - /bin/sh
+            - -c
+            - |
+              until nc -z -v -w30 tech-challenge-users-api-service 80
+              do
+                echo "Waiting for API to be ready..."
+                sleep 5
+              done
+              echo "API is up and running!"
       volumes:
         - name: prometheus-config
           configMap:
