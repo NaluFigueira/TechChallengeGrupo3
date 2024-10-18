@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tech-challenge-users-monitoring-deployment
+  name: tech-challenge-monitoring-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tech-challenge-users-monitoring
+      app: tech-challenge-monitoring
   template:
     metadata:
       labels:
-        app: tech-challenge-users-monitoring
+        app: tech-challenge-monitoring
     spec:
       initContainers:
-        - name: wait-for-api-deployment
+        - name: wait-for-tech-challenge-users-api-deployment
           image: busybox
           command:
             - /bin/sh
@@ -21,10 +21,10 @@ spec:
             - |
               until nc -z -v -w30 tech-challenge-users-api-service 80
               do
-                echo "Waiting for API to be ready..."
+                echo "Waiting for Tech Challenge Users API to be ready..."
                 sleep 5
               done
-              echo "API is up and running!"
+              echo "Tech Challenge Users API is up and running!"
       volumes:
         - name: prometheus-config
           configMap:
@@ -35,14 +35,14 @@ spec:
             items:
               - key: default.yml
                 path: default.yml
-              - key: contacts-api.json
-                path: contacts-api.json
+              - key: tech-challenge-users-api.json
+                path: tech-challenge-users-api.json
         - name: grafana-provisioning-datasources
           configMap:
             name: grafana-config
         - name: grafana-data
           persistentVolumeClaim:
-            claimName: tech-challenge-users-monitoring-pvc
+            claimName: tech-challenge-monitoring-pvc
       containers:
         - name: prometheus
           image: prom/prometheus:latest
@@ -75,5 +75,5 @@ spec:
             - name: GF_AUTH_DISABLE_SIGNOUT_MENU
               value: "true"
             - name: GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH
-              value: "/etc/grafana/provisioning/dashboards/contacts-api.json"
+              value: "/etc/grafana/provisioning/dashboards/tech-challenge-users-api.json"
       restartPolicy: Always
