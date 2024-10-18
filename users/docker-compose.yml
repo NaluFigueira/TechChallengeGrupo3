@@ -36,7 +36,7 @@ services:
       - GF_AUTH_DISABLE_SIGNOUT_MENU=true
       - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/contacts-api.json
 
-  sqlserver:
+  tech-challenge-users-sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       - ACCEPT_EULA=Y
@@ -63,9 +63,9 @@ services:
     volumes:
       - ./init:/docker-entrypoint-initdb.d
     depends_on:
-      - sqlserver
+      - tech-challenge-users-sqlserver
     command: >
       bash -c '
-      /opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P S3cur3P@ssW0rd -d master -i docker-entrypoint-initdb.d/init.sql -C;
+      /opt/mssql-tools18/bin/sqlcmd -S tech-challenge-users-sqlserver -U sa -P S3cur3P@ssW0rd -d master -i docker-entrypoint-initdb.d/init.sql -C;
       echo "All done!";
       '

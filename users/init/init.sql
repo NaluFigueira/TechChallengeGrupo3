@@ -1,5 +1,5 @@
-IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'TechChallenge')
+IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'TechChallengeUsers')
 BEGIN
-    CREATE DATABASE TechChallenge;
+    CREATE DATABASE TechChallengeUsers;
 END;
 GO
