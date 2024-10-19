@@ -19,12 +19,24 @@ spec:
             - /bin/sh
             - -c
             - |
-              until nc -z -v -w30 tech-challenge-users-api-service 80
+              until nc -z -v -w30 tech-challenge-users-api-service 8080
               do
                 echo "Waiting for Tech Challenge Users API to be ready..."
                 sleep 5
               done
               echo "Tech Challenge Users API is up and running!"
+        - name: wait-for-tech-challenge-contacts-command-api-deployment
+          image: busybox
+          command:
+            - /bin/sh
+            - -c
+            - |
+              until nc -z -v -w30 tech-challenge-contacts-command-api-service 8081
+              do
+                echo "Waiting for Tech Challenge Contacts Command API to be ready..."
+                sleep 5
+              done
+              echo "Tech Challenge Contacts Command API is up and running!"
       volumes:
         - name: prometheus-config
           configMap:
@@ -37,6 +49,8 @@ spec:
                 path: default.yml
               - key: tech-challenge-users-api.json
                 path: tech-challenge-users-api.json
+              - key: tech-challenge-contacts-command-api.json
+                path: tech-challenge-contacts-command-api.json
         - name: grafana-provisioning-datasources
           configMap:
             name: grafana-config

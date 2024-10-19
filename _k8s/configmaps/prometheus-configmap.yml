@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+    scrape_configs:
+      - job_name: "TechChallenge.Users.Api.Job"
+        scrape_interval: 5s
+        static_configs:
+          - targets: ["tech-challenge-users-api-service:8080"]
+      - job_name: "TechChallenge.Contacts.Command.Api.Job"
+        scrape_interval: 5s
+        static_configs:
+          - targets: ["tech-challenge-contacts-command-api-service:8081"]

@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: tech-challenge-users-sqlserver
+  name: tech-challenge-contacts-command-sqlserver
 spec:
   selector:
-    app: tech-challenge-users-db
+    app: tech-challenge-contacts-command-db
   ports:
     - protocol: TCP
       port: 1433

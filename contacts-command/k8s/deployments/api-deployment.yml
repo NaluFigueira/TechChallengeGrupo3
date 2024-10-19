@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tech-challenge-users-api-deployment
+  name: tech-challenge-contacts-command-api-deployment
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: tech-challenge-users-api
+      app: tech-challenge-contacts-command-api
   template:
     metadata:
       labels:
-        app: tech-challenge-users-api
+        app: tech-challenge-contacts-command-api
     spec:
       imagePullSecrets:
         - name: acr-secret
@@ -21,7 +21,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              until nc -z -v -w30 tech-challenge-users-sqlserver 1433
+              until nc -z -v -w30 tech-challenge-contacts-command-sqlserver 1433
               do
                 echo "Waiting for SQL Server to be ready..."
                 sleep 5
@@ -29,7 +29,8 @@ spec:
               echo "SQL Server is up and running!"
       containers:
         - name: api
-          image: techchallengegrupo3acr.azurecr.io/techchallengegrupo3:230
+          image: techchallengegrupo3acr.azurecr.io/techchallengegrupo3:232
           ports:
             - containerPort: 8080
+
       restartPolicy: Always
