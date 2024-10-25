@@ -7,17 +7,6 @@ networks:
     external: true
 
 services:
-  contacts_query_api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8081:8080"
-    depends_on:
-      - contacts_query_sqlserver.configurator
-    networks:
-      - techChallengeNetwork
-
   tech-challenge-contacts-query-sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:

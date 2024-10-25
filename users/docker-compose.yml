@@ -3,15 +3,6 @@ volumes:
   grafana-data:
 
 services:
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    depends_on:
-      - sqlserver.configurator
-
   tech-challenge-users-sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
