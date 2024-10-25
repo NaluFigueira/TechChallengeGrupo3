@@ -37,6 +37,18 @@ spec:
                 sleep 5
               done
               echo "Tech Challenge Contacts Command API is up and running!"
+        - name: wait-for-tech-challenge-contacts-query-api-deployment
+          image: busybox
+          command:
+            - /bin/sh
+            - -c
+            - |
+              until nc -z -v -w30 tech-challenge-contacts-query-api-service 8082
+              do
+                echo "Waiting for Tech Challenge Contacts Query API to be ready..."
+                sleep 5
+              done
+              echo "Tech Challenge Contacts Query API is up and running!"
       volumes:
         - name: prometheus-config
           configMap:

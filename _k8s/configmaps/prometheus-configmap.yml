@@ -15,3 +15,7 @@ data:
         scrape_interval: 5s
         static_configs:
           - targets: ["tech-challenge-contacts-command-api-service:8081"]
+      - job_name: "TechChallenge.Contacts.Query.Api.Job"
+        scrape_interval: 5s
+        static_configs:
+          - targets: ["tech-challenge-contacts-query-api-service:8082"]

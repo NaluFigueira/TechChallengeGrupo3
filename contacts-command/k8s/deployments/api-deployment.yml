@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: tech-challenge-contacts-command-api-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: tech-challenge-contacts-command-api
