@@ -15,34 +15,6 @@ services:
       - "8081:8080"
     depends_on:
       - contacts_query_sqlserver.configurator
-      - contacts_query_prometheus
-      - contacts_query_grafana
-    networks:
-      - techChallengeNetwork
-
-  contacts_query_prometheus:
-    image: prom/prometheus:latest
-    volumes:
-      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9091:9090"
-    networks:
-      - techChallengeNetwork
-
-  contacts_query_grafana:
-    image: grafana/grafana:latest
-    ports:
-      - "3001:3000"
-    volumes:
-      - grafana-data:/var/lib/grafana
-      - ./observability/grafana/provisioning:/etc/grafana/provisioning/
-    environment:
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
-      - GF_AUTH_BASIC_ENABLED=false
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
-      - GF_AUTH_DISABLE_SIGNOUT_MENU=true
-      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/contacts-api.json
     networks:
       - techChallengeNetwork
 
