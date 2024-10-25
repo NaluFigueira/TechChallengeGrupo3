@@ -30,18 +30,3 @@ services:
       timeout: 3s
     networks:
       - techChallengeNetwork
-
-  contacts_command_sqlserver.configurator:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    volumes:
-      - ./init:/docker-entrypoint-initdb.d
-    depends_on:
-      tech-challenge-contacts-command-sqlserver:
-        condition: service_healthy
-    command: >
-      bash -c '
-      /opt/mssql-tools18/bin/sqlcmd -S tech-challenge-contacts-command-sqlserver -U sa -P S3cur3P@ssW0rd -d master -i docker-entrypoint-initdb.d/init.sql -C;
-      echo "All done!";
-      '
-    networks:
-      - techChallengeNetwork
