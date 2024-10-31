@@ -15,7 +15,12 @@ public static class MigrationInitializer
             Console.WriteLine("Contact Command DB Migrations...");
             var contactServiceDb = serviceScope.ServiceProvider
                              .GetService<ContactDbContext>();
-            contactServiceDb!.Database.Migrate();
+            var configurationBuilder = new ConfigurationBuilder();
+#if DEBUG
+            Console.WriteLine("Mode=Debug");
+#else
+                contactServiceDb!.Database.Migrate();
+#endif
         }
         Console.WriteLine("Done");
     }
