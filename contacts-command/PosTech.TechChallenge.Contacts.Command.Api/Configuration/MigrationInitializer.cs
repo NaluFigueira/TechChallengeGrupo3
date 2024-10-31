@@ -9,6 +9,7 @@ public static class MigrationInitializer
 {
     public static void ApplyMigrations(this WebApplication app)
     {
+#if RELEASE
         Console.WriteLine("Applying migrations");
         using (var serviceScope = app.Services.CreateScope())
         {
@@ -16,8 +17,11 @@ public static class MigrationInitializer
             var contactServiceDb = serviceScope.ServiceProvider
                              .GetService<ContactDbContext>();
             var configurationBuilder = new ConfigurationBuilder();
-            contactServiceDb!.Database.Migrate();
+            Console.WriteLine("Mode=Debug");
+                contactServiceDb!.Database.Migrate();
         }
+#else
+#endif
         Console.WriteLine("Done");
     }
 }
