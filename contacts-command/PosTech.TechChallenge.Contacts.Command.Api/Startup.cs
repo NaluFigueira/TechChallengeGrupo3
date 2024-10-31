@@ -22,7 +22,6 @@ public class Startup(IConfiguration configuration)
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers();
-        Console.WriteLine("CONNECTION:", Configuration.GetConnectionString("DefaultConnection"));
         services.AddDbContext<ContactDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),
             ServiceLifetime.Scoped

@@ -12,7 +12,7 @@ using PosTech.TechChallenge.Contacts.Command.Infra.Context;
 namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations
 {
     [DbContext(typeof(ContactDbContext))]
-    [Migration("20241031222957_InitialCreate")]
+    [Migration("20241031230931_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -61,7 +61,7 @@ namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ef87bd6e-5fc6-4710-ab4a-6b529916a291"),
+                            Id = new Guid("99b55381-6ea7-47f0-aa43-d3714ed45d94"),
                             DDD = (byte)43,
                             Email = "pedro-ferreira85@yahoo.com.br",
                             Name = "Pedro Henrique Erick Ferreira",
@@ -69,7 +69,7 @@ namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2ef6db3c-671a-4a49-b5ed-a58e44fe7511"),
+                            Id = new Guid("300f2684-c588-41bc-9f80-30a74fa49eb7"),
                             DDD = (byte)63,
                             Email = "thomas.pires@credendio.com.br",
                             Name = "Thomas Vinicius João Pires",
@@ -77,7 +77,7 @@ namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1e4150f0-2189-4afb-86bd-4b96a83c759b"),
+                            Id = new Guid("5a462400-cabf-46a5-8d68-10dad95b36a4"),
                             DDD = (byte)11,
                             Email = "julia92@casabellavidros.com.br",
                             Name = "Julia Milena Rita Almeida",
@@ -85,7 +85,7 @@ namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a0621708-2cca-4203-be58-91923e370cfc"),
+                            Id = new Guid("d7c268cb-bef0-4ea6-9aee-4b1ea4932e54"),
                             DDD = (byte)21,
                             Email = "bianca_assis@4now.com.br",
                             Name = "Bianca Liz Assis",
@@ -93,7 +93,7 @@ namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a73fc96a-4414-455e-9679-a4f2d203d70f"),
+                            Id = new Guid("e0b97d74-8d99-4a54-8f75-774f69b35af2"),
                             DDD = (byte)32,
                             Email = "alessandra75@jovempanfmtaubate.com.br",
                             Name = "Alessandra Gabrielly Esther Costa",
