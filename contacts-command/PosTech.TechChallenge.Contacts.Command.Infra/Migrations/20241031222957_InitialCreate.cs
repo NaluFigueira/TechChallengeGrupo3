@@ -33,11 +33,11 @@ namespace PosTech.TechChallenge.Contacts.Command.Infra.Migrations
                 columns: new[] { "Id", "DDD", "Email", "Name", "PhoneNumber" },
                 values: new object[,]
                 {
-                    { new Guid("58f110af-9e0c-4f22-a7e4-9974c1dbb83d"), (byte)43, "pedro-ferreira85@yahoo.com.br", "Pedro Henrique Erick Ferreira", "989340101" },
-                    { new Guid("60d6e410-f0b0-4dde-a1bc-3a7a8175a8e6"), (byte)63, "thomas.pires@credendio.com.br", "Thomas Vinicius João Pires", "989769978" },
-                    { new Guid("b8cbd154-d9b6-4a51-b84b-c509a7a92ae5"), (byte)21, "bianca_assis@4now.com.br", "Bianca Liz Assis", "992804701" },
-                    { new Guid("c4006681-aba6-4738-9507-041788b7d55f"), (byte)11, "julia92@casabellavidros.com.br", "Julia Milena Rita Almeida", "998212236" },
-                    { new Guid("df8671a4-e875-40c2-ba3b-c7284d8c6665"), (byte)32, "alessandra75@jovempanfmtaubate.com.br", "Alessandra Gabrielly Esther Costa", "985537746" }
+                    { new Guid("1e4150f0-2189-4afb-86bd-4b96a83c759b"), (byte)11, "julia92@casabellavidros.com.br", "Julia Milena Rita Almeida", "998212236" },
+                    { new Guid("2ef6db3c-671a-4a49-b5ed-a58e44fe7511"), (byte)63, "thomas.pires@credendio.com.br", "Thomas Vinicius João Pires", "989769978" },
+                    { new Guid("a0621708-2cca-4203-be58-91923e370cfc"), (byte)21, "bianca_assis@4now.com.br", "Bianca Liz Assis", "992804701" },
+                    { new Guid("a73fc96a-4414-455e-9679-a4f2d203d70f"), (byte)32, "alessandra75@jovempanfmtaubate.com.br", "Alessandra Gabrielly Esther Costa", "985537746" },
+                    { new Guid("ef87bd6e-5fc6-4710-ab4a-6b529916a291"), (byte)43, "pedro-ferreira85@yahoo.com.br", "Pedro Henrique Erick Ferreira", "989340101" }
                 });
         }
 
