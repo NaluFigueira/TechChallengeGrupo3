@@ -28,4 +28,4 @@ WORKDIR /migration
 COPY --from=migration /app/migration .
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "PosTech.TechChallenge.Contacts.Command.Api.dll"]
+ENTRYPOINT ["./entrypoint"]
