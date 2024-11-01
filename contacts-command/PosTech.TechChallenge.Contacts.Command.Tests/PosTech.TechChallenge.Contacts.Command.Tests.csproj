@@ -7,7 +7,9 @@
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="35.5.1" />
@@ -47,5 +49,11 @@
     <Content Include="Integration\Features\**\*.feature">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <AssemblyAttribute Include="Xunit.CollectionBehaviorAttribute">
+      <_Parameter1>DisableTestParallelization = true</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
 </Project>

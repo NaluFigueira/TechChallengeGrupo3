@@ -11,21 +11,22 @@ using PosTech.TechChallenge.Contacts.Command.Infra.Context;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.EntityFrameworkCore;
 
 namespace PosTech.TechChallenge.Contacts.Tests;
 
-public class BaseIntegrationTests : IClassFixture<WebApplicationFactory<Startup>>
+public class BaseIntegrationTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
     protected readonly HttpClient _httpClient;
     protected readonly ContactDbContext _dbContext;
     protected readonly IContactRepository _contactRepository;
 
-    public BaseIntegrationTests(WebApplicationFactory<Startup> factory)
+    public BaseIntegrationTests(CustomWebApplicationFactory<Startup> factory)
     {
         _httpClient = factory.CreateDefaultClient();
         var scope = factory.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
 
-        _dbContext = scope.ServiceProvider.GetRequiredService<ContactDbContext>();
+        _dbContext = scope.ServiceProvider.GetService<ContactDbContext>();
         _contactRepository = scope.ServiceProvider.GetService<IContactRepository>();
     }
 
@@ -72,5 +73,11 @@ public class BaseIntegrationTests : IClassFixture<WebApplicationFactory<Startup>
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    public void Dispose()
+    {
+        _dbContext.Database.EnsureDeleted();
+        _dbContext.Dispose();
     }
 }
