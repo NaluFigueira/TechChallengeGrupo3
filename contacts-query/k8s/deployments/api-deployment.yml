@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tech-challenge-contacts-query-api-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tech-challenge-contacts-query-api
+  template:
+    metadata:
+      labels:
+        app: tech-challenge-contacts-query-api
+    spec:
+      imagePullSecrets:
+        - name: acr-secret
+      initContainers:
+        - name: wait-for-db-deployment
+          image: busybox
+          command:
+            - /bin/sh
+            - -c
+            - |
+              until nc -z -v -w30 tech-challenge-contacts-query-sqlserver 1433
+              do
+                echo "Waiting for SQL Server to be ready..."
+                sleep 5
+              done
+              echo "SQL Server is up and running!"
+      containers:
+        - name: api
+          image: techchallengegrupo3acr.azurecr.io/techchallengegrupo3:231
+          ports:
+            - containerPort: 8080
+
+      restartPolicy: Always

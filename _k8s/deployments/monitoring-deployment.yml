@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tech-challenge-monitoring-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tech-challenge-monitoring
+  template:
+    metadata:
+      labels:
+        app: tech-challenge-monitoring
+    spec:
+      initContainers:
+        - name: wait-for-tech-challenge-users-api-deployment
+          image: busybox
+          command:
+            - /bin/sh
+            - -c
+            - |
+              until nc -z -v -w30 tech-challenge-users-api-service 8080
+              do
+                echo "Waiting for Tech Challenge Users API to be ready..."
+                sleep 5
+              done
+              echo "Tech Challenge Users API is up and running!"
+        - name: wait-for-tech-challenge-contacts-command-api-deployment
+          image: busybox
+          command:
+            - /bin/sh
+            - -c
+            - |
+              until nc -z -v -w30 tech-challenge-contacts-command-api-service 8081
+              do
+                echo "Waiting for Tech Challenge Contacts Command API to be ready..."
+                sleep 5
+              done
+              echo "Tech Challenge Contacts Command API is up and running!"
+        - name: wait-for-tech-challenge-contacts-query-api-deployment
+          image: busybox
+          command:
+            - /bin/sh
+            - -c
+            - |
+              until nc -z -v -w30 tech-challenge-contacts-query-api-service 8082
+              do
+                echo "Waiting for Tech Challenge Contacts Query API to be ready..."
+                sleep 5
+              done
+              echo "Tech Challenge Contacts Query API is up and running!"
+      volumes:
+        - name: prometheus-config
+          configMap:
+            name: prometheus-config
+        - name: grafana-provisioning-dashboards
+          configMap:
+            name: grafana-config
+            items:
+              - key: default.yml
+                path: default.yml
+              - key: tech-challenge-users-api.json
+                path: tech-challenge-users-api.json
+              - key: tech-challenge-contacts-command-api.json
+                path: tech-challenge-contacts-command-api.json
+        - name: grafana-provisioning-datasources
+          configMap:
+            name: grafana-config
+        - name: grafana-data
+          persistentVolumeClaim:
+            claimName: tech-challenge-monitoring-pvc
+      containers:
+        - name: prometheus
+          image: prom/prometheus:latest
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: prometheus-config
+              mountPath: /etc/prometheus/prometheus.yml
+              subPath: prometheus.yml
+        - name: grafana
+          image: grafana/grafana:latest
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: grafana-data
+              mountPath: /var/lib/grafana
+            - name: grafana-provisioning-dashboards
+              mountPath: /etc/grafana/provisioning/dashboards
+            - name: grafana-provisioning-datasources
+              mountPath: /etc/grafana/provisioning/datasources
+          env:
+            - name: GF_AUTH_ANONYMOUS_ENABLED
+              value: "true"
+            - name: GF_AUTH_ANONYMOUS_ORG_ROLE
+              value: "Viewer"
+            - name: GF_AUTH_BASIC_ENABLED
+              value: "false"
+            - name: GF_AUTH_DISABLE_LOGIN_FORM
+              value: "true"
+            - name: GF_AUTH_DISABLE_SIGNOUT_MENU
+              value: "true"
+            - name: GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH
+              value: "/etc/grafana/provisioning/dashboards/tech-challenge-users-api.json"
+      restartPolicy: Always

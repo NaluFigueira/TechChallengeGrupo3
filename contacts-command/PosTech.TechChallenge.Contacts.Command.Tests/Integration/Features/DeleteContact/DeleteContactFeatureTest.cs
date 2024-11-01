@@ -6,47 +6,34 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 using PosTech.TechChallenge.Contacts.Command.Api;
 
-using Xunit.Gherkin.Quick;
 
 namespace PosTech.TechChallenge.Contacts.Tests.Integration;
 
-[FeatureFile("Integration/Features/DeleteContact/DeleteContact.feature")]
-public sealed class DeleteContactFeatureTest : Feature
+public sealed class DeleteContactFeatureTest(CustomWebApplicationFactory<Startup> factory) : BaseIntegrationTests(factory), IDisposable
 {
-    private readonly BaseIntegrationTests _base;
     private Guid _contactId = Guid.NewGuid();
     private HttpResponseMessage? _result;
 
-    public DeleteContactFeatureTest()
+    [Fact]
+    public async Task Test()
     {
-        var factory = new WebApplicationFactory<Startup>();
-        _base = new BaseIntegrationTests(factory);
-    }
-
-
-    [Given(@"a user who has access to the deletion endpoint")]
-    public void GivenAUserWhoHasAccessToTheCreationEndpoint()
-    {
-        _base.SetUserTokenInHeaders();
-    }
-
-    [When(@"they send the desired contact id through the endpoint")]
-    public async Task WhenTheySendTheDesiredContactIdThroughTheEndpoint()
-    {
+        SetUserTokenInHeaders();
         var contact = new ContactBuilder().Build();
-        var dbContext = _base.GetContactDbContext();
+        var dbContext = GetContactDbContext();
         dbContext.Contact.Add(contact);
         await dbContext.SaveChangesAsync();
         _contactId = contact.Id;
 
-        _result = await _base.GetHttpClient().DeleteAsync($"/contacts/{contact.Id}");
+        _result = await GetHttpClient().DeleteAsync($"/contacts/{contact.Id}");
+        _result.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        var foundContact = await GetContactRepository().GetContactByIdAsync(_contactId);
+        foundContact.Should().BeNull();
     }
 
-    [Then(@"the API should remove the contact from the list")]
-    public async Task ThenTheAPIShouldRemoveContactFromTheList()
+    public void Dispose()
     {
-        _result.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        var foundContact = await _base.GetContactRepository().GetContactByIdAsync(_contactId);
-        foundContact.Should().BeNull();
+        var dbContext = GetContactDbContext();
+        dbContext.Database.EnsureDeleted(); // Clean up the database after each test
+        dbContext.Dispose();
     }
 }

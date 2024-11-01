@@ -9,41 +9,26 @@ using PosTech.TechChallenge.Contacts.Command.Api;
 using PosTech.TechChallenge.Contacts.Command.Application;
 using PosTech.TechChallenge.Contacts.Command.Domain;
 
-using Xunit.Gherkin.Quick;
 
 namespace PosTech.TechChallenge.Contacts.Tests.Integration;
 
 
-[FeatureFile("Integration/Features/UpdateContact/UpdateContact.feature")]
-public sealed class UpdateContactFeatureTest : Feature
+public sealed class UpdateContactFeatureTest(CustomWebApplicationFactory<Startup> factory) : BaseIntegrationTests(factory), IDisposable
 {
-    private readonly BaseIntegrationTests _base;
     private Contact _contact;
     private HttpResponseMessage? _result;
 
-    public UpdateContactFeatureTest()
+    [Fact]
+    public async Task Test()
     {
-        var factory = new WebApplicationFactory<Startup>();
-        _base = new BaseIntegrationTests(factory);
-    }
-
-
-    [Given(@"a user who has access to the update endpoint")]
-    public void GivenAUserWhoHasAccessToTheUpdateEndpoint()
-    {
-        _base.SetUserTokenInHeaders();
-    }
-
-    [When(@"they update a contact name to NewName")]
-    public async Task WhenTheyUpdateAContactNameToNewName()
-    {
+        SetUserTokenInHeaders();
         var contact = new ContactBuilder().Build();
-        var dbContext = _base.GetContactDbContext();
+        var dbContext = GetContactDbContext();
         dbContext.Contact.Add(contact);
         await dbContext.SaveChangesAsync();
         _contact = contact;
 
-        _result = await _base.GetHttpClient().PatchAsJsonAsync("/contacts",
+        _result = await GetHttpClient().PatchAsJsonAsync("/contacts",
                                                         new UpdateContactDTO(
                                                             Id: contact.Id,
                                                             DDD: contact.DDD,
@@ -51,14 +36,7 @@ public sealed class UpdateContactFeatureTest : Feature
                                                             Name: "NewName",
                                                             PhoneNumber: contact.PhoneNumber
                                                         ));
-    }
-
-    [Then(@"the API should update contact correctly")]
-    public async Task ThenTheAPIShouldUpdateContactCorrectly()
-    {
-        var updatedContact = await _base.GetContactRepository().GetContactByIdAsync(_contact.Id);
-        var dbContext = _base.GetContactDbContext();
-
+        var updatedContact = await GetContactRepository().GetContactByIdAsync(_contact.Id);
         dbContext.Contact.Remove(_contact);
         await dbContext.SaveChangesAsync();
 
@@ -68,5 +46,12 @@ public sealed class UpdateContactFeatureTest : Feature
         updatedContact?.Email.Should().Be(_contact.Email);
         updatedContact?.DDD.Should().Be(_contact.DDD);
         updatedContact?.PhoneNumber.Should().Be(_contact.PhoneNumber);
+    }
+
+    public void Dispose()
+    {
+        var dbContext = GetContactDbContext();
+        dbContext.Database.EnsureDeleted(); // Clean up the database after each test
+        dbContext.Dispose();
     }
 }
