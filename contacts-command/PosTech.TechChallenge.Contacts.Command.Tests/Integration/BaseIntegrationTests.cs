@@ -75,4 +75,10 @@ public class BaseIntegrationTests : IClassFixture<WebApplicationFactory<Startup>
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
+    public void Dispose()
+    {
+        _dbContext.Database.EnsureDeleted();
+        _dbContext.Dispose();
+    }
 }
