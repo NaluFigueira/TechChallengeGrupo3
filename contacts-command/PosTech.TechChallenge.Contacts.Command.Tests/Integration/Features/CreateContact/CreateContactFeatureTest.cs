@@ -8,47 +8,23 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using PosTech.TechChallenge.Contacts.Command.Api;
 using PosTech.TechChallenge.Contacts.Command.Domain;
 
-using Xunit.Gherkin.Quick;
+
 
 namespace PosTech.TechChallenge.Contacts.Tests.Integration;
 
-[FeatureFile("Integration/Features/CreateContact/CreateContact.feature")]
-public sealed class CreateContactFeatureTest : Feature
+
+public sealed class CreateContactFeatureTest(CustomWebApplicationFactory<Startup> factory) : BaseIntegrationTests(factory), IDisposable
 {
-    private readonly BaseIntegrationTests _base;
     private Contact? _contactData;
     private HttpResponseMessage? _result;
 
-    public CreateContactFeatureTest()
+    [Fact]
+    public async Task Test()
     {
-        var factory = new WebApplicationFactory<Startup>();
-        _base = new BaseIntegrationTests(factory);
-    }
-
-
-    [Given(@"a user who has access to the creation endpoint")]
-    public void GivenAUserWhoHasAccessToTheCreationEndpoint()
-    {
-        _base.SetUserTokenInHeaders();
-    }
-
-    [When(@"they fill in valid contact information")]
-    public void WhenTheyFillInValidContactInformation()
-    {
+        SetUserTokenInHeaders();
         _contactData = new ContactBuilder().Build();
-    }
-
-    [And(@"they send the inputted contact information through the endpoint")]
-    public async Task AndTheySendTheInputtedContactInformationThroughTheEndpoint()
-    {
-        _result = await _base.GetHttpClient().PostAsJsonAsync("/contacts", _contactData);
-
-    }
-
-    [Then(@"the API should add new contact to list")]
-    public async Task ThenTheAPIShouldAddNewContactToList()
-    {
-        var dbContext = _base.GetContactDbContext();
+        _result = await GetHttpClient().PostAsJsonAsync("/contacts", _contactData);
+        var dbContext = GetContactDbContext();
         var createdContact = dbContext.Contact.FirstOrDefault(c => c.Name == _contactData.Name);
         dbContext.Contact.Remove(createdContact!);
         await dbContext.SaveChangesAsync();
@@ -58,5 +34,12 @@ public sealed class CreateContactFeatureTest : Feature
         createdContact?.PhoneNumber.Should().Be(createdContact.PhoneNumber);
         createdContact?.Email.Should().Be(createdContact.Email);
         createdContact?.DDD.Should().Be(createdContact.DDD);
+    }
+
+    public void Dispose()
+    {
+        var dbContext = GetContactDbContext();
+        dbContext.Database.EnsureDeleted(); // Clean up the database after each test
+        dbContext.Dispose();
     }
 }

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tech-challenge-rabbitmq-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tech-challenge-rabbitmq
+  template:
+    metadata:
+      labels:
+        app: tech-challenge-rabbitmq
+    spec:
+      volumes:
+        - name: tech-challenge-rabbitmq-volume
+          persistentVolumeClaim:
+            claimName: tech-challenge-rabbitmq-pvc
+      containers:
+        - name: rabbitmq
+          image: masstransit/rabbitmq
+          ports:
+            - containerPort: 15672
+            - containerPort: 5672
+          volumeMounts:
+            - name: tech-challenge-rabbitmq-volume
+              mountPath: /var/lib/rabbitmq
+      restartPolicy: Always

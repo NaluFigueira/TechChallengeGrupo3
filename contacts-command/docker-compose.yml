@@ -7,46 +7,7 @@ networks:
     external: true
 
 services:
-  contacts_command_api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8082:8080"
-    depends_on:
-      - contacts_command_sqlserver.configurator
-      - contacts_command_prometheus
-      - contacts_command_grafana
-    networks:
-      - techChallengeNetwork
-
-  contacts_command_prometheus:
-    image: prom/prometheus:latest
-    volumes:
-      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9092:9090"
-    networks:
-      - techChallengeNetwork
-
-  contacts_command_grafana:
-    image: grafana/grafana:latest
-    ports:
-      - "3002:3000"
-    volumes:
-      - grafana-data:/var/lib/grafana
-      - ./observability/grafana/provisioning:/etc/grafana/provisioning/
-    environment:
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
-      - GF_AUTH_BASIC_ENABLED=false
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
-      - GF_AUTH_DISABLE_SIGNOUT_MENU=true
-      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/contacts-api.json
-    networks:
-      - techChallengeNetwork
-
-  tech-challenge-contacts-command-sqlserver:
+  contacts_command_sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       - ACCEPT_EULA=Y
@@ -67,20 +28,5 @@ services:
       retries: 10
       start_period: 10s
       timeout: 3s
-    networks:
-      - techChallengeNetwork
-
-  contacts_command_sqlserver.configurator:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    volumes:
-      - ./init:/docker-entrypoint-initdb.d
-    depends_on:
-      tech-challenge-contacts-command-sqlserver:
-        condition: service_healthy
-    command: >
-      bash -c '
-      /opt/mssql-tools18/bin/sqlcmd -S tech-challenge-contacts-command-sqlserver -U sa -P S3cur3P@ssW0rd -d master -i docker-entrypoint-initdb.d/init.sql -C;
-      echo "All done!";
-      '
     networks:
       - techChallengeNetwork
