@@ -11,6 +11,7 @@ using PosTech.TechChallenge.Contacts.Command.Infra.Context;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.EntityFrameworkCore;
 
 namespace PosTech.TechChallenge.Contacts.Tests;
 
@@ -26,6 +27,7 @@ public class BaseIntegrationTests : IClassFixture<WebApplicationFactory<Startup>
         var scope = factory.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
 
         _dbContext = scope.ServiceProvider.GetRequiredService<ContactDbContext>();
+        _dbContext!.Database.Migrate();
         _contactRepository = scope.ServiceProvider.GetService<IContactRepository>();
     }
 
