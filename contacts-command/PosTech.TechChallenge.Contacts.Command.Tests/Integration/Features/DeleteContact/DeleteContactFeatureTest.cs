@@ -9,7 +9,7 @@ using PosTech.TechChallenge.Contacts.Command.Api;
 
 namespace PosTech.TechChallenge.Contacts.Tests.Integration;
 
-public sealed class DeleteContactFeatureTest(WebApplicationFactory<Startup> factory) : BaseIntegrationTests(factory)
+public sealed class DeleteContactFeatureTest(CustomWebApplicationFactory<Startup> factory) : BaseIntegrationTests(factory), IDisposable
 {
     private Guid _contactId = Guid.NewGuid();
     private HttpResponseMessage? _result;
@@ -28,5 +28,12 @@ public sealed class DeleteContactFeatureTest(WebApplicationFactory<Startup> fact
         _result.StatusCode.Should().Be(HttpStatusCode.NoContent);
         var foundContact = await GetContactRepository().GetContactByIdAsync(_contactId);
         foundContact.Should().BeNull();
+    }
+
+    public void Dispose()
+    {
+        var dbContext = GetContactDbContext();
+        dbContext.Database.EnsureDeleted(); // Clean up the database after each test
+        dbContext.Dispose();
     }
 }

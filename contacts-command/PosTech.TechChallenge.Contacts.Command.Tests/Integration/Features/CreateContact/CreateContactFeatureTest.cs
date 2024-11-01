@@ -13,7 +13,7 @@ using PosTech.TechChallenge.Contacts.Command.Domain;
 namespace PosTech.TechChallenge.Contacts.Tests.Integration;
 
 
-public sealed class CreateContactFeatureTest(WebApplicationFactory<Startup> factory) : BaseIntegrationTests(factory)
+public sealed class CreateContactFeatureTest(CustomWebApplicationFactory<Startup> factory) : BaseIntegrationTests(factory), IDisposable
 {
     private Contact? _contactData;
     private HttpResponseMessage? _result;
@@ -34,5 +34,12 @@ public sealed class CreateContactFeatureTest(WebApplicationFactory<Startup> fact
         createdContact?.PhoneNumber.Should().Be(createdContact.PhoneNumber);
         createdContact?.Email.Should().Be(createdContact.Email);
         createdContact?.DDD.Should().Be(createdContact.DDD);
+    }
+
+    public void Dispose()
+    {
+        var dbContext = GetContactDbContext();
+        dbContext.Database.EnsureDeleted(); // Clean up the database after each test
+        dbContext.Dispose();
     }
 }
